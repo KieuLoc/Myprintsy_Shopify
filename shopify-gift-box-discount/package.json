@@ -1,0 +1,15 @@
+{
+  "name": "myprintsy-gift-box-discount",
+  "private": true,
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "shopify": "shopify",
+    "build": "shopify app function build --path extensions/gift-box-tier-discount",
+    "deploy": "shopify app deploy",
+    "dev": "shopify app dev"
+  },
+  "workspaces": [
+    "extensions/*"
+  ]
+}

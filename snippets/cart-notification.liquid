@@ -1,0 +1,69 @@
+{% comment %}
+  Renders cart notification — centered modal (Macorner-style).
+
+  Accepts:
+  - color_scheme: {String} unused for modal look (kept for call-site compat)
+  - desktop_menu_type: {String} unused for modal look (kept for call-site compat)
+
+  Usage:
+  {% render 'cart-notification' %}
+{% endcomment %}
+
+<cart-notification>
+  <div class="cart-notification-overlay" data-cart-notification-overlay hidden></div>
+  <div class="cart-notification-wrapper">
+    <div
+      id="cart-notification"
+      class="cart-notification focus-inset"
+      aria-modal="true"
+      aria-label="Item has been added to your shopping cart"
+      role="dialog"
+      tabindex="-1"
+    >
+      <div class="cart-notification__header">
+        <h2 class="cart-notification__heading">
+          <span class="cart-notification__check" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" fill="currentColor"/>
+              <path
+                d="M7.5 12.2 10.4 15l6.1-6.2"
+                stroke="#fff"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <span>Item has been added to your shopping cart</span>
+        </h2>
+        <button
+          type="button"
+          class="cart-notification__close"
+          aria-label="{{ 'accessibility.close' | t }}"
+        >
+          &times;
+        </button>
+      </div>
+
+      <div id="cart-notification-product" class="cart-notification-product"></div>
+
+      <div class="cart-notification__links">
+        <button type="button" class="cart-notification__btn cart-notification__btn--continue">
+          Continue Shopping
+        </button>
+        <a
+          href="{{ routes.cart_url }}"
+          id="cart-notification-button"
+          class="cart-notification__btn cart-notification__btn--checkout"
+        >
+          View Cart &amp; Checkout
+        </a>
+      </div>
+    </div>
+  </div>
+</cart-notification>
+{% style %}
+  .cart-notification {
+    display: none;
+  }
+{% endstyle %}

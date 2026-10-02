@@ -1,0 +1,65 @@
+<style>
+.sp-coupon__widget {
+  padding:0px;border-radius:0px;border-color:#000000;background:#ffffff00;border-style:none;border-width:1px;
+}
+.sp-coupon__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.sp-coupon__shape.sp-coupon__shape--flag {
+  font-size:12px;font-weight:700;color:#ffffff;background:#db740d;
+}
+.sp-coupon__shape {
+  border-radius: 5px;
+  display: inline-block;
+  background: #b5b5b5;
+  box-sizing: border-box;
+  padding: 5px 15px 7px 10px;
+  position: relative;
+  min-width: 60px;
+  min-height: 25px;
+  flex-shrink: 1;
+}
+.sp-coupon__shape--flag {
+  border-radius: 0;
+  padding-right: 15px;
+  clip-path: polygon(1px calc(100% - 2px), 1px 2px, 1px 2px, 1.01308817px 1.83779596px, 1.05098016px 1.68392448px, 1.11161719px 1.54044452px, 1.19294048px 1.40941504px, 1.29289125px 1.292895px, 1.40941072px 1.19294336px, 1.54044011px 1.11161908px, 1.68392064px 1.05098112px, 1.83779353px 1.01308844px, 2px 1px, calc(100% - 1.9973px) 1px, calc(100% - 1.9973px) 1px, calc(100% - 1.7614238px) 1.02697265px, calc(100% - 1.5503984px) 1.10301px, calc(100% - 1.3678886px) 1.22079115px, calc(100% - 1.2175592px) 1.3729952px, calc(100% - 1.103075px) 1.55230125px, calc(100% - 1.0281008px) 1.7513884px, calc(100% - 0.9963014px) 1.96293575px, calc(100% - 1.0113416px) 2.1796224px, calc(100% - 1.0768862px) 2.39412745px, calc(100% - 1.1966px) 2.59913px, calc(100% - 7.4088px) calc(50% - 0.5991px), calc(100% - 7.4088px) calc(50% - 0.5991px), calc(100% - 7.480566px) calc(50% - 0.4888272px), calc(100% - 7.536384px) calc(50% - 0.3721896px), calc(100% - 7.576254px) calc(50% - 0.2507784px), calc(100% - 7.600176px) calc(50% - 0.1261848px), calc(100% - 7.60815px) calc(50% - 0px), calc(100% - 7.600176px) calc(50% + 0.1261848px), calc(100% - 7.576254px) calc(50% + 0.2507784px), calc(100% - 7.536384px) calc(50% + 0.3721896px), calc(100% - 7.480566px) calc(50% + 0.4888272px), calc(100% - 7.4088px) calc(50% + 0.5991px), calc(100% - 1.1966px) calc(100% - 2.5991px), calc(100% - 1.1966px) calc(100% - 2.5991px), calc(100% - 1.0768862px) calc(100% - 2.3941153px), calc(100% - 1.0113416px) calc(100% - 2.1796224px), calc(100% - 0.9963014px) calc(100% - 1.9629431px), calc(100% - 1.0281008px) calc(100% - 1.7513992px), calc(100% - 1.103075px) calc(100% - 1.5523125px), calc(100% - 1.2175592px) calc(100% - 1.3730048px), calc(100% - 1.3678886px) calc(100% - 1.2207979px), calc(100% - 1.5503984px) calc(100% - 1.1030136px), calc(100% - 1.7614238px) calc(100% - 1.0269737px), calc(100% - 1.9973px) calc(100% - 1px), 2px calc(100% - 1px), 2px calc(100% - 1px), 1.83779596px calc(100% - 1.0130879px), 1.68392448px calc(100% - 1.0509792px), 1.54044452px calc(100% - 1.1116153px), 1.40941504px calc(100% - 1.1929376px), 1.292895px calc(100% - 1.2928875px), 1.19294336px calc(100% - 1.4094064px), 1.11161908px calc(100% - 1.5404357px), 1.05098112px calc(100% - 1.6839168px), 1.01308844px calc(100% - 1.8377911px), 1px calc(100% - 2px));
+}
+.sp-coupon__text {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: rgb(7, 133, 8);
+}
+.sp-coupon__limit {
+  font-size:12px;font-weight:700;color:#000000;
+}
+.sp-coupon__spend {
+  font-weight:700;color:#FF8000;
+}
+</style>
+<div class="sp-coupon active">
+  <div class="sp-coupon__widget">
+    <div class="sp-coupon__container">
+      <div class="sp-coupon__shape sp-coupon__shape--flag"><span>Coupon:</span></div>
+      <span class="sp-coupon__text">
+        <span>20% order discount applied</span>
+      </span>
+    </div>
+  </div>
+  <span class="sp-coupon__limit"></span>
+  <div class="sp-coupon__spend">At least 3 items must be in cart for the discount.</div>
+</div>
+<div class="sp-coupon active">
+  <div class="sp-coupon__widget">
+    <div class="sp-coupon__container">
+      <div class="sp-coupon__shape sp-coupon__shape--flag"><span>Coupon:</span></div>
+      <span class="sp-coupon__text">
+        <span>10% order discount applied</span>
+      </span>
+    </div>
+  </div>
+  <span class="sp-coupon__limit"></span>
+  <div class="sp-coupon__spend">At least 2 items must be in cart for the discount.</div>
+</div>

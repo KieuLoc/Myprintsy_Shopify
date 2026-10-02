@@ -1,0 +1,65 @@
+{%- comment -%}
+  Cart line items for cart reminder popup.
+  Accepts:
+  - max_items: {Number} optional limit
+  - sort_gift_box_last: {Boolean} main products first, gift box add-ons last (default true)
+{%- endcomment -%}
+
+{%- liquid
+  assign max_items = max_items | default: 10
+  assign sort_gift_box_last = sort_gift_box_last | default: true
+  assign line_item_count = cart.items.size
+  assign remaining_items = line_item_count | minus: max_items
+  assign items_shown = 0
+-%}
+
+<div class="cart-reminder-popup__items" data-cart-items>
+  {%- if cart.item_count > 0 -%}
+    {%- if sort_gift_box_last -%}
+      {%- for item in cart.items -%}
+        {%- if item.properties._addon_gift_box != blank -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- if items_shown >= max_items -%}
+          {%- break -%}
+        {%- endif -%}
+        {% render 'cart-reminder-popup-item-row', item: item %}
+        {%- assign items_shown = items_shown | plus: 1 -%}
+      {%- endfor -%}
+      {%- for item in cart.items -%}
+        {%- if item.properties._addon_gift_box == blank -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- if items_shown >= max_items -%}
+          {%- break -%}
+        {%- endif -%}
+        {% render 'cart-reminder-popup-item-row', item: item %}
+        {%- assign items_shown = items_shown | plus: 1 -%}
+      {%- endfor -%}
+    {%- else -%}
+      {%- for item in cart.items limit: max_items -%}
+        {% render 'cart-reminder-popup-item-row', item: item %}
+      {%- endfor -%}
+    {%- endif -%}
+
+    {%- if line_item_count > max_items -%}
+      <p class="cart-reminder-popup__items-more">
+        +{{ remaining_items }} more item{%- if remaining_items != 1 -%}s{%- endif -%}
+      </p>
+    {%- endif -%}
+  {%- elsif request.design_mode -%}
+    <div class="cart-reminder-popup__item cart-reminder-popup__item--placeholder">
+      <div class="cart-reminder-popup__item-media">
+        <div class="cart-reminder-popup__item-media-placeholder">
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      </div>
+      <div class="cart-reminder-popup__item-details">
+        <p class="cart-reminder-popup__item-title">Sample product name</p>
+        <p class="cart-reminder-popup__item-variant">Variant option</p>
+        <p class="cart-reminder-popup__item-price">{{ 2995 | money }}</p>
+      </div>
+      <p class="cart-reminder-popup__item-qty">QTY: 1</p>
+    </div>
+  {%- endif -%}
+</div>

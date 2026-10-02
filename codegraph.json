@@ -1,0 +1,10 @@
+{
+  "exclude": [
+    "_live_pull_check/",
+    "_live_check/",
+    "shopify-gift-box-discount/node_modules/",
+    "**/node_modules/**",
+    ".cursor/",
+    "agent-transcripts/"
+  ]
+}

@@ -1,0 +1,14 @@
+{% comment %}
+  Resolves canonical gift box cart image once per section render.
+  Sets: gift_box_cart_display_image (featured_image object or blank)
+
+  Fallback chain: add-on-gift-box-service -> vertical-gift-box-1
+{% endcomment %}
+{%- assign gift_box_cart_display_image = nil -%}
+{%- assign _gb_src_product = all_products['add-on-gift-box-service'] -%}
+{%- if _gb_src_product == blank -%}
+  {%- assign _gb_src_product = all_products['vertical-gift-box-1'] -%}
+{%- endif -%}
+{%- if _gb_src_product != blank and _gb_src_product.featured_image != blank -%}
+  {%- assign gift_box_cart_display_image = _gb_src_product.featured_image -%}
+{%- endif -%}

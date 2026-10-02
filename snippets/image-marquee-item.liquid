@@ -1,0 +1,29 @@
+{%- liquid
+  assign item_width = image_width | default: 360
+-%}
+
+<div class="image-marquee__card" {{ shopify_attributes }}>
+  {%- if link != blank -%}
+    <a href="{{ link }}" class="image-marquee__media">
+  {%- else -%}
+    <div class="image-marquee__media">
+  {%- endif -%}
+    {{
+      image
+      | image_url: width: item_width
+      | image_tag:
+        loading: 'lazy',
+        widths: '180, 360, 540, 720',
+        sizes: 'auto',
+        alt: alt
+    }}
+  {%- if link != blank -%}
+    </a>
+  {%- else -%}
+    </div>
+  {%- endif -%}
+
+  {%- if caption != blank -%}
+    <p class="image-marquee__caption">{{ caption | escape }}</p>
+  {%- endif -%}
+</div>

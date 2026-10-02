@@ -1,0 +1,146 @@
+/* Quantity selector — Macorner style (product + cart) */
+
+/* Product: label + +/- trên cùng một hàng */
+.product-form__quantity {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.2rem 1.6rem;
+}
+
+.product-form__quantity > .quantity__label.form__label,
+.product-form__quantity > .form__label {
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.product-form__quantity .price-per-item__container {
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.product-form__quantity .quantity,
+.cart-page-macorner quantity-input.quantity {
+  --qty-macorner-border: #e4e4e4;
+  --qty-macorner-side-bg: #ffffff;
+  --qty-macorner-center-bg: #f2f2f2;
+  --qty-macorner-minus: #c8c8c8;
+  --qty-macorner-plus: #f08a74;
+  --qty-macorner-number: #333333;
+
+  color: var(--qty-macorner-number);
+  width: 12.8rem;
+  min-height: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--qty-macorner-border);
+  border-radius: 0.6rem;
+  overflow: hidden;
+  background: var(--qty-macorner-center-bg);
+  box-shadow: none;
+}
+
+.product-form__quantity .quantity:before,
+.product-form__quantity .quantity:after,
+.cart-page-macorner quantity-input.quantity:before,
+.cart-page-macorner quantity-input.quantity:after {
+  content: none !important;
+  display: none !important;
+  box-shadow: none !important;
+}
+
+.product-form__quantity .quantity__button,
+.cart-page-macorner .quantity__button {
+  width: 4rem;
+  min-width: 4rem;
+  margin: 0 !important;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--qty-macorner-side-bg) !important;
+  color: var(--qty-macorner-minus);
+  font-size: 1.6rem;
+}
+
+.product-form__quantity .quantity__button[name='plus'],
+.cart-page-macorner .quantity__button[name='plus'] {
+  color: var(--qty-macorner-plus);
+}
+
+.product-form__quantity .quantity__button:hover,
+.cart-page-macorner .quantity__button:hover {
+  background-color: #fafafa !important;
+}
+
+.product-form__quantity .quantity__button[name='plus']:hover,
+.cart-page-macorner .quantity__button[name='plus']:hover {
+  color: #e67860;
+}
+
+.product-form__quantity .quantity__button:focus,
+.product-form__quantity .quantity__button:focus-visible,
+.product-form__quantity .quantity__input:focus,
+.product-form__quantity .quantity__input:focus-visible,
+.cart-page-macorner .quantity__button:focus,
+.cart-page-macorner .quantity__button:focus-visible,
+.cart-page-macorner .quantity__input:focus,
+.cart-page-macorner .quantity__input:focus-visible {
+  background-color: inherit;
+  z-index: 2;
+  outline: none;
+  box-shadow: none;
+}
+
+.product-form__quantity .quantity__button:not(:focus-visible):not(.focused),
+.cart-page-macorner .quantity__button:not(:focus-visible):not(.focused),
+quantity-popover .quantity__button:not(:focus-visible):not(.focused) {
+  background-color: var(--qty-macorner-side-bg, #ffffff) !important;
+  box-shadow: none;
+}
+
+.product-form__quantity .quantity__input:not(:focus-visible):not(.focused),
+.cart-page-macorner .quantity__input:not(:focus-visible):not(.focused),
+quantity-popover .quantity__input:not(:focus-visible):not(.focused) {
+  background-color: var(--qty-macorner-center-bg, #f2f2f2) !important;
+  box-shadow: none;
+}
+
+.product-form__quantity .quantity__button .svg-wrapper,
+.cart-page-macorner .quantity__button .svg-wrapper {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: inherit;
+}
+
+.product-form__quantity .quantity__button .svg-wrapper svg,
+.cart-page-macorner .quantity__button .svg-wrapper svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.product-form__quantity .quantity__input,
+.cart-page-macorner .quantity__input {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0 0.4rem;
+  border: 0;
+  border-left: 1px solid var(--qty-macorner-border);
+  border-right: 1px solid var(--qty-macorner-border);
+  border-radius: 0;
+  background-color: var(--qty-macorner-center-bg) !important;
+  color: var(--qty-macorner-number);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1;
+  opacity: 1;
+  text-align: center;
+}
+
+.cart-page-macorner quantity-popover .quantity {
+  background: var(--qty-macorner-center-bg, #f2f2f2);
+}

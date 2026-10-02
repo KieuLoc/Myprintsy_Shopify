@@ -1,0 +1,144 @@
+{% comment %}
+{% if linklists.gift-wrapping.links.size > 0 and linklists.gift-wrapping.links.first.type == 'product_link' %}
+{% assign gift_box_product = linklists.gift-wrapping.links.first.object.variants.first %}
+{% endcomment %}
+{% assign gift_box_product = product.metafields.custom.gift_box.value %}
+{% if gift_box_product != blank %}
+  {% assign product_id = product.id %}
+  {% assign id = gift_box_product.variants.first.id %}
+<style>
+  .gift-box {
+    padding: 10px;
+    background-color: #F7F7F7;
+    border-radius: 10px;
+    margin: 10px 0;
+    display: none;
+  }
+  .gift-box-title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 600;
+    padding: 0 10px;
+  }
+  .gift-box-content {
+    display: flex;
+    gap: 15px;
+  }
+  .gift-box-content-note {
+    margin-top: 0;
+    margin-bottom: 15px;
+    line-height: 1.7;
+  }
+  .gift-box-content-title {
+    margin: 0;
+  }
+  .gift-box-content-title span.money:nth-of-type(2) {
+    margin-left: 7px;
+    display: inline-block;
+    color:#7b7b7b;
+  }
+  .gift-box-content-title .price:before {
+    content: "Only ";
+  }
+  .gift-box input[type=checkbox] {
+    position: relative;
+    border: 2px solid #000;
+    border-radius: 2px;
+    background: none;
+    cursor: pointer;
+    line-height: 0;
+    margin: 0 .6em 0 0;
+    outline: 0;
+    padding: 0 !important;
+    vertical-align: text-top;
+    height: 20px;
+    width: 20px;
+    -webkit-appearance: none;
+    opacity: 1;
+  }
+  .gift-box input[type=checkbox]:before {
+    content: "";
+    position: absolute;
+    right: 50%;
+    top: 50%;
+    width: 6px;
+    height: 10px;
+    border: solid #FFF;
+    border-width: 0 2px 2px 0;
+    margin: -1px -1px 0;
+    transform: rotate(45deg) translate(-50%, -50%);
+    z-index: 2;
+  }
+  .gift-box input[type=checkbox]:checked {
+    background-color: #870200;
+    opacity: 1;
+    border: 2px solid #870200;
+  }
+  .gift-box label {
+    user-select: none;
+    cursor: pointer;
+  }
+  .gift-box-content-img img {
+    border-radius:10px;
+    min-width: 80px;
+    height: auto;
+  }
+  .gift-box-confirm {
+    display: flex;
+    align-items: center;
+  }
+</style>
+<div class="gift-box-title">{{ gift_box_product.title }}</div>
+<div class="gift-box-content">
+  <div class="gift-box-content-img">
+    <img src="{{ gift_box_product.media | map: 'src' | first | image_url: width: 100, height: 100 }}" width="100" height="100" alt="Gift Box">
+  </div>
+  <div class="gift-box-content-detail">
+    <div class="gift-box-content-title">
+      {% render 'price', product: gift_box_product %}
+      <div class="gift-box-content-note">Extra - upgrade to our elegant gift box now!</div>
+      <div class="gift-box-confirm">
+        {% comment %}data-variantid="..." {% endcomment %}
+        <input type="checkbox" id="gift-wrapping" value="true" checked/>
+        <label for="gift-wrapping" style="display:inline;"> Choose to buy</label>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  #updates_{{ id }} { display: none; }
+</style>
+<script>
+  function addGiftWrapping() {
+    let isChecked = document.querySelector('#gift-wrapping').checked;
+    var items_in_cart = 0;
+    var gift_wraps_in_cart = 0;
+
+    fetch('/cart.json', {
+      method: 'GET',
+      headers: new Headers({ 'Accept': 'application/json' }),
+    })
+    .then(response => response.json())
+    .then(function(response) {
+      var cart_data = response;
+      productInfo = cart_data.items;
+      productInfo.forEach(object => {
+        if (object.id === {{ product_id }}) {
+          console.log(object);
+          items_in_cart = object.quantity;
+        } else if (object.id === {{ id }}) {
+          console.log(object);
+          gift_wraps_in_cart = object.quantity;
+        }
+      });
+      var headers = new Headers({ 'Content-Type': 'application/json' });
+      var request = {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({ updates: { {{ id }}: (isChecked ? cart_data.item_count - gift_wraps_in_cart : 0) } })
+      };
+      fetch('/cart/update.js', request);
+    });
+  }
+</script>
+{% endif %}

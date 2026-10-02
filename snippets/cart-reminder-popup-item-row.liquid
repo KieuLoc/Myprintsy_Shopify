@@ -1,0 +1,45 @@
+{%- comment -%}
+  Single cart line for cart reminder popup.
+  Accepts:
+  - item: {LineItem} required
+{%- endcomment -%}
+
+<div class="cart-reminder-popup__item">
+  <div class="cart-reminder-popup__item-media">
+    {%- if item.image -%}
+      {%- assign item_image_alt = item.image.alt | default: item.product.title -%}
+      {{
+        item.image
+        | image_url: width: 120
+        | image_tag:
+          loading: 'lazy',
+          widths: '60, 120',
+          sizes: '60px',
+          alt: item_image_alt
+      }}
+    {%- else -%}
+      <div class="cart-reminder-popup__item-media-placeholder">
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="cart-reminder-popup__item-details">
+    <p class="cart-reminder-popup__item-title">{{ item.product.title | escape }}</p>
+
+    {%- unless item.product.has_only_default_variant -%}
+      <p class="cart-reminder-popup__item-variant">{{ item.variant.title | escape }}</p>
+    {%- endunless -%}
+
+    <p class="cart-reminder-popup__item-price">
+      {%- if item.original_line_price != item.final_line_price -%}
+        <s>{{ item.original_line_price | money }}</s>
+        {{ item.final_line_price | money }}
+      {%- else -%}
+        {{ item.final_line_price | money }}
+      {%- endif -%}
+    </p>
+  </div>
+
+  <p class="cart-reminder-popup__item-qty">QTY: {{ item.quantity }}</p>
+</div>

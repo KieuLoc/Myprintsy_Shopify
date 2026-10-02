@@ -1,0 +1,366 @@
+{{ 'section-image-marquee.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign image_source = section.settings.image_source
+  assign has_images = false
+
+  if image_source == 'collection' and section.settings.collection != blank
+    for product in section.settings.collection.products limit: section.settings.products_to_show
+      if product.featured_media
+        assign has_images = true
+        break
+      endif
+    endfor
+  else
+    for block in section.blocks
+      if block.settings.image != blank
+        assign has_images = true
+        break
+      endif
+    endfor
+  endif
+
+  assign pause_on_hover = false
+  if section.settings.pause_on_hover and request.design_mode == false
+    assign pause_on_hover = true
+  endif
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #ImageMarquee-{{ section.id }} {
+    --marquee-duration: {{ section.settings.scroll_speed }}s;
+    --marquee-image-height: {{ section.settings.image_height }}px;
+    --marquee-card-width: {{ section.settings.card_width }}px;
+    --marquee-card-radius: {{ section.settings.card_radius }}px;
+    --marquee-gap: {{ section.settings.image_gap }}px;
+    --marquee-gap-mobile: {{ section.settings.image_gap | times: 0.75 | round: 0 }}px;
+    --marquee-row-gap: {{ section.settings.row_gap }}px;
+    --marquee-stagger: {{ section.settings.stagger_offset }}px;
+  }
+{%- endstyle -%}
+
+{%- if has_images -%}
+  <div class="image-marquee-section color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+    {%- if section.settings.title != blank or section.settings.description != blank -%}
+      <div class="page-width image-marquee__header">
+        {%- if section.settings.title != blank -%}
+          <h2 class="image-marquee__heading title inline-richtext {{ section.settings.heading_size }}">
+            {{ section.settings.title }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank -%}
+          <div class="image-marquee__description rte">{{ section.settings.description }}</div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="image-marquee-scroller" data-image-marquee data-autoscroll="true">
+      <div
+        id="ImageMarquee-{{ section.id }}"
+        class="image-marquee{% if pause_on_hover %} image-marquee--pause-on-hover{% endif %}{% if section.settings.layout_style == 'two_row_stagger' %} image-marquee--double{% endif %}"
+        role="region"
+        aria-label="{{ section.settings.title | default: 'Scrolling images' | escape }}"
+      >
+        <div class="image-marquee__track{% if section.settings.direction == 'right' %} image-marquee__track--reverse{% endif %}">
+          <div class="image-marquee__group image-marquee__group--{% if section.settings.layout_style == 'two_row_stagger' %}double{% else %}single{% endif %}">
+            {%- liquid
+              assign item_width = section.settings.card_width | times: 2
+            -%}
+            {%- if image_source == 'collection' and section.settings.collection != blank -%}
+              {%- render 'image-marquee-rows',
+                mode: 'collection',
+                collection: section.settings.collection,
+                products_limit: section.settings.products_to_show,
+                layout_style: section.settings.layout_style,
+                image_width: item_width,
+                blocks: section.blocks
+              -%}
+            {%- else -%}
+              {%- render 'image-marquee-rows',
+                mode: 'blocks',
+                blocks: section.blocks,
+                layout_style: section.settings.layout_style,
+                image_width: item_width
+              -%}
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{%- elsif request.design_mode -%}
+  <div class="image-marquee-section color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+    <div class="page-width image-marquee__empty">
+      <p>Add image blocks here, or switch image source to a collection.</p>
+    </div>
+  </div>
+{%- endif -%}
+
+<script src="{{ 'image-marquee.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Image marquee",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>We pour so much care into every product we create, and nothing means more than seeing the joy they bring to families.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout_style",
+      "label": "Layout",
+      "options": [
+        { "value": "two_row_stagger", "label": "2 rows (staggered)" },
+        { "value": "single", "label": "1 row" }
+      ],
+      "default": "two_row_stagger"
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Space between rows",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "stagger_offset",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Bottom row offset",
+      "default": 130,
+      "info": "Shifts the bottom row to create a staggered look. Auto uses half card width if set to 0 in CSS fallback."
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "select",
+      "id": "image_source",
+      "label": "Image source",
+      "options": [
+        { "value": "blocks", "label": "Upload in theme editor" },
+        { "value": "collection", "label": "From collection" }
+      ],
+      "default": "blocks",
+      "info": "Collection mode uses each product's featured image."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "label": "Products to show",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "min": 20,
+      "max": 120,
+      "step": 5,
+      "unit": "s",
+      "label": "Scroll duration",
+      "default": 55,
+      "info": "Higher = slower. Try 50-80 for a gentle scroll."
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Direction",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left",
+      "info": "Left = scroll from right to left."
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "min": 80,
+      "max": 320,
+      "step": 10,
+      "unit": "px",
+      "label": "Image height",
+      "default": 220
+    },
+    {
+      "type": "range",
+      "id": "card_width",
+      "min": 160,
+      "max": 360,
+      "step": 10,
+      "unit": "px",
+      "label": "Card width",
+      "default": 260
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Card corner radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "image_gap",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Space between images",
+      "default": 16
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Name",
+          "default": "@Username",
+          "info": "Shown below the image."
+        },
+        {
+          "type": "select",
+          "id": "row",
+          "label": "Row",
+          "options": [
+            { "value": "auto", "label": "Auto (alternate)" },
+            { "value": "top", "label": "Top row" },
+            { "value": "bottom", "label": "Bottom row" }
+          ],
+          "default": "auto"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image marquee",
+      "settings": {
+        "title": "OUR HAPPY CUSTOMERS",
+        "heading_size": "h1",
+        "layout_style": "two_row_stagger"
+      },
+      "blocks": [
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,20 @@
+{%- if section.settings.enabled -%}
+  <div id="OverlayNewsletterPopup-{{ section.id }}" class="overlay-popup overlay-newsletter-popup" hidden></div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Newsletter popup",
+  "tag": "section",
+  "class": "overlay-section overlay-section--newsletter-popup",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Enable newsletter popup",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,450 @@
+{%- liquid
+  assign popup_enabled = section.settings.enabled
+  assign desktop_image = section.settings.image_desktop
+  assign excluded_pages_json = section.settings.excluded_pages | newline_to_br | split: '<br />' | json
+  assign klaviyo_replaces_content = false
+  if section.settings.klaviyo_replace_content and section.settings.klaviyo_form_id != blank
+    assign klaviyo_replaces_content = true
+  endif
+-%}
+
+{{ 'overlay-cart-reminder-popup.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'overlay-cart-reminder-popup.js' | asset_url }}" defer="defer"></script>
+
+<cart-reminder-popup
+  id="CartReminderPopup-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-device-target="desktop"
+  data-enabled="{% if popup_enabled %}true{% else %}false{% endif %}"
+  data-cart-count="{{ cart.item_count }}"
+  data-return-delay="{{ section.settings.return_delay }}"
+  data-inactivity-time="{{ section.settings.inactivity_time }}"
+  data-browse-auto-show-time="{{ section.settings.browse_auto_show_time }}"
+  data-browse-auto-show-after-cart-time="{{ section.settings.browse_auto_show_after_cart_time }}"
+  data-cart-page-auto-show-time="120"
+  data-frequency-cap="{{ section.settings.frequency_cap }}"
+  data-frequency-cap-seconds="{{ section.settings.frequency_cap_seconds }}"
+  data-disable-homepage="{% if section.settings.disable_homepage %}true{% else %}false{% endif %}"
+  data-excluded-pages='{{ excluded_pages_json }}'
+  data-page-type="{{ template.name }}"
+  data-current-path="{{ request.path }}"
+  data-storage-key="cart-reminder-popup"
+  data-show-email-field="false"
+  data-use-klaviyo-embed="{% if section.settings.klaviyo_form_id != blank %}true{% else %}false{% endif %}"
+  data-klaviyo-replaces-content="{% if klaviyo_replaces_content %}true{% else %}false{% endif %}"
+  data-klaviyo-form-id="{{ section.settings.klaviyo_form_id | escape }}"
+  data-klaviyo-list-id="{{ section.settings.klaviyo_list_id | escape }}"
+  data-klaviyo-list-id-desktop="{{ section.settings.klaviyo_list_id_desktop | escape }}"
+  data-klaviyo-company-id="{{ section.settings.klaviyo_company_id | escape }}"
+  data-order-completed-key="cart-reminder-order-completed"
+  data-order-suppression-days="{{ section.settings.order_suppression_days }}"
+  data-once-per-session="{% if section.settings.once_per_session %}true{% else %}false{% endif %}"
+  data-max-cart-items="{{ section.settings.max_cart_items }}"
+  data-countdown-hours="1"
+>
+  <div
+    class="cart-reminder-popup cart-reminder-popup--desktop{% if request.design_mode %} is-open{% endif %}"
+    aria-hidden="{% if request.design_mode %}false{% else %}true{% endif %}"
+  >
+    <div class="cart-reminder-popup__overlay"></div>
+
+    <div
+      class="cart-reminder-popup__dialog color-{{ section.settings.color_scheme }}"
+      role="dialog"
+      aria-modal="true"
+      aria-label="{{ section.settings.heading | escape }}"
+      style="--cart-reminder-width: {{ section.settings.layout_width }}px;"
+    >
+      <button
+        type="button"
+        class="cart-reminder-popup__close"
+        aria-label="{{ 'accessibility.close' | t }}"
+      >
+        <span class="svg-wrapper">
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </span>
+      </button>
+
+      <header class="cart-reminder-popup__brand">
+        <div class="cart-reminder-popup__brand-inner">
+          {%- if settings.logo != blank -%}
+            {{
+              settings.logo
+              | image_url: width: 160
+              | image_tag:
+                class: 'cart-reminder-popup__logo',
+                alt: shop.name,
+                widths: '80, 120, 160',
+                loading: 'lazy'
+            }}
+          {%- endif -%}
+        </div>
+        <div class="cart-reminder-popup__brand-divider" aria-hidden="true"></div>
+      </header>
+
+      <div class="cart-reminder-popup__body">
+        <div class="cart-reminder-popup__media">
+          {%- if desktop_image != blank -%}
+            {{
+              desktop_image
+              | image_url: width: 1200
+              | image_tag:
+                loading: 'lazy',
+                widths: '550, 750, 900, 1100, 1200',
+                sizes: '50vw',
+                alt: desktop_image.alt | default: section.settings.heading
+            }}
+          {%- else -%}
+            <div class="cart-reminder-popup__media-placeholder">
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+          {%- endif -%}
+        </div>
+
+        <div class="cart-reminder-popup__content{% if klaviyo_replaces_content %} cart-reminder-popup__content--klaviyo{% endif %}">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="cart-reminder-popup__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+
+          {%- if section.settings.heading != blank -%}
+            <h2 class="cart-reminder-popup__heading">{{ section.settings.heading | escape }}</h2>
+          {%- endif -%}
+
+          {%- if section.settings.subtext != blank -%}
+            <div class="cart-reminder-popup__subtext rte">{{ section.settings.subtext }}</div>
+          {%- endif -%}
+
+          <div class="cart-reminder-popup__countdown" aria-live="polite">
+            {%- if section.settings.timer_label != blank -%}
+              <p class="cart-reminder-popup__countdown-label">{{ section.settings.timer_label | escape }}</p>
+            {%- endif -%}
+            <span class="cart-reminder-popup__countdown-time" data-cart-reminder-countdown>01:00:00</span>
+          </div>
+
+          {% render 'cart-reminder-popup-items', max_items: section.settings.max_cart_items %}
+
+          {%- if klaviyo_replaces_content -%}
+            <div
+              class="cart-reminder-popup__klaviyo-embed cart-reminder-popup__klaviyo-embed--replaces-email"
+              data-klaviyo-embed-slot
+            >
+              <div class="klaviyo-form-{{ section.settings.klaviyo_form_id }}"></div>
+              <div
+                class="cart-reminder-popup__klaviyo-fallback"
+                data-klaviyo-fallback
+                hidden
+              >
+                <input
+                  class="cart-reminder-popup__email-input"
+                  type="email"
+                  name="email"
+                  autocomplete="email"
+                  inputmode="email"
+                  placeholder="{{ section.settings.email_placeholder | default: 'Enter your email' | escape }}"
+                >
+                {%- if section.settings.button_label != blank -%}
+                  <button
+                    type="button"
+                    class="cart-reminder-popup__button button button--primary"
+                    data-cart-reminder-submit
+                  >
+                    <span class="cart-reminder-popup__button-label">{{ section.settings.button_label | escape }}</span>
+                  </button>
+                {%- endif -%}
+              </div>
+            </div>
+
+            {%- if section.settings.dismiss_label != blank -%}
+              <button type="button" class="cart-reminder-popup__dismiss" data-cart-reminder-dismiss>
+                {{ section.settings.dismiss_label | escape }}
+              </button>
+            {%- endif -%}
+          {%- else -%}
+            {%- if section.settings.klaviyo_form_id != blank -%}
+              <div class="cart-reminder-popup__klaviyo-embed" data-klaviyo-embed-slot>
+                <div class="klaviyo-form-{{ section.settings.klaviyo_form_id }}"></div>
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.button_label != blank -%}
+              <button
+                type="button"
+                class="cart-reminder-popup__button button button--primary"
+                data-cart-reminder-submit
+              >
+                <span class="cart-reminder-popup__button-label">{{ section.settings.button_label | escape }}</span>
+                <span class="cart-reminder-popup__button-loading" hidden aria-hidden="true">...</span>
+              </button>
+            {%- endif -%}
+
+            {%- if section.settings.dismiss_label != blank -%}
+              <button type="button" class="cart-reminder-popup__dismiss" data-cart-reminder-dismiss>
+                {{ section.settings.dismiss_label | escape }}
+              </button>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</cart-reminder-popup>
+
+{% schema %}
+{
+  "name": "Cart reminder (desktop)",
+  "tag": "section",
+  "class": "overlay-section overlay-section--cart-reminder-desktop",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Enable desktop cart reminder popup",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Timing"
+    },
+    {
+      "type": "paragraph",
+      "content": "Shows when the cart has items and the visitor leaves /cart without checkout (via an internal link, back, or closing the tab)."
+    },
+    {
+      "type": "range",
+      "id": "return_delay",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "sec",
+      "label": "Return visit delay",
+      "info": "After a previous cart abandonment, show popup this many seconds after the visitor returns.",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "inactivity_time",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "sec",
+      "label": "Inactivity time",
+      "info": "After no activity for this many seconds, show popup only if the visitor has scrolled to at least 70% of the page. Does not apply on /cart or checkout.",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "browse_auto_show_time",
+      "min": 0,
+      "max": 180,
+      "step": 5,
+      "unit": "sec",
+      "label": "Browse auto-show delay",
+      "info": "New tab or return visit with items in cart: show popup after this many seconds while browsing. Timer resets when the visitor opens /cart or /checkout.",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "browse_auto_show_after_cart_time",
+      "min": 0,
+      "max": 300,
+      "step": 5,
+      "unit": "sec",
+      "label": "After add-to-cart auto-show delay",
+      "info": "After adding to cart in this tab, show the popup after this many seconds while browsing. Persists across page navigation until the popup shows or the cart is emptied.",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "frequency_cap",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "hr",
+      "label": "Frequency cap",
+      "info": "Do not show again to the same visitor within this period. Shared with mobile popup.",
+      "default": 24
+    },
+    {
+      "type": "number",
+      "id": "frequency_cap_seconds",
+      "label": "Frequency cap (seconds, dev override)",
+      "info": "If greater than 0, overrides the hour cap above. Set to 0 for production.",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "once_per_session",
+      "label": "Show only once per session",
+      "info": "When enabled, the popup shows at most once until the visitor closes the tab. Shared with mobile popup.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "order_suppression_days",
+      "min": 0,
+      "max": 90,
+      "step": 1,
+      "unit": "day",
+      "label": "Hide after completed order",
+      "info": "Do not show popup for this many days after checkout_completed (Web Pixel). Set 0 to disable.",
+      "default": 7
+    },
+    {
+      "type": "paragraph",
+      "content": "Requires a Custom Web Pixel in Shopify Admin (Settings → Customer events) that writes to localStorage key cart-reminder-order-completed on checkout_completed."
+    },
+    {
+      "type": "header",
+      "content": "Page visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_homepage",
+      "label": "Disable on homepage",
+      "default": false
+    },
+    {
+      "type": "textarea",
+      "id": "excluded_pages",
+      "label": "Not displayed on other pages",
+      "info": "One page path per line. Example: /pages/contact",
+      "default": "/pages/trade-program-register\n/pages/business-opportunities"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "layout_width",
+      "min": 600,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "label": "Layout width",
+      "default": 1000
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop image"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Finish your order"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Save An Extra 5% Off"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "<p>Secure your cart now - Priority shipping available</p>"
+    },
+    {
+      "type": "text",
+      "id": "timer_label",
+      "label": "Countdown label",
+      "default": "Offer expires in"
+    },
+    {
+      "type": "header",
+      "content": "Cart items"
+    },
+    {
+      "type": "range",
+      "id": "max_cart_items",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "label": "Maximum items shown",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Klaviyo embed form"
+    },
+    {
+      "type": "checkbox",
+      "id": "klaviyo_replace_content",
+      "label": "Use Klaviyo for email field only",
+      "default": true,
+      "info": "Keeps image, text, and cart items. Only email + submit use Klaviyo Embed (or theme fallback). Maybe later stays in theme settings."
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder (fallback preview)",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_form_id",
+      "label": "Klaviyo embed form ID",
+      "default": "XumJWa",
+      "info": "Embed form only (not popup). Renders inline via <div class=\"klaviyo-form-…\">. Copy ID from Klaviyo → Sign-up forms → Targeting → Embed code."
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_list_id_desktop",
+      "label": "Klaviyo list ID (legacy fallback)",
+      "default": "XDYfDR",
+      "info": "Only used when embed form ID is blank. With a form ID, submissions go through the Klaviyo embed form."
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_list_id",
+      "label": "Klaviyo list ID (fallback)",
+      "info": "Optional. Used when desktop list ID is empty."
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_company_id",
+      "label": "Klaviyo company ID (optional)",
+      "info": "Leave blank to auto-detect from the Klaviyo app embed."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Get It Now"
+    },
+    {
+      "type": "paragraph",
+      "content": "Submits the Klaviyo embed form, closes popup, then opens Success opt-in."
+    },
+    {
+      "type": "text",
+      "id": "dismiss_label",
+      "label": "Dismiss link label",
+      "default": "I'll miss the deal this time, remind me later."
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,120 @@
+{
+  "html": "<div class=\"sb_ETA\" style=\"margin: 0px !important; display: block !important; visibility: visible !important; opacity: 1 !important; height: auto !important; max-height: none !important; overflow: visible !important; width: 100% !important;\"><!--- Order Delivery Estimation By SetuBridge  ---><span class=\"sb_country_checker\" style=\"display: flex !important; margin-top: 10px; visibility: visible !important; opacity: 1 !important; height: auto !important; max-height: none !important; overflow: visible !important;\"><select class=\"edd_country_msg_change\"><option value=\"AE\" selected=\"\">United Arab Emirates</option><option value=\"US\">United States</option></select></span><div class=\"deliverydate sb_delivery\" style=\"background: rgb(255, 255, 255); color: rgb(0, 0, 0); border: 1px solid rgba(0, 0, 0, 0); font-weight: unset; font-style: unset; text-transform: unset; text-align: unset; position: relative; padding: 10px; overflow: visible !important; display: block !important; width: 100%; border-radius: 0px; visibility: visible !important; opacity: 1 !important; height: auto !important; max-height: none !important;\"><div class=\"animation_class no_effect\" style=\"display: block !important; visibility: visible !important; opacity: 1 !important; height: auto !important; max-height: none !important; overflow: visible !important;\"><span class=\"delivery_icon\"></span><span class=\"delivery_msg\" contenteditable=\"false\" style=\"display: block !important; visibility: visible !important; opacity: 1 !important; height: auto !important; max-height: none !important; overflow: visible !important;\"><div><span style=\"font-size: 16px;\">﻿</span><span style=\"font-style: unset; font-weight: unset; letter-spacing: initial; font-size: 16px;\">Delivered to&nbsp;</span><span style=\"font-size: 16px;\"><span class=\"country_flag_wrapper\" style=\"display: block !important; visibility: visible !important; opacity: 1 !important; height: auto !important; max-height: none !important; overflow: visible !important;\"><img src=\"https://estimated-delivery-days.setubridgeapps.com/estimated-delivery-days/app/admin/img/country/AE.png\" style=\"width: 25px; margin: 0px 4px 3px; vertical-align: middle; opacity: 1; display: inline-block; height: auto;\"></span></span></div><div><span style=\"font-size: 16px;\">Get Estimated delivery: <span class=\"hightlight_date\">Aug 4th</span> - <span class=\"hightlight_date\">Aug 9th</span></span></div></span></div></div><div class=\"power_by_sb\"></div></div>",
+  "text": "United Arab Emirates\nUnited States\n﻿Delivered to \nGet Estimated delivery: Aug 4th - Aug 9th",
+  "classes": [
+    {
+      "tag": "SPAN",
+      "cls": "sb_country_checker",
+      "id": "",
+      "text": ""
+    },
+    {
+      "tag": "SELECT",
+      "cls": "edd_country_msg_change",
+      "id": "",
+      "text": ""
+    },
+    {
+      "tag": "OPTION",
+      "cls": "",
+      "id": "",
+      "text": "United Arab Emirates"
+    },
+    {
+      "tag": "OPTION",
+      "cls": "",
+      "id": "",
+      "text": "United States"
+    },
+    {
+      "tag": "DIV",
+      "cls": "deliverydate sb_delivery",
+      "id": "",
+      "text": ""
+    },
+    {
+      "tag": "DIV",
+      "cls": "animation_class no_effect",
+      "id": "",
+      "text": ""
+    },
+    {
+      "tag": "SPAN",
+      "cls": "delivery_icon",
+      "id": "",
+      "text": ""
+    },
+    {
+      "tag": "SPAN",
+      "cls": "delivery_msg",
+      "id": "",
+      "text": ""
+    },
+    {
+      "tag": "DIV",
+      "cls": "",
+      "id": "",
+      "text": ""
+    },
+    {
+      "tag": "SPAN",
+      "cls": "",
+      "id": "",
+      "text": ""
+    },
+    {
+      "tag": "SPAN",
+      "cls": "",
+      "id": "",
+      "text": "Delivered to"
+    },
+    {
+      "tag": "SPAN",
+      "cls": "",
+      "id": "",
+      "text": ""
+    },
+    {
+      "tag": "SPAN",
+      "cls": "country_flag_wrapper",
+      "id": "",
+      "text": ""
+    },
+    {
+      "tag": "IMG",
+      "cls": "",
+      "id": "",
+      "text": ""
+    },
+    {
+      "tag": "DIV",
+      "cls": "",
+      "id": "",
+      "text": ""
+    },
+    {
+      "tag": "SPAN",
+      "cls": "",
+      "id": "",
+      "text": "Get Estimated delivery:"
+    },
+    {
+      "tag": "SPAN",
+      "cls": "hightlight_date",
+      "id": "",
+      "text": "Aug 4th"
+    },
+    {
+      "tag": "SPAN",
+      "cls": "hightlight_date",
+      "id": "",
+      "text": "Aug 9th"
+    },
+    {
+      "tag": "DIV",
+      "cls": "power_by_sb",
+      "id": "",
+      "text": ""
+    }
+  ]
+}

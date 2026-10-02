@@ -1,0 +1,654 @@
+{% comment %}
+  Renders Add-On Gift Box Service card for all product templates
+  Displays when product.metafields.custom.gift_boxes (or gift-boxes) has a value
+  
+  Accepts:
+  - product: {Object} product object
+  - product_form_id: {String} product form ID
+  - section_id: {String} section ID
+{% endcomment %}
+
+{%- comment -%}
+  Thử lần lượt các key metafield có thể dùng:
+  - custom.gift_boxes
+  - custom['gift-boxes']
+  - custom.gift_boxs (đúng với key bạn đang dùng trong Admin)
+  - custom['gift-boxs']
+{%- endcomment -%}
+{%- assign gift_box_product = product.metafields.custom.gift_boxes.value -%}
+{%- if gift_box_product == blank -%}
+  {%- assign gift_box_product = product.metafields.custom['gift-boxes'].value -%}
+{%- endif -%}
+{%- if gift_box_product == blank -%}
+  {%- assign gift_box_product = product.metafields.custom.gift_boxs.value -%}
+{%- endif -%}
+{%- if gift_box_product == blank -%}
+  {%- assign gift_box_product = product.metafields.custom['gift-boxs'].value -%}
+{%- endif -%}
+
+{%- if gift_box_product != blank -%}
+  {%- assign gift_box_variant = gift_box_product.selected_or_first_available_variant -%}
+  {%- assign gift_box_variant_id = gift_box_variant.id -%}
+  {%- assign current_product_id = product.id -%}
+  {%- assign gift_box_pricing_mode = 'legacy' -%}
+  {%- if gift_box_product.id == 10424613732668 -%}
+    {%- assign gift_box_pricing_mode = 'v2' -%}
+  {%- endif -%}
+  {%- if gift_box_pricing_mode == 'v2' -%}
+    {%- assign gift_box_max_tier = 6 -%}
+  {%- else -%}
+    {%- assign gift_box_max_tier = 5 -%}
+  {%- endif -%}
+
+  <style>
+    .addon-gift-box {
+        margin: 20px 0;
+        padding: 15px;
+        background-color: #EEEEEE;
+        border-radius: 10px;
+        display: flex;
+        gap: 15px;
+        align-items: flex-start;
+      }
+
+      .addon-gift-box__image {
+        flex-shrink: 0;
+      }
+
+      .addon-gift-box__image img {
+        border-radius: 10px;
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+      }
+
+      .addon-gift-box__content {
+        flex: 1;
+      }
+
+      .addon-gift-box__title {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin: 0 0 8px 0;
+        color: #000;
+      }
+
+      .addon-gift-box__price {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 0 0 8px 0;
+        color: #000;
+      }
+
+      .addon-gift-box__price-prefix {
+        color: #000;
+      }
+
+      .addon-gift-box__price-value {
+        color: #e11d2e;
+      }
+
+      .addon-gift-box__note {
+        font-size: 1rem;
+        color: #333;
+        margin: 0 0 12px 0;
+        line-height: 1.5;
+      }
+
+      .addon-gift-box__checkbox-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .addon-gift-box input[type="checkbox"] {
+        position: relative;
+        border: 2px solid #000;
+        border-radius: 2px;
+        background: none;
+        cursor: pointer;
+        line-height: 0;
+        margin: 0;
+        outline: 0;
+        padding: 0 !important;
+        vertical-align: text-top;
+        height: 20px;
+        width: 20px;
+        -webkit-appearance: none;
+        opacity: 1;
+        flex-shrink: 0;
+      }
+
+      .addon-gift-box input[type="checkbox"]:before {
+        content: "";
+        position: absolute;
+        right: 50%;
+        top: 50%;
+        width: 6px;
+        height: 10px;
+        border: solid #FFF;
+        border-width: 0 2px 2px 0;
+        margin: -1px -1px 0;
+        transform: rotate(45deg) translate(-50%, -50%);
+        z-index: 2;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+
+      .addon-gift-box input[type="checkbox"]:checked {
+        background-color: #870200;
+        opacity: 1;
+        border: 2px solid #870200;
+      }
+
+      .addon-gift-box input[type="checkbox"]:checked:before {
+        opacity: 1;
+      }
+
+    .addon-gift-box label {
+      user-select: none;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    .addon-gift-box__quantity {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid #d1d5db;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .addon-gift-box__qty-btn {
+      width: 32px;
+      height: 30px;
+      border: 0;
+      background: transparent;
+      color: #444;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .addon-gift-box__qty-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .addon-gift-box__qty-input {
+      width: 48px;
+      height: 30px;
+      border: 0;
+      border-left: 1px solid #e5e7eb;
+      border-right: 1px solid #e5e7eb;
+      text-align: center;
+      font-size: 1.4rem;
+      color: #111;
+      padding: 0;
+      background: #fff;
+      -moz-appearance: textfield;
+    }
+
+    .addon-gift-box__qty-input::-webkit-outer-spin-button,
+    .addon-gift-box__qty-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  </style>
+
+  <div class="addon-gift-box" id="addon-gift-box-{{ section_id }}">
+    <div class="addon-gift-box__image">
+      {%- if gift_box_product.featured_image -%}
+        <img 
+          src="{{ gift_box_product.featured_image | image_url: width: 160, height: 160 }}" 
+          alt="{{ gift_box_product.title | escape }}"
+          loading="lazy"
+          width="80"
+          height="80"
+        >
+      {%- else -%}
+        <img 
+          src="{{ 'image' | placeholder_svg_tag: 'placeholder' | split: 'src="' | last | split: '"' | first }}"
+          alt="Gift Box"
+          loading="lazy"
+          width="80"
+          height="80"
+        >
+      {%- endif -%}
+    </div>
+
+    <div class="addon-gift-box__content">
+      <h3 class="addon-gift-box__title">{{ gift_box_product.title }}</h3>
+      <div class="addon-gift-box__price">
+        <span class="addon-gift-box__price-prefix">From </span>
+        <span class="addon-gift-box__price-value" id="addon-gift-box-price-value-{{ section_id }}">$4.99 USD</span>
+      </div>
+      <p class="addon-gift-box__note">Better value when you add multiple boxes<br>An elegant way to present, store, or keep your order feeling extra special.</p>
+      <div class="addon-gift-box__checkbox-wrapper">
+        <input 
+          type="checkbox" 
+          id="addon-gift-box-checkbox-{{ section_id }}" 
+          name="properties[Add-On Gift Box Service]"
+          value="true"
+          checked
+          form="{{ product_form_id }}"
+        >
+        <label for="addon-gift-box-checkbox-{{ section_id }}">Add to order</label>
+      </div>
+      <div class="addon-gift-box__quantity" aria-label="Gift box quantity">
+        <button
+          type="button"
+          class="addon-gift-box__qty-btn addon-gift-box__qty-minus"
+          id="addon-gift-box-qty-minus-{{ section_id }}"
+          aria-label="Decrease gift box quantity"
+        >-</button>
+        <input
+          type="number"
+          min="1"
+          step="1"
+          value="1"
+          class="addon-gift-box__qty-input"
+          id="addon-gift-box-qty-input-{{ section_id }}"
+          aria-label="Gift box quantity"
+        >
+        <button
+          type="button"
+          class="addon-gift-box__qty-btn addon-gift-box__qty-plus"
+          id="addon-gift-box-qty-plus-{{ section_id }}"
+          aria-label="Increase gift box quantity"
+        >+</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ 'addon-gift-box-pricing.js' | asset_url }}" defer="defer"></script>
+  {% render 'gift-box-tier-variant-map', gift_box_product: gift_box_product %}
+
+  <script>
+    (function() {
+      function initAddonGiftBox() {
+        var root = document.getElementById('addon-gift-box-{{ section_id }}');
+        var checkbox = document.getElementById('addon-gift-box-checkbox-{{ section_id }}');
+        var qtyInput = document.getElementById('addon-gift-box-qty-input-{{ section_id }}');
+        var qtyMinusBtn = document.getElementById('addon-gift-box-qty-minus-{{ section_id }}');
+        var qtyPlusBtn = document.getElementById('addon-gift-box-qty-plus-{{ section_id }}');
+        var priceValue = document.getElementById('addon-gift-box-price-value-{{ section_id }}');
+        if (!checkbox || !root) return;
+        if (root.dataset.giftBoxReady === 'true') return;
+        root.dataset.giftBoxReady = 'true';
+
+        var giftBoxVariantId = {{ gift_box_variant_id }};
+        var currentProductId = {{ current_product_id }};
+        var productFormId = '{{ product_form_id }}';
+        var sectionId = '{{ section_id }}';
+        var giftBoxPricingMode = '{{ gift_box_pricing_mode }}';
+        var giftBoxMaxTier = {{ gift_box_max_tier }};
+        var isAddingGiftBox = false;
+        var pendingQuantity = null;
+        var giftQtyLockedByUser = false;
+        var packSyncTimer = null;
+
+        function normalizeGiftQty(value) {
+          if (window.GiftBoxPricing && typeof window.GiftBoxPricing.normalizeGiftQty === 'function') {
+            return window.GiftBoxPricing.normalizeGiftQty(value);
+          }
+          var parsed = parseInt(value, 10);
+          if (!parsed || parsed < 1) return 1;
+          return parsed;
+        }
+
+        function getGiftBoxTierPrice(quantity) {
+          if (window.GiftBoxPricing) {
+            if (typeof window.GiftBoxPricing.applyMode === 'function') {
+              window.GiftBoxPricing.applyMode(giftBoxPricingMode);
+            }
+            if (typeof window.GiftBoxPricing.getTierPriceDollars === 'function') {
+              return window.GiftBoxPricing.getTierPriceDollars(quantity);
+            }
+          }
+          var q = normalizeGiftQty(quantity);
+          var maxTier = giftBoxMaxTier;
+          var topPrice = maxTier >= 6 ? 19.99 : 17.99;
+          if (q <= 1) return 4.99;
+          if (q === 2) return 8.99;
+          if (q === 3) return 11.99;
+          if (q === 4) return 14.99;
+          if (q === 5) return 17.99;
+          if (maxTier >= 6 && q === 6) return 19.99;
+          if (q <= maxTier) return topPrice;
+          var bundles = Math.floor(q / maxTier);
+          var remainder = q % maxTier;
+          var total = bundles * topPrice;
+          if (remainder > 0) total += getGiftBoxTierPrice(remainder);
+          return total;
+        }
+
+        function formatGiftPrice(quantity) {
+          if (window.GiftBoxPricing && typeof window.GiftBoxPricing.formatTierMoney === 'function') {
+            return window.GiftBoxPricing.formatTierMoney(quantity);
+          }
+          return '$' + getGiftBoxTierPrice(quantity).toFixed(2);
+        }
+
+        function isPackOptionName(name) {
+          name = String(name || '').trim().toLowerCase();
+          return name.indexOf('pack') !== -1 || name.indexOf('buy more') !== -1;
+        }
+
+        function extractPackCountFromValue(value) {
+          if (!value) return 0;
+          var match = String(value).match(/(\d+)/);
+          if (!match) return 0;
+          var count = parseInt(match[1], 10);
+          return count >= 1 && count <= giftBoxMaxTier ? count : 0;
+        }
+
+        function isVisibleNode(node) {
+          if (!node) return false;
+          if (node.offsetParent !== null) return true;
+          var style = window.getComputedStyle(node);
+          return style.display !== 'none' && style.visibility !== 'hidden';
+        }
+
+        function countVisiblePersonalizationSlots() {
+          var scope =
+            document.getElementById('product-form-' + sectionId)?.closest('product-info') ||
+            document.getElementById(productFormId)?.closest('product-info') ||
+            document.querySelector('product-info');
+
+          if (!scope) return 0;
+
+          var maxIndex = 0;
+          scope.querySelectorAll('label, .hulkapps_option_name, .po-label, .option-label').forEach(function(label) {
+            var text = (label.textContent || '').trim();
+            var match = text.match(/#\s*(\d+)/);
+            if (!match) return;
+
+            var container = label.closest('.hulkapps_option, .po-element, .field, [class*="option"]') || label;
+            if (!isVisibleNode(container)) return;
+
+            var index = parseInt(match[1], 10);
+            if (index > maxIndex) maxIndex = index;
+          });
+
+          return maxIndex;
+        }
+
+        function getPackCount() {
+          var variantSelects = document.querySelector('variant-selects[data-section="' + sectionId + '"]');
+
+          if (variantSelects) {
+            var fieldsets = variantSelects.querySelectorAll('fieldset');
+            for (var i = 0; i < fieldsets.length; i++) {
+              var fieldset = fieldsets[i];
+              var legend = fieldset.querySelector('legend');
+              if (!legend || !isPackOptionName(legend.textContent)) continue;
+
+              var checked = fieldset.querySelector('input[type="radio"]:checked');
+              if (checked && checked.value) {
+                var fromRadio = extractPackCountFromValue(checked.value);
+                if (fromRadio) return fromRadio;
+              }
+            }
+
+            var selects = variantSelects.querySelectorAll('select[name^="options"]');
+            for (var j = 0; j < selects.length; j++) {
+              var select = selects[j];
+              var label = select.id ? variantSelects.querySelector('label[for="' + select.id + '"]') : null;
+              if (!label || !isPackOptionName(label.textContent)) continue;
+
+              var fromSelect = extractPackCountFromValue(select.value);
+              if (fromSelect) return fromSelect;
+            }
+          }
+
+          var picker = document.getElementById('pack-size-picker-' + sectionId);
+          if (picker) {
+            var pickerCount = parseInt(picker.dataset.packCount || '0', 10);
+            if (pickerCount >= 1 && pickerCount <= giftBoxMaxTier) return pickerCount;
+          }
+
+          var hulkCount = countVisiblePersonalizationSlots();
+          if (hulkCount >= 1) return hulkCount;
+
+          return 1;
+        }
+
+        function isGiftBoxLineItem(item) {
+          if (window.GiftBoxPricing && typeof window.GiftBoxPricing.isGiftBoxCartItem === 'function') {
+            return window.GiftBoxPricing.isGiftBoxCartItem(item);
+          }
+          return item && item.properties && item.properties._addon_gift_box;
+        }
+
+        function getSelectedVariantId() {
+          var productForm = document.getElementById(productFormId);
+          var variantInput = productForm && productForm.querySelector('input[name="id"]');
+          if (variantInput && variantInput.value) return String(variantInput.value);
+
+          var productInfo = document.querySelector('product-info[data-section="' + sectionId + '"]');
+          if (productInfo && productInfo.dataset && productInfo.dataset.variantId) {
+            return String(productInfo.dataset.variantId);
+          }
+
+          return String(currentProductId);
+        }
+
+        function addGiftBoxToCart(quantity) {
+          if (isAddingGiftBox || !quantity || quantity <= 0) return;
+          if (!window.GiftBoxPricing || typeof window.GiftBoxPricing.upsertGiftBoxInCart !== 'function') return;
+
+          if (typeof window.GiftBoxPricing.applyMode === 'function') {
+            window.GiftBoxPricing.applyMode(giftBoxPricingMode);
+          }
+
+          isAddingGiftBox = true;
+          var parentKey = getSelectedVariantId();
+
+          window.GiftBoxPricing.upsertGiftBoxInCart(quantity, parentKey)
+            .then(function() {
+              isAddingGiftBox = false;
+              pendingQuantity = null;
+            })
+            .catch(function(error) {
+              console.error('Error adding gift box to cart:', error);
+              isAddingGiftBox = false;
+            });
+        }
+
+        function getQuantityFromForm() {
+          var quantityInput =
+            document.querySelector('input[name="quantity"][form="' + productFormId + '"]') ||
+            document.getElementById('Quantity-' + sectionId);
+
+          if (!quantityInput) {
+            var productForm = document.getElementById(productFormId);
+            if (productForm) quantityInput = productForm.querySelector('input[name="quantity"]');
+          }
+
+          if (quantityInput) return normalizeGiftQty(quantityInput.value);
+          return 1;
+        }
+
+        function getGiftUnitQuantity() {
+          if (!qtyInput) return 1;
+          return normalizeGiftQty(qtyInput.value);
+        }
+
+        function updateGiftBoxDisplayedPrice(quantity) {
+          if (!priceValue) return;
+          priceValue.textContent = formatGiftPrice(quantity) + ' USD';
+        }
+
+        function setGiftUnitQuantity(nextQty, fromUser) {
+          if (!qtyInput) return;
+          if (fromUser) giftQtyLockedByUser = true;
+          var safeQty = normalizeGiftQty(nextQty);
+          qtyInput.value = safeQty;
+          if (qtyMinusBtn) qtyMinusBtn.disabled = safeQty <= 1;
+          updateGiftBoxDisplayedPrice(safeQty);
+        }
+
+        function syncGiftQuantityWithPack(forceSync) {
+          if (giftQtyLockedByUser && !forceSync) return;
+          setGiftUnitQuantity(getPackCount());
+        }
+
+        function schedulePackSync(forceSync) {
+          if (packSyncTimer) window.clearTimeout(packSyncTimer);
+          packSyncTimer = window.setTimeout(function() {
+            syncGiftQuantityWithPack(forceSync);
+          }, 50);
+        }
+
+        function isPackFieldsetChange(target) {
+          if (!target || target.type !== 'radio') return false;
+          var fieldset = target.closest('fieldset');
+          if (!fieldset) return false;
+          var legend = fieldset.querySelector('legend');
+          return legend && isPackOptionName(legend.textContent);
+        }
+
+        var productForm = document.getElementById(productFormId);
+        if (productForm) {
+          var submitButton = productForm.querySelector('button[type="submit"]');
+          if (submitButton) {
+            submitButton.addEventListener('click', function() {
+              if (checkbox.checked) pendingQuantity = getQuantityFromForm();
+            }, true);
+          }
+
+          productForm.addEventListener('submit', function() {
+            if (checkbox.checked) pendingQuantity = getQuantityFromForm();
+          });
+        }
+
+        if (typeof subscribe !== 'undefined' && typeof PUB_SUB_EVENTS !== 'undefined') {
+          subscribe(PUB_SUB_EVENTS.cartUpdate, function(event) {
+            try {
+              if (!event || event.source !== 'product-form' || !checkbox.checked || isAddingGiftBox) return;
+
+              var baseQuantity = pendingQuantity || getQuantityFromForm();
+              var giftUnitQuantity = getGiftUnitQuantity();
+              var quantity = baseQuantity * giftUnitQuantity;
+
+              if (quantity > 0) addGiftBoxToCart(quantity);
+            } catch (error) {
+              console.error('Gift box cart update handler failed:', error);
+            }
+          });
+
+          subscribe(PUB_SUB_EVENTS.variantChange, function() {
+            giftQtyLockedByUser = false;
+            schedulePackSync(true);
+          });
+        }
+
+        checkbox.addEventListener('change', function() {
+          if (this.checked) pendingQuantity = getQuantityFromForm();
+        });
+
+        if (qtyMinusBtn) {
+          qtyMinusBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            setGiftUnitQuantity(getGiftUnitQuantity() - 1, true);
+          });
+        }
+
+        if (qtyPlusBtn) {
+          qtyPlusBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            setGiftUnitQuantity(getGiftUnitQuantity() + 1, true);
+          });
+        }
+
+        if (qtyInput) {
+          qtyInput.addEventListener('change', function() {
+            setGiftUnitQuantity(this.value, true);
+          });
+        }
+
+        document.addEventListener('change', function(event) {
+          var target = event.target;
+          if (isPackFieldsetChange(target)) {
+            giftQtyLockedByUser = false;
+            schedulePackSync(true);
+            return;
+          }
+
+          if (target && target.matches && target.matches('select[name^="options"]')) {
+            var variantSelects = target.closest('variant-selects');
+            if (!variantSelects) return;
+            var label = target.id ? variantSelects.querySelector('label[for="' + target.id + '"]') : null;
+            if (label && isPackOptionName(label.textContent)) {
+              giftQtyLockedByUser = false;
+              schedulePackSync(true);
+            }
+          }
+        }, true);
+
+        document.addEventListener('variant:change', function() {
+          giftQtyLockedByUser = false;
+          schedulePackSync(true);
+        });
+
+        document.addEventListener('click', function(event) {
+          var target = event.target;
+          if (!target || !target.closest) return;
+          var packButton = target.closest(
+            '.product-form__input--pill input[type="radio"], .hulkapps_vd_option, [class*="volume-discount"], [class*="hulk"] button, [class*="hulk"] label'
+          );
+          if (!packButton) return;
+          var labelText = (packButton.value || packButton.textContent || '').toLowerCase();
+          if (labelText.indexOf('pack') === -1) return;
+          giftQtyLockedByUser = false;
+          schedulePackSync(true);
+        }, true);
+
+        var productInfo = document.querySelector('product-info[data-section="' + sectionId + '"]') || document.querySelector('product-info');
+        if (productInfo && typeof MutationObserver !== 'undefined') {
+          var packObserver = new MutationObserver(function() {
+            if (giftQtyLockedByUser) return;
+            schedulePackSync(false);
+          });
+          packObserver.observe(productInfo, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class', 'hidden'] });
+        }
+
+        fetch('/cart.json')
+          .then(function(response) { return response.json(); })
+          .then(function(cartData) {
+            var hasGiftBox = cartData.items.some(isGiftBoxLineItem);
+            if (hasGiftBox) checkbox.checked = true;
+          })
+          .catch(function() {});
+
+        schedulePackSync(true);
+      }
+
+      function bootAddonGiftBox() {
+        if (!window.GiftBoxPricing) {
+          bootAddonGiftBox.attempts = (bootAddonGiftBox.attempts || 0) + 1;
+          if (bootAddonGiftBox.attempts < 20) {
+            window.setTimeout(bootAddonGiftBox, 30);
+            return;
+          }
+        }
+        initAddonGiftBox();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bootAddonGiftBox, { once: true });
+      } else {
+        bootAddonGiftBox();
+      }
+    })();
+  </script>
+{%- endif -%}
+

@@ -1,0 +1,21 @@
+{% comment %}
+  Overlay hero/logo image — no src until JS arms on popup open.
+  Accepts: image, class, alt, max_width, widths (comma string), sizes
+{% endcomment %}
+{%- liquid
+  assign max_w = max_width | default: 1200
+  assign sizes_attr = sizes | default: '50vw'
+  assign widths_list = widths | default: '550,750,900,1100,1200' | split: ','
+-%}
+{%- if image != blank -%}
+  <img
+    {% if class != blank %}class="{{ class }}"{% endif %}
+    alt="{{ alt | escape }}"
+    width="{{ image.width }}"
+    height="{{ image.height }}"
+    decoding="async"
+    data-myprintsy-defer-src="{{ image | image_url: width: max_w }}"
+    data-myprintsy-defer-srcset="{%- for w in widths_list -%}{{ image | image_url: width: w | strip }} {{ w | strip }}w{%- unless forloop.last -%}, {% endunless -%}{%- endfor -%}"
+    data-myprintsy-defer-sizes="{{ sizes_attr | escape }}"
+  >
+{%- endif -%}

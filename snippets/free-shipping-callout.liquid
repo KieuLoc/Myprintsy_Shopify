@@ -1,0 +1,50 @@
+{%- comment -%}
+  Free shipping callout — default product template only (product.json).
+  Keeps .bmsm class so EDD placement + gap CSS still hook correctly.
+{%- endcomment -%}
+<style>
+  .bmsm {
+    margin: 0.8rem 0 0;
+    padding: 1.2rem 1.4rem;
+    background: #f7f3ef;
+    border-radius: 1rem;
+  }
+  .product__info-container > .bmsm {
+    margin: 0.8rem 0 8px !important;
+  }
+  .bmsm--freeship {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+  .bmsm--freeship .bmsm__truck {
+    width: 2.6rem;
+    height: 2.6rem;
+    flex-shrink: 0;
+    color: #e11d48;
+    display: block;
+  }
+  .bmsm--freeship .bmsm__msg {
+    margin: 0;
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0.01rem;
+    color: #1a1a1a;
+  }
+  .bmsm--freeship .bmsm__from {
+    color: #e11d48;
+  }
+</style>
+<div class="bmsm bmsm--freeship" aria-label="Free shipping">
+  <svg class="bmsm__truck" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M1 7h13v10H1V7Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M14 11h5.2l2.8 3.2V17H14v-6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    <circle cx="5.5" cy="18.5" r="1.7" stroke="currentColor" stroke-width="1.7"/>
+    <circle cx="17.5" cy="18.5" r="1.7" stroke="currentColor" stroke-width="1.7"/>
+    <path d="M1 10h13" stroke="currentColor" stroke-width="1.6"/>
+  </svg>
+  <p class="bmsm__msg">
+    Free Shipping For Orders <span class="bmsm__from">From $59</span>
+  </p>
+</div>

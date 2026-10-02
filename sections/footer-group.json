@@ -1,0 +1,103 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "newsletter_unlock": {
+      "type": "newsletter",
+      "blocks": {
+        "heading_unlock": {
+          "type": "heading",
+          "settings": {
+            "heading": "UNLOCK YOUR 10% OFF!",
+            "heading_size": "h2"
+          }
+        },
+        "paragraph_unlock": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Deals and handpicked gift ideas, made just for you!</p>"
+          }
+        },
+        "email_form_unlock": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading_unlock",
+        "paragraph_unlock",
+        "email_form_unlock"
+      ],
+      "settings": {
+        "color_scheme": "scheme-bfcae555-4f64-4808-a246-a02e9e728388",
+        "full_width": true,
+        "klaviyo_form_id": "Yy9PSK",
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "link_list_d7DJcq": {
+          "type": "link_list",
+          "settings": {
+            "heading": "<strong>Information</strong>",
+            "menu": "our-company"
+          }
+        },
+        "link_list_GXByr8": {
+          "type": "link_list",
+          "settings": {
+            "heading": "<strong>Policies</strong>",
+            "menu": "policies"
+          }
+        },
+        "text_8f8Vq6": {
+          "type": "text",
+          "settings": {
+            "heading": "<strong>Get In Touch?</strong>",
+            "subtext": "<p><strong>Support Time: <br/></strong>Mon – Sat | 9:00 AM – 5:00 PM</p><p>✉️ <strong>support@myprintsy.com</strong></p><p><strong>Company Name: </strong>MM COMMERCE LLC</p><p><strong>Address: </strong>40 NEWPORT PKWY JERSEY CITY, NEW JERSEY 07310</p>"
+          }
+        }
+      },
+      "block_order": [
+        "link_list_d7DJcq",
+        "link_list_GXByr8",
+        "text_8f8Vq6"
+      ],
+      "custom_css": [
+        "a[title=\"Support Ticket\"] {padding: 1rem 3rem; text-decoration: none; border-radius: 1rem; color: rgb(var(--color-button-text)); background-color: rgba(51, 73, 181, 1);}",
+        "p:has(> a[title=\"Support Ticket\"]) {margin-top: 4rem;}"
+      ],
+      "settings": {
+        "color_scheme": "scheme-bfcae555-4f64-4808-a246-a02e9e728388",
+        "newsletter_enable": false,
+        "newsletter_heading": "",
+        "klaviyo_form_id": "",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 0,
+        "padding_top": 12,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "newsletter_unlock",
+    "footer"
+  ]
+}

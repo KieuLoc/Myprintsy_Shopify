@@ -1,0 +1,72 @@
+{
+  "sections": {
+    "cart-items": {
+      "type": "main-cart-items",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 24,
+        "padding_bottom": 24,
+        "show_expiry_banner": true,
+        "expiry_minutes": 10,
+        "expiry_banner_text": "Your cart will expire in",
+        "expiry_banner_suffix": "minutes! Check out now before your items sell out."
+      }
+    },
+    "cart-footer": {
+      "type": "main-cart-footer",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 40,
+        "subtotal_label": "Subtotal",
+        "keep_shopping_label": "Keep Shopping",
+        "show_payment_icons": true,
+        "payment_title": "Payment Methods",
+        "payment_icons_mode": "curated",
+        "show_buyer_protection": true,
+        "protection_title": "Buyer Protection",
+        "protection_text_1": "Full refund for faulty production. No question asked",
+        "protection_text_2": "Full or Partial Refund if the item is not as described"
+      },
+      "blocks": {
+        "subtotal": {
+          "type": "subtotal",
+          "settings": {}
+        },
+        "buttons": {
+          "type": "buttons",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "subtotal",
+        "buttons"
+      ]
+    },
+    "cart-recommendations": {
+      "type": "cart-page-recommendations",
+      "settings": {
+        "heading": "Related to Items in your Shopping Cart",
+        "show_more_section": false,
+        "heading_more": "More Items to Consider",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": true,
+        "padding_top": 36,
+        "padding_bottom": 48
+      }
+    }
+  },
+  "order": [
+    "cart-items",
+    "cart-footer",
+    "cart-recommendations"
+  ]
+}

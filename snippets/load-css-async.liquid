@@ -1,0 +1,29 @@
+{%- comment -%}
+  Non-blocking stylesheet for non-critical CSS (avoids FOUC on base/hero).
+  Usage:
+    {% render 'load-css-async', asset: 'component-slider.css' %}
+    {% render 'load-css-async', asset: 'component-slider.css', desktop_blocking: true %}
+
+  desktop_blocking: desktop (min-width: 750px) loads render-blocking to reduce CLS;
+  mobile stays async. Default: fully async.
+{%- endcomment -%}
+{%- if asset != blank -%}
+  {%- if desktop_blocking -%}
+    <link rel="stylesheet" href="{{ asset | asset_url }}" media="(min-width: 750px)">
+    <link
+      rel="stylesheet"
+      href="{{ asset | asset_url }}"
+      media="print"
+      onload="this.media='(max-width: 749.98px)'"
+    >
+    <noscript>{{ asset | asset_url | stylesheet_tag }}</noscript>
+  {%- else -%}
+    <link
+      rel="stylesheet"
+      href="{{ asset | asset_url }}"
+      media="print"
+      onload="this.media='all'"
+    >
+    <noscript>{{ asset | asset_url | stylesheet_tag }}</noscript>
+  {%- endif -%}
+{%- endif -%}

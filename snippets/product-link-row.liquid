@@ -1,0 +1,74 @@
+{% comment %}
+  Template: product.product_link
+  Metafield ưu tiên: custom.product_links (list.link). Fallback: more_with_this_design.
+{% endcomment %}
+{%- liquid
+  assign mf = product.metafields.custom.product_links
+  if mf.value == blank
+    assign mf = product.metafields.custom.more_with_this_design
+  endif
+  assign heading_text = heading | default: 'More with This Design:'
+  assign one_url = mf.value.url
+  assign one_text = mf.value.text | default: mf.value.title
+  assign list_count = mf.value.size | default: 0
+-%}
+{%- capture links_html -%}
+  {%- if list_count > 1 or one_url == blank -%}
+    {%- assign link_index = 0 -%}
+    {%- for item in mf.value -%}
+      {%- liquid
+        assign item_url = item.url | default: item['url']
+        assign item_text = item.text | default: item['text'] | default: item.title
+      -%}
+      {%- if item_url != blank -%}
+        {%- if link_index > 0 -%}
+          <span class="product-link-row__sep" aria-hidden="true"> | </span>
+        {%- endif -%}
+        <a href="{{ item_url }}" class="product-link-row__link">{{ item_text | default: item_url | escape }}</a>
+        {%- assign link_index = link_index | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if link_index == 0 -%}
+      {{ mf | metafield_tag }}
+    {%- endif -%}
+  {%- elsif one_url != blank -%}
+    <a href="{{ one_url }}" class="product-link-row__link">{{ one_text | default: one_url | escape }}</a>
+  {%- endif -%}
+{%- endcapture -%}
+{%- assign links_html = links_html | strip -%}
+{%- if links_html != blank -%}
+  <p class="product-link-row" {{ block.shopify_attributes }}>
+    {%- if heading_text != blank -%}
+      <span class="product-link-row__heading">{{ heading_text | escape }}</span>
+      {{ ' ' }}
+    {%- endif -%}
+    {{ links_html }}
+  </p>
+{%- endif -%}
+
+{% style %}
+  .product-link-row {
+    margin: 0.6rem 0 1.2rem;
+    font-size: 1.6rem;
+    line-height: 1.55;
+  }
+  .product-link-row__heading {
+    color: #121212;
+    font-weight: 500;
+  }
+  .product-link-row a,
+  .product-link-row__link {
+    color: #1a0dab;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+  .product-link-row a + a::before,
+  .product-link-row__sep {
+    color: #1a0dab;
+    white-space: pre;
+  }
+  .product-link-row a + a::before {
+    content: ' | ';
+    text-decoration: none;
+  }
+{% endstyle %}

@@ -1,0 +1,87 @@
+{%- if cart != empty -%}
+  {%- for item in cart.items -%}
+    {%- liquid
+      assign notif_image = item.image
+      assign notif_image_url = blank
+      # Prefer full Customily preview (same URL as Preview modal) over thumb.
+      if item.properties['_customily-preview'] != blank
+        assign notif_image_url = item.properties['_customily-preview']
+      elsif item.properties['_customily-preview-url'] != blank
+        assign notif_image_url = item.properties['_customily-preview-url']
+      elsif item.properties['_customily-thumb'] != blank
+        assign notif_image_url = item.properties['_customily-thumb']
+      endif
+    -%}
+    <div data-hulkapps-lineitem id="cart-notification-product-{{ item.key }}" class="cart-item cart-notification-product__row">
+      {%- if notif_image_url != blank -%}
+        <div class="cart-notification-product__image">
+          <img
+            src="{{ notif_image_url }}"
+            alt="{{ item.product.title | escape }}"
+            width="260"
+            height="260"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          >
+        </div>
+      {%- elsif notif_image -%}
+        <div class="cart-notification-product__image">
+          <img
+            src="{{ notif_image | image_url: width: 360 }}"
+            alt="{{ notif_image.alt | escape }}"
+            width="130"
+            height="{{ 130 | divided_by: notif_image.aspect_ratio | ceil }}"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          >
+        </div>
+      {%- endif -%}
+      <div class="cart-notification-product__details">
+        <h3 class="cart-notification-product__name">{{ item.product.title | escape }}</h3>
+        {%- unless item.product.has_only_default_variant -%}
+          {%- for option in item.options_with_values -%}
+            <p class="cart-notification-product__meta">{{ option.name }}: {{ option.value }}</p>
+          {%- endfor -%}
+        {%- endunless -%}
+        <p class="cart-notification-product__meta">Quantity: {{ item.quantity }}</p>
+        {%- comment -%}
+          Use original_price (variant/PDP) — final_price applies cart-level discounts and mismatches Pack UI.
+        {%- endcomment -%}
+        <p class="cart-notification-product__price">{{ item.original_price | money_with_currency }}</p>
+        <div class="hulkapps-reminder" data-key="{{ item.key }}"></div>
+        <span data-hulkapps-line-properties>
+          {%- for property in item.properties -%}
+            {%- assign property_first_char = property.first | slice: 0 -%}
+            {%- if property.last != blank and property_first_char != '_' -%}
+              <div class="product-option visually-hidden">
+                <dt>{{ property.first }}:</dt>
+                <dd>
+                  {%- if property.last contains '/uploads/' -%}
+                    <a href="{{ property.last }}" class="link" target="_blank">
+                      {{ property.last | split: '/' | last }}
+                    </a>
+                  {%- else -%}
+                    {{ property.last }}
+                  {%- endif -%}
+                </dd>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </span>
+        <button
+          type="button"
+          style="display: none;"
+          class="edit_cart_option btn btn--primary button"
+          data-product_id="{{ item.product_id }}"
+          data-key="{{ item.key }}"
+          data-variant_id="{{ item.variant_id }}"
+          data-quantity="{{ item.quantity }}"
+        >
+          Edit Options
+        </button>
+      </div>
+    </div>
+  {%- endfor -%}
+{%- endif -%}

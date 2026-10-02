@@ -1,0 +1,478 @@
+{%- liquid
+  assign popup_enabled = section.settings.enabled
+  assign desktop_image = section.settings.image_desktop
+  assign content_bg = section.settings.image_content_bg
+  assign excluded_pages_json = section.settings.excluded_pages | newline_to_br | split: '<br />' | json
+  assign excluded_product_codes_list = section.settings.excluded_product_codes | newline_to_br | split: '<br />'
+  assign excluded_product_codes_json = excluded_product_codes_list | json
+  assign klaviyo_form_id = section.settings.klaviyo_form_id | default: 'VtBEnx' | strip
+  assign welcome_product_handle = ''
+  if template.name == 'product'
+    assign welcome_product_handle = product.handle
+  endif
+  assign welcome_media_alt = desktop_image.alt | default: section.settings.heading
+  assign welcome_code_excluded = false
+  if welcome_product_handle != blank
+    assign welcome_handle_down = welcome_product_handle | downcase
+    for raw_code in excluded_product_codes_list
+      assign code_stripped = raw_code | strip | downcase
+      if code_stripped != blank and welcome_code_excluded == false
+        assign code_suffix = '-' | append: code_stripped
+        if welcome_handle_down == code_stripped
+          assign welcome_code_excluded = true
+        endif
+        if welcome_code_excluded == false and welcome_handle_down contains code_suffix
+          assign handle_len = welcome_handle_down | size
+          assign suffix_len = code_suffix | size
+          assign start_at = handle_len | minus: suffix_len
+          if start_at >= 0
+            assign tail = welcome_handle_down | slice: start_at, suffix_len
+            if tail == code_suffix
+              assign welcome_code_excluded = true
+            endif
+          endif
+        endif
+      endif
+    endfor
+  endif
+  assign welcome_preview_open = false
+  if request.design_mode and welcome_code_excluded == false
+    assign welcome_preview_open = true
+  endif
+-%}
+
+{{ 'overlay-cart-reminder-popup.css' | asset_url | stylesheet_tag }}
+{{ 'overlay-welcome-popup.css' | asset_url | stylesheet_tag }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="{{ 'overlay-cart-reminder-popup.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'overlay-welcome-step2.js' | asset_url }}" defer="defer"></script>
+
+<cart-reminder-popup
+  id="WelcomePopup-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-device-target="desktop"
+  data-enabled="{% if popup_enabled %}true{% else %}false{% endif %}"
+  data-cart-count="{{ cart.item_count }}"
+  data-welcome-auto-show-time="10"
+  data-return-delay="{{ section.settings.return_delay }}"
+  data-inactivity-time="{{ section.settings.inactivity_time }}"
+  data-browse-auto-show-time="{{ section.settings.browse_auto_show_time }}"
+  data-browse-auto-show-after-cart-time="{{ section.settings.browse_auto_show_after_cart_time }}"
+  data-cart-page-auto-show-time="120"
+  data-frequency-cap="{{ section.settings.frequency_cap }}"
+  data-frequency-cap-seconds="{{ section.settings.frequency_cap_seconds }}"
+  data-disable-homepage="{% if section.settings.disable_homepage %}true{% else %}false{% endif %}"
+  data-excluded-pages='{{ excluded_pages_json }}'
+  data-excluded-product-codes='{{ excluded_product_codes_json }}'
+  data-product-handle="{{ welcome_product_handle | escape }}"
+  data-page-type="{{ template.name }}"
+  data-current-path="{{ request.path }}"
+  data-storage-key="welcome-popup"
+  data-show-email-field="true"
+  data-use-klaviyo-embed="{% if klaviyo_form_id != blank %}true{% else %}false{% endif %}"
+  data-klaviyo-replaces-content="false"
+  data-klaviyo-form-id="{{ klaviyo_form_id | escape }}"
+  data-klaviyo-list-id="{{ section.settings.klaviyo_list_id | escape }}"
+  data-klaviyo-list-id-desktop="{{ section.settings.klaviyo_list_id_desktop | default: 'RnN5Nh' | escape }}"
+  data-klaviyo-company-id="{{ section.settings.klaviyo_company_id | escape }}"
+  data-order-completed-key="welcome-order-completed"
+  data-order-suppression-days="{{ section.settings.order_suppression_days }}"
+  data-once-per-session="{% if section.settings.once_per_session %}true{% else %}false{% endif %}"
+  data-max-cart-items="0"
+>
+  <div
+    class="cart-reminder-popup cart-reminder-popup--desktop welcome-popup{% if welcome_preview_open %} is-open{% endif %}"
+    aria-hidden="{% if welcome_preview_open %}false{% else %}true{% endif %}"
+    style="
+      --welcome-width: {{ section.settings.layout_width }}px;
+      --welcome-eyebrow-color: {{ section.settings.color_eyebrow }};
+      --welcome-heading-color: {{ section.settings.color_heading }};
+      --welcome-subtext-color: {{ section.settings.color_subtext }};
+      --welcome-button-bg: {{ section.settings.color_button_bg }};
+      --welcome-button-text: {{ section.settings.color_button_text }};
+      --welcome-button-border: {{ section.settings.color_button_border }};
+      --welcome-dismiss-color: {{ section.settings.color_dismiss }};
+    "
+  >
+    <div class="cart-reminder-popup__overlay"></div>
+
+    <div
+      class="cart-reminder-popup__dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-label="{{ section.settings.heading | default: section.settings.eyebrow | escape }}"
+    >
+      <button
+        type="button"
+        class="cart-reminder-popup__close"
+        aria-label="{{ 'accessibility.close' | t }}"
+      >
+        <span class="svg-wrapper">
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </span>
+      </button>
+
+      <div class="cart-reminder-popup__body">
+        <div class="cart-reminder-popup__media">
+          {%- if desktop_image != blank -%}
+            {% render 'overlay-defer-image',
+              image: desktop_image,
+              alt: welcome_media_alt,
+              max_width: 1200,
+              widths: '550,750,900,1100,1200',
+              sizes: '50vw'
+            %}
+          {%- else -%}
+            <div class="cart-reminder-popup__media-placeholder">
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+          {%- endif -%}
+        </div>
+
+        <div
+          class="cart-reminder-popup__content welcome-popup__content{% if content_bg != blank %} welcome-popup__content--has-bg{% endif %}"
+          {% if content_bg != blank %}
+            data-myprintsy-defer-bg="{{ content_bg | image_url: width: 1200 }}"
+          {% endif %}
+        >
+          <div class="welcome-popup__copy">
+            {%- if section.settings.eyebrow != blank -%}
+              <p class="cart-reminder-popup__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+            {%- endif -%}
+
+            {%- if section.settings.heading != blank -%}
+              {%- liquid
+                assign welcome_heading_plain = section.settings.heading | strip | newline_to_br | replace: '<br />', ' ' | replace: '<br/>', ' ' | replace: '<br>', ' ' | strip_html | strip | upcase
+                assign welcome_heading_plain = welcome_heading_plain | replace: '’', "'" | replace: '‘', "'" | replace: ' ', ' ' | replace: '  ', ' '
+                if welcome_heading_plain contains 'EXTRA'
+                  assign welcome_heading_parts = welcome_heading_plain | split: 'EXTRA'
+                  assign welcome_heading_line1 = welcome_heading_parts.first | strip
+                  assign welcome_heading_line2 = 'EXTRA' | append: welcome_heading_parts.last | strip
+                else
+                  assign welcome_heading_line1 = welcome_heading_plain
+                  assign welcome_heading_line2 = ''
+                endif
+              -%}
+              <h2 class="cart-reminder-popup__heading">
+                <span class="welcome-popup__heading-line">{{ welcome_heading_line1 | escape }}</span>
+                {%- if welcome_heading_line2 != blank -%}
+                  <span class="welcome-popup__heading-line">{{ welcome_heading_line2 | escape }}</span>
+                {%- endif -%}
+              </h2>
+            {%- endif -%}
+
+            {%- if section.settings.subtext != blank -%}
+              {%- liquid
+                assign welcome_subtext = section.settings.subtext
+                if welcome_subtext contains 'and exclusive' and welcome_subtext contains '<br'
+                elsif welcome_subtext contains 'and exclusive'
+                  assign welcome_subtext = welcome_subtext | replace: 'and exclusive', 'and<br>exclusive'
+                endif
+              -%}
+              <div class="cart-reminder-popup__subtext rte">{{ welcome_subtext }}</div>
+            {%- endif -%}
+          </div>
+
+          <div class="welcome-popup__email is-visible" data-klaviyo-fallback>
+            <label class="visually-hidden" for="WelcomeEmail-{{ section.id }}">
+              {{ section.settings.email_placeholder | default: 'Email address' | escape }}
+            </label>
+            <input
+              id="WelcomeEmail-{{ section.id }}"
+              class="cart-reminder-popup__email-input welcome-popup__email-input"
+              type="email"
+              name="email"
+              autocomplete="email"
+              inputmode="email"
+              placeholder="{{ section.settings.email_placeholder | default: 'Email address' | escape }}"
+            >
+          </div>
+
+          {%- if klaviyo_form_id != blank -%}
+            <div class="welcome-popup__klaviyo-embed" data-klaviyo-embed-slot aria-hidden="true">
+              <div class="klaviyo-form-{{ klaviyo_form_id }}"></div>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.button_label != blank -%}
+            <button
+              type="button"
+              class="cart-reminder-popup__button button button--primary welcome-popup__button"
+              data-cart-reminder-submit
+            >
+              <span class="cart-reminder-popup__button-label">{{ section.settings.button_label | escape }}</span>
+              <span class="cart-reminder-popup__button-loading" hidden aria-hidden="true">...</span>
+            </button>
+          {%- endif -%}
+
+          {%- if section.settings.dismiss_label != blank -%}
+            <button type="button" class="cart-reminder-popup__dismiss welcome-popup__dismiss" data-cart-reminder-dismiss>
+              {{ section.settings.dismiss_label | escape }}
+            </button>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</cart-reminder-popup>
+
+{% schema %}
+{
+  "name": "Welcome (desktop)",
+  "tag": "section",
+  "class": "overlay-section overlay-section--welcome-desktop",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Enable desktop welcome popup",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Timing"
+    },
+    {
+      "type": "range",
+      "id": "return_delay",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "sec",
+      "label": "Return visit delay",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "inactivity_time",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "sec",
+      "label": "Inactivity time",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "browse_auto_show_time",
+      "min": 0,
+      "max": 180,
+      "step": 5,
+      "unit": "sec",
+      "label": "Browse auto-show delay",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "browse_auto_show_after_cart_time",
+      "min": 0,
+      "max": 300,
+      "step": 5,
+      "unit": "sec",
+      "label": "After add-to-cart auto-show delay",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "frequency_cap",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "hr",
+      "label": "Frequency cap",
+      "info": "Shared with Welcome mobile.",
+      "default": 24
+    },
+    {
+      "type": "number",
+      "id": "frequency_cap_seconds",
+      "label": "Frequency cap (seconds, dev override)",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "once_per_session",
+      "label": "Show only once per session",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "order_suppression_days",
+      "min": 0,
+      "max": 90,
+      "step": 1,
+      "unit": "day",
+      "label": "Hide after completed order",
+      "default": 7
+    },
+    {
+      "type": "header",
+      "content": "Page visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_homepage",
+      "label": "Disable on homepage",
+      "default": false
+    },
+    {
+      "type": "textarea",
+      "id": "excluded_pages",
+      "label": "Not displayed on other pages",
+      "default": "/pages/trade-program-register\n/pages/business-opportunities"
+    },
+    {
+      "type": "textarea",
+      "id": "excluded_product_codes",
+      "label": "Excluded product codes",
+      "info": "One code per line (e.g. upthah2e13). Welcome stays hidden on product pages whose URL handle ends with that code."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "layout_width",
+      "min": 600,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "label": "Layout width",
+      "default": 1000
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Left image",
+      "info": "Product / lifestyle photo on the left half."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_content_bg",
+      "label": "Right panel background",
+      "info": "Upload the cream panel with border + florals. Text and button overlay on top."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Congratulations!"
+    },
+    {
+      "type": "color",
+      "id": "color_eyebrow",
+      "label": "Eyebrow color",
+      "default": "#1a3a5c"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "YOU'VE GOT AN\nEXTRA 10% OFF"
+    },
+    {
+      "type": "color",
+      "id": "color_heading",
+      "label": "Heading color",
+      "default": "#1a3a5c"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "<p>Unlock updates, perks, and<br>exclusive savings.</p>"
+    },
+    {
+      "type": "color",
+      "id": "color_subtext",
+      "label": "Subtext color",
+      "default": "#1a3a5c"
+    },
+    {
+      "type": "header",
+      "content": "Klaviyo email"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "Email address"
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_form_id",
+      "label": "Klaviyo embed form ID",
+      "default": "VtBEnx"
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_list_id_desktop",
+      "label": "Klaviyo list ID (desktop)",
+      "default": "RnN5Nh"
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_list_id",
+      "label": "Klaviyo list ID (fallback)"
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_company_id",
+      "label": "Klaviyo company ID"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "GET MY DISCOUNT"
+    },
+    {
+      "type": "color",
+      "id": "color_button_bg",
+      "label": "Button background",
+      "default": "#1a3a5c"
+    },
+    {
+      "type": "color",
+      "id": "color_button_text",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_button_border",
+      "label": "Button border color",
+      "default": "#c4a35a"
+    },
+    {
+      "type": "text",
+      "id": "dismiss_label",
+      "label": "Dismiss link label",
+      "default": "I'll miss the deal this time, remind me later"
+    },
+    {
+      "type": "color",
+      "id": "color_dismiss",
+      "label": "Dismiss link color",
+      "default": "#1a3a5c"
+    }
+  ]
+}
+{% endschema %}

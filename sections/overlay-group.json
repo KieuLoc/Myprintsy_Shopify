@@ -1,0 +1,290 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "Overlay group",
+  "type": "aside",
+  "sections": {
+    "overlay_cart_drawer": {
+      "type": "cart-drawer",
+      "disabled": true,
+      "settings": {}
+    },
+    "overlay_newsletter_popup": {
+      "type": "overlay-newsletter-popup",
+      "disabled": true,
+      "settings": {
+        "enabled": true
+      }
+    },
+    "overlay_privacy_banner": {
+      "type": "overlay-privacy-banner",
+      "disabled": true,
+      "settings": {
+        "enabled": false
+      }
+    },
+    "overlay_cart_reminder_popup": {
+      "type": "overlay-cart-reminder-popup",
+      "settings": {
+        "enabled": true,
+        "return_delay": 15,
+        "inactivity_time": 20,
+        "browse_auto_show_time": 60,
+        "browse_auto_show_after_cart_time": 60,
+        "frequency_cap": 12,
+        "frequency_cap_seconds": 0,
+        "once_per_session": true,
+        "order_suppression_days": 7,
+        "disable_homepage": false,
+        "excluded_pages": "/pages/trade-program-register\n/pages/business-opportunities",
+        "layout_width": 1000,
+        "color_scheme": "scheme-1",
+        "image_desktop": "shopify://shop_images/desktop.jpg",
+        "eyebrow": "Finish your order",
+        "heading": "Save An Extra 20% Off",
+        "subtext": "<p>Secure your cart now - Priority shipping available</p>",
+        "timer_label": "Offer expires in",
+        "max_cart_items": 5,
+        "klaviyo_replace_content": true,
+        "email_placeholder": "Enter your email",
+        "klaviyo_form_id": "XumJWa",
+        "klaviyo_list_id_desktop": "XDYfDR",
+        "klaviyo_list_id": "",
+        "klaviyo_company_id": "",
+        "button_label": "Get It Now",
+        "dismiss_label": ""
+      }
+    },
+    "overlay_cart_reminder_popup_mobile": {
+      "type": "overlay-cart-reminder-popup-mobile",
+      "settings": {
+        "enabled": true,
+        "return_delay": 15,
+        "inactivity_time": 20,
+        "browse_auto_show_time": 60,
+        "browse_auto_show_after_cart_time": 60,
+        "frequency_cap": 12,
+        "frequency_cap_seconds": 0,
+        "once_per_session": true,
+        "order_suppression_days": 7,
+        "disable_homepage": false,
+        "excluded_pages": "/pages/trade-program-register\n/pages/business-opportunities",
+        "color_scheme": "scheme-1",
+        "image": "shopify://shop_images/mobile.jpg",
+        "eyebrow": "Finish your order",
+        "heading": "Save An Extra 20% Off",
+        "subtext": "<p>Secure your cart now - Priority shipping available</p>",
+        "timer_label": "Offer expires in",
+        "max_cart_items": 5,
+        "klaviyo_replace_content": true,
+        "email_placeholder": "Enter your email",
+        "klaviyo_form_id": "YaAhN2",
+        "klaviyo_list_id_mobile": "XDYfDR",
+        "klaviyo_list_id": "",
+        "klaviyo_company_id": "",
+        "button_label": "Get It Now",
+        "dismiss_label": ""
+      }
+    },
+    "overlay_welcome_popup": {
+      "type": "overlay-welcome-popup",
+      "settings": {
+        "enabled": true,
+        "return_delay": 15,
+        "inactivity_time": 20,
+        "browse_auto_show_time": 60,
+        "browse_auto_show_after_cart_time": 60,
+        "frequency_cap": 12,
+        "frequency_cap_seconds": 0,
+        "once_per_session": true,
+        "order_suppression_days": 7,
+        "disable_homepage": false,
+        "excluded_pages": "/pages/trade-program-register\n/pages/business-opportunities",
+        "excluded_product_codes": "trthah1y06\ntrthah1e01\nupthah2e13\npklaah2m12\nhwth1l30\nupthah4e27",
+        "layout_width": 940,
+        "image_desktop": "shopify://shop_images/1_01.png",
+        "image_content_bg": "shopify://shop_images/20260908-091728.png",
+        "eyebrow": "Congratulations!",
+        "color_eyebrow": "#1a3a5c",
+        "heading": "YOU'VE GOT ANEXTRA 10% OFF",
+        "color_heading": "#1a3a5c",
+        "subtext": "<p>Unlock updates, perks, and<br/>exclusive savings.</p>",
+        "color_subtext": "#1a3a5c",
+        "email_placeholder": "Email address",
+        "klaviyo_form_id": "VtBEnx",
+        "klaviyo_list_id_desktop": "RnN5Nh",
+        "klaviyo_list_id": "",
+        "klaviyo_company_id": "",
+        "button_label": "GET MY DISCOUNT",
+        "color_button_bg": "#1a3a5c",
+        "color_button_text": "#ffffff",
+        "color_button_border": "#c4a35a",
+        "dismiss_label": "I'll miss the deal this time, remind me later",
+        "color_dismiss": "#1a3a5c"
+      }
+    },
+    "overlay_welcome_popup_mobile": {
+      "type": "overlay-welcome-popup-mobile",
+      "settings": {
+        "enabled": true,
+        "return_delay": 15,
+        "inactivity_time": 20,
+        "browse_auto_show_time": 60,
+        "browse_auto_show_after_cart_time": 60,
+        "frequency_cap": 12,
+        "frequency_cap_seconds": 0,
+        "once_per_session": true,
+        "order_suppression_days": 7,
+        "disable_homepage": false,
+        "excluded_pages": "/pages/trade-program-register\n/pages/business-opportunities",
+        "excluded_product_codes": "trthah1y06\ntrthah1e01\nupthah2e13\npklaah2m12\nhwth1l30\nupthah4e27",
+        "image": "shopify://shop_images/1_01_aae37eb9-8939-48c5-923a-18c15942854a.png",
+        "image_content_bg": "shopify://shop_images/20260908-091722.png",
+        "eyebrow": "Congratulations!",
+        "color_eyebrow": "#1a3a5c",
+        "heading": "YOU'VE GOT ANEXTRA 10% OFF",
+        "color_heading": "#1a3a5c",
+        "subtext": "<p>Unlock updates, perks, and exclusive savings.</p>",
+        "color_subtext": "#1a3a5c",
+        "email_placeholder": "Email address",
+        "klaviyo_form_id": "R96Af3",
+        "klaviyo_list_id_mobile": "RnN5Nh",
+        "klaviyo_list_id": "",
+        "klaviyo_company_id": "",
+        "button_label": "GET MY DISCOUNT",
+        "color_button_bg": "#1a3a5c",
+        "color_button_text": "#ffffff",
+        "color_button_border": "#c4a35a",
+        "dismiss_label": "I'll miss the deal this time, remind me later",
+        "color_dismiss": "#1a3a5c"
+      }
+    },
+    "overlay_welcome_step2": {
+      "type": "overlay-welcome-step2",
+      "settings": {
+        "layout_width": 940,
+        "image_desktop": "shopify://shop_images/desktop.jpg",
+        "heading": "Welcome to Myprintsy!",
+        "color_heading": "#1a3a5c",
+        "promo_code": "MP15",
+        "info_text": "<p>Applies to all order, including sale items.</p>",
+        "timer_label": "This code expires in",
+        "countdown_hours": 2,
+        "help_text": "If you missed it, check your email (including spam folder)!",
+        "color_text": "#1a3a5c",
+        "color_box_bg": "#fff8e8",
+        "color_box_border": "#c4a35a",
+        "button_label": "SHOP BESTSELLER",
+        "button_link": "",
+        "button_2_label": "SHOP TOP TRENDING",
+        "button_2_link": "",
+        "dismiss_label": "Browse All Deals",
+        "dismiss_link": "",
+        "color_button_bg": "#c4a35a",
+        "color_button_text": "#ffffff",
+        "color_button_border": "#c4a35a",
+        "color_link": "#4a7ab0",
+        "teaser_label": "Extra 10% Off",
+        "teaser_bar_color": "#1a3a5c",
+        "teaser_bar_text_color": "#ffffff"
+      }
+    },
+    "overlay_welcome_step2_mobile": {
+      "type": "overlay-welcome-step2-mobile",
+      "settings": {
+        "image": "shopify://shop_images/mobile.jpg",
+        "heading": "Welcome to Myprintsy!",
+        "color_heading": "#1a3a5c",
+        "promo_code": "MP15",
+        "info_text": "Applies to all order, including sale items.",
+        "timer_label": "This code expires in",
+        "countdown_hours": 2,
+        "help_text": "If you missed it, check your email (including spam folder)!",
+        "color_text": "#1a3a5c",
+        "color_box_bg": "#fff8e8",
+        "color_box_border": "#c4a35a",
+        "button_label": "SHOP BESTSELLERS",
+        "button_link": "",
+        "button_2_label": "SHOP TOP TRENDING",
+        "button_2_link": "",
+        "button_3_label": "Browse All Deals",
+        "button_3_link": "",
+        "color_button_bg": "#1a3a5c",
+        "color_button_text": "#ffffff",
+        "color_button_2_bg": "#ffffff",
+        "color_button_2_text": "#1a3a5c",
+        "color_button_2_border": "#1a3a5c",
+        "color_button_3_bg": "#c4a35a",
+        "color_button_3_text": "#ffffff",
+        "teaser_label": "Extra 10% Off",
+        "teaser_bar_color": "#1a3a5c",
+        "teaser_bar_text_color": "#ffffff"
+      }
+    },
+    "overlay_success_opt_in": {
+      "type": "overlay-success-opt-in",
+      "settings": {
+        "layout_width": 980,
+        "color_scheme": "scheme-1",
+        "image": "shopify://shop_images/desktop.jpg",
+        "eyebrow": "That's it. You're in!",
+        "heading_prefix": "CART20",
+        "heading_highlight": "",
+        "heading_suffix": "",
+        "subtext": "<p>(*) This code can be combined with the current sale.</p><p>Hurry! Special offer ends in 2 hours.</p>",
+        "button_label": "Checkout now",
+        "button_link": "/checkout",
+        "dismiss_label": "Back to Homepage"
+      }
+    },
+    "overlay_success_opt_in_mobile": {
+      "type": "overlay-success-opt-in-mobile",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "image": "shopify://shop_images/mobile.jpg",
+        "eyebrow": "That's it. You're in!",
+        "heading_prefix": "CART20",
+        "heading_highlight": "",
+        "heading_suffix": "",
+        "subtext": "<p>(*) This code can be combined with the current sale.</p><p>Hurry! Special offer ends in 2 hours.</p>",
+        "button_label": "Checkout now",
+        "button_link": "/checkout",
+        "dismiss_label": "Back to Homepage"
+      }
+    },
+    "overlay_exit_intent_popup": {
+      "type": "overlay-exit-intent-popup",
+      "disabled": true,
+      "settings": {
+        "enabled": false
+      }
+    },
+    "overlay_klaviyo_teaser": {
+      "type": "overlay-klaviyo-teaser",
+      "disabled": true,
+      "settings": {}
+    }
+  },
+  "order": [
+    "overlay_cart_drawer",
+    "overlay_newsletter_popup",
+    "overlay_privacy_banner",
+    "overlay_cart_reminder_popup",
+    "overlay_cart_reminder_popup_mobile",
+    "overlay_welcome_popup",
+    "overlay_welcome_popup_mobile",
+    "overlay_welcome_step2",
+    "overlay_welcome_step2_mobile",
+    "overlay_success_opt_in",
+    "overlay_success_opt_in_mobile",
+    "overlay_exit_intent_popup",
+    "overlay_klaviyo_teaser"
+  ]
+}

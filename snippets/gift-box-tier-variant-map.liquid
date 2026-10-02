@@ -1,0 +1,106 @@
+{% comment %}
+  Maps gift box display units -> Shopify variant id (bundle price at checkout).
+
+  Dual catalog:
+  - legacy (max 5): vertical-gift-box-1..5
+  - v2 (max 6): add-on-gift-box-service-copy-* map
+
+  PDP: gift_box_product.id == 10424613732668 → activate v2; else legacy.
+  Cart/drawer: seed both maps; mode comes from line property _gift_box_mode.
+{% endcomment %}
+{%- liquid
+  assign _gb_v2_product_id = 10424613732668
+  assign _gb_active_mode = 'legacy'
+
+  if gift_box_product != blank and gift_box_product.id == _gb_v2_product_id
+    assign _gb_active_mode = 'v2'
+  endif
+
+  assign _gb_legacy_default = all_products['vertical-gift-box-1']
+  if _gb_legacy_default == blank
+    assign _gb_legacy_default = all_products['add-on-gift-box-service']
+  endif
+  assign _gb_legacy_default_variant_id = null
+  if _gb_legacy_default != blank
+    assign _gb_legacy_default_variant_id = _gb_legacy_default.selected_or_first_available_variant.id
+  endif
+
+  assign _gb_v2_default = all_products['add-on-gift-box-service-copy-6']
+  if _gb_v2_default == blank
+    assign _gb_v2_default = all_products['add-on-gift-box-service']
+  endif
+  assign _gb_v2_default_variant_id = null
+  if _gb_v2_default != blank
+    assign _gb_v2_default_variant_id = _gb_v2_default.selected_or_first_available_variant.id
+  endif
+-%}
+<script>
+  (function () {
+    var legacy = {
+      mode: 'legacy',
+      maxTierUnits: 5,
+      defaultVariantId: {% if _gb_legacy_default_variant_id %}{{ _gb_legacy_default_variant_id }}{% else %}null{% endif %},
+      byUnits: {},
+      byPriceCents: {},
+    };
+
+    var v2 = {
+      mode: 'v2',
+      maxTierUnits: 6,
+      defaultVariantId: {% if _gb_v2_default_variant_id %}{{ _gb_v2_default_variant_id }}{% else %}null{% endif %},
+      byUnits: {},
+      byPriceCents: {},
+    };
+
+    {%- for tier_units in (1..5) -%}
+      {%- assign tier_handle = 'vertical-gift-box-' | append: tier_units -%}
+      {%- assign tier_product = all_products[tier_handle] -%}
+      {%- if tier_product != blank -%}
+        {%- assign tier_variant = tier_product.selected_or_first_available_variant -%}
+        legacy.byUnits[{{ tier_units }}] = {{ tier_variant.id }};
+        legacy.byPriceCents[{{ tier_variant.price }}] = {{ tier_variant.id }};
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- assign _v2_handles = 'add-on-gift-box-service-copy-6,add-on-gift-box-service-copy-7,add-on-gift-box-service-copy-8,add-on-gift-box-service-6,add-on-gift-box-service-copy-9,add-on-gift-box-service-copy-10' | split: ',' -%}
+    {%- for tier_units in (1..6) -%}
+      {%- assign _handle_index = tier_units | minus: 1 -%}
+      {%- assign tier_handle = _v2_handles[_handle_index] -%}
+      {%- assign tier_product = all_products[tier_handle] -%}
+      {%- if tier_product != blank -%}
+        {%- assign tier_variant = tier_product.selected_or_first_available_variant -%}
+        v2.byUnits[{{ tier_units }}] = {{ tier_variant.id }};
+        v2.byPriceCents[{{ tier_variant.price }}] = {{ tier_variant.id }};
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- assign linked_gift_product = gift_box_product | default: all_products['add-on-gift-box-service'] -%}
+    {%- if linked_gift_product != blank -%}
+      {%- for variant in linked_gift_product.variants -%}
+        {%- if _gb_active_mode == 'v2' -%}
+          v2.byPriceCents[{{ variant.price }}] = {{ variant.id }};
+        {%- else -%}
+          legacy.byPriceCents[{{ variant.price }}] = {{ variant.id }};
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+
+    window.GiftBoxTierVariantsByMode = { legacy: legacy, v2: v2 };
+
+    var activeMode = '{{ _gb_active_mode }}';
+    var activeConfig = activeMode === 'v2' ? v2 : legacy;
+
+    if (window.GiftBoxPricing) {
+      if (typeof window.GiftBoxPricing.setModeConfigs === 'function') {
+        window.GiftBoxPricing.setModeConfigs(window.GiftBoxTierVariantsByMode);
+      }
+      {%- if gift_box_product != blank -%}
+        if (typeof window.GiftBoxPricing.setVariantConfig === 'function') {
+          window.GiftBoxPricing.setVariantConfig(activeConfig);
+        }
+      {%- endif -%}
+    } else {
+      window.GiftBoxTierVariants = activeConfig;
+    }
+  })();
+</script>

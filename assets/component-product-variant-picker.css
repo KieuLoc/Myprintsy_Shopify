@@ -1,0 +1,229 @@
+variant-selects {
+  display: block;
+}
+
+/* +5px khoảng với block phía trên (Free ship / links / EDD…) — mọi product template */
+.product__info-container variant-selects,
+.product__info-container variant-radios {
+  padding-top: 5px;
+}
+
+.product--no-media .product-form__input--pill,
+.product--no-media .product-form__input--swatch,
+.product--no-media .product-form__input--dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.product--no-media .product-form__input.product-form__input--pill,
+.product--no-media .product-form__input.product-form__input--swatch {
+  flex-wrap: wrap;
+  margin: 0 auto 1.2rem auto;
+}
+
+.product--no-media .product-form__input--dropdown {
+  flex-direction: column;
+  max-width: 100%;
+}
+
+:is(.product-form__input--pill, .product-form__input--swatch) .form__label {
+  margin-bottom: 0.2rem;
+}
+
+.product-form__input input[type='radio'] {
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+  position: absolute;
+  height: 1px;
+  width: 1px;
+}
+
+.product-form__input input[type='radio']:not(.disabled):not(.visually-disabled) + label > .label-unavailable {
+  display: none;
+}
+
+.product-form__input--dropdown {
+  --swatch-input--size: 2rem;
+  margin-bottom: 1.6rem;
+}
+
+.product-form__input--dropdown .dropdown-swatch + select {
+  padding-left: calc(2.4rem + var(--swatch-input--size));
+}
+
+.product-form__input--dropdown .dropdown-swatch {
+  position: absolute;
+  left: 1.6rem;
+  top: calc(50% - var(--swatch-input--size) / 2);
+  width: var(--swatch-input--size);
+  height: var(--swatch-input--size);
+  z-index: 1;
+}
+
+/* Custom styles for Pill display type */
+/* Custom styles for Pill display type — Size / Option / Pack (not ATC) */
+.product-form__input--pill label,
+.product-form__input--pill input[type='radio'] + label {
+  /* Always 2px so checked state doesn't shift layout (was 1px → 2px jump) */
+  border: 2px solid rgba(var(--color-foreground), var(--variant-pills-border-opacity));
+  background-color: rgb(var(--color-background));
+  color: rgba(var(--color-foreground));
+  /* Beat Theme Editor custom_css `5px`; Dawn 1.6rem ≈ 16px */
+  border-radius: 1.6rem !important;
+  color: rgb(var(--color-foreground));
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 0.7rem 0.5rem 0.2rem 0;
+  padding: 1rem 2rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: 0.1rem;
+  line-height: 1;
+  text-align: center;
+  transition: border-color var(--duration-short) ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.product-form__input--pill input[type='radio'] + label:before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  bottom: -2px;
+  left: -2px;
+  z-index: -1;
+  border-radius: 1.6rem !important;
+  box-shadow: var(--variant-pills-shadow-horizontal-offset) var(--variant-pills-shadow-vertical-offset)
+    var(--variant-pills-shadow-blur-radius) rgba(var(--color-shadow), var(--variant-pills-shadow-opacity));
+}
+
+.product-form__input--pill input[type='radio'] + label:hover {
+  border-color: rgb(var(--color-foreground));
+}
+
+.product-form__input--pill input[type='radio']:checked + label {
+  background-color: white !important;
+  color: black !important;
+  border-color: #e72323 !important;
+  border-width: 2px !important;
+  border-style: solid !important;
+  font-weight: 500 !important;
+}
+
+@media screen and (forced-colors: active) {
+  .product-form__input--pill input[type='radio']:checked + label {
+    text-decoration: underline;
+  }
+
+  .product-form__input--pill input[type='radio']:focus-visible + label {
+    outline: transparent solid 1px;
+    outline-offset: 2px;
+  }
+}
+
+.product-form__input--pill input[type='radio']:checked + label::selection {
+  background-color: rgba(var(--color-background), 0.3);
+}
+
+.product-form__input--pill input[type='radio']:disabled + label,
+.product-form__input--pill input[type='radio'].disabled + label {
+  border-color: rgba(var(--color-foreground), 0.1);
+  color: rgba(var(--color-foreground), 0.6);
+  text-decoration: line-through;
+}
+
+.product-form__input--pill input[type='radio'].disabled:checked + label,
+.product-form__input--pill input[type='radio']:disabled:checked + label {
+  color: rgba(var(--color-background), 0.6);
+}
+.product-form__input--pill input[type='radio']:focus-visible + label {
+  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0 0.5rem rgba(var(--color-foreground), 0.55);
+}
+
+/* Fallback */
+.product-form__input--pill input[type='radio'].focused + label {
+  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0 0.5rem rgba(var(--color-foreground), 0.55);
+}
+
+/* Pack pills: 2-line when has %; no-promo packs center (and stay short if none have %) */
+.product-form__input--pill label.variant-option__label--stacked,
+.product-form__input--pill input[type='radio'] + label.variant-option__label--stacked {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.2rem;
+  line-height: 1.15;
+  padding: 0.85rem 1.6rem;
+  box-sizing: border-box;
+}
+
+/* Chỉ khi cả hàng không có % → Pack solo căn giữa, cao tự nhiên */
+.product-form__input--pill:not(:has(.variant-option__discount)) label.variant-option__label--solo,
+.product-form__input--pill:not(:has(.variant-option__discount)) input[type='radio'] + label.variant-option__label--solo {
+  justify-content: center;
+}
+
+/*
+  Hàng có % → cao bằng nhau + căn giữa khối 2 dòng.
+  Pack 1 (solo): ::after cao bằng dòng % → chữ Pack thẳng + khối vẫn giữa ô.
+*/
+.product-form__input--pill:has(.variant-option__discount) label.variant-option__label--stacked,
+.product-form__input--pill:has(.variant-option__discount) input[type='radio'] + label.variant-option__label--stacked {
+  min-height: 5.6rem;
+  justify-content: center;
+}
+
+.product-form__input--pill:has(.variant-option__discount) label.variant-option__label--solo::after,
+.product-form__input--pill:has(.variant-option__discount) input[type='radio'] + label.variant-option__label--solo::after {
+  content: '';
+  display: block;
+  /* khớp .variant-option__discount: font 1.1rem × line-height 1.2 */
+  height: calc(1.1rem * 1.2);
+  width: 1px;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.product-form__input--pill .variant-option__title {
+  display: block;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+.product-form__input--pill .variant-option__discount {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.02rem;
+  line-height: 1.2;
+  color: rgba(var(--color-foreground), 0.5);
+}
+
+.product-form__input--pill input[type='radio']:checked + label .variant-option__discount {
+  color: rgba(18, 18, 18, 0.5) !important;
+}
+
+/* Custom styles for Swatch display type */
+.product-form__input--swatch {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product-form__input--swatch .swatch-input__input + .swatch-input__label {
+  --swatch-input--size: 3.6rem;
+
+  margin: 0.7rem 1.2rem 0.2rem 0;
+}
+
+@media screen and (min-width: 750px) {
+  .product-form__input--swatch .swatch-input__input + .swatch-input__label {
+    --swatch-input--size: 2.8rem;
+  }
+}
+/* End custom styles for Swatch display type */

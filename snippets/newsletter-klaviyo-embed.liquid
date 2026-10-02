@@ -1,0 +1,14 @@
+{%- liquid
+  assign klaviyo_form_id = klaviyo_form_id | default: '' | strip
+  assign wrapper_class = wrapper_class | default: 'newsletter__klaviyo-embed'
+-%}
+
+{%- if klaviyo_form_id != blank -%}
+  <div
+    class="{{ wrapper_class }}"
+    data-newsletter-klaviyo-embed
+    data-klaviyo-form-id="{{ klaviyo_form_id | escape }}"
+  >
+    <div class="klaviyo-form-{{ klaviyo_form_id }}"></div>
+  </div>
+{%- endif -%}

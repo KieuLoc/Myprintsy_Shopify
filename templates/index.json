@@ -1,0 +1,863 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "slideshow_nz7mjK": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_AFNqDP": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/20260909-111543.jpg",
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": true,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "scheme-1",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_6hgK7K": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/20260828-172931.jpg",
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": true,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "scheme-1",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_7C9b3L": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/20260827-135513.jpg",
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": true,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "scheme-1",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_Pww3dH": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/banner_1_af9f4d42-d6c2-484c-b580-fbf095c6882e.png",
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": true,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "scheme-1",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_yMXmiR": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/20260415-153317.png",
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": true,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "scheme-1",
+            "text_alignment_mobile": "center"
+          }
+        }
+      },
+      "block_order": [
+        "slide_AFNqDP",
+        "slide_6hgK7K",
+        "slide_7C9b3L",
+        "slide_Pww3dH",
+        "slide_yMXmiR"
+      ],
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "adapt_image",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "featured_collection_pEwzn6": {
+      "type": "featured-collection",
+      "custom_css": [
+        ".title-wrapper--no-top-margin h2 {text-align: center; font-size: 25px;}",
+        ".title-wrapper--no-top-margin h2 > a {text-decoration: none;}",
+        ".title-wrapper.title-wrapper--no-top-margin {justify-content: center;}"
+      ],
+      "settings": {
+        "title": "<a href=\"/collections/best-sellers\" title=\"Best Sellers\"><strong>Best Sellers</strong></a>",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "best-sellers",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 0,
+        "padding_bottom": 12
+      }
+    },
+    "slideshow_NyXEbe": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_DHKnGm": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/20260828-172931.jpg",
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": true,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_VbEhj9": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": true,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "",
+            "text_alignment_mobile": "center"
+          }
+        }
+      },
+      "block_order": [
+        "slide_DHKnGm",
+        "slide_VbEhj9"
+      ],
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "adapt_image",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "featured_collection_CCkQmc": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "mediterranean-style-majolica-print-blue-lemon",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "slideshow_gL8XLx": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_KCFhhV": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/banner_4_0628581e-37d9-4390-abf2-b6d01bc008ba.png",
+            "heading": "Image slide",
+            "heading_size": "h2",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": true,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "",
+            "text_alignment_mobile": "center"
+          }
+        }
+      },
+      "block_order": [
+        "slide_KCFhhV"
+      ],
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "adapt_image",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "featured_collection_UiJjTj": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "gifts-for-her",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 0,
+        "padding_bottom": 32
+      }
+    },
+    "slideshow_KjWFz8": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_znUUdF": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/banner_8.png",
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": true,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "",
+            "text_alignment_mobile": "center"
+          }
+        }
+      },
+      "block_order": [
+        "slide_znUUdF"
+      ],
+      "disabled": true,
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "adapt_image",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "featured_collection_VfKrRq": {
+      "type": "featured-collection",
+      "disabled": true,
+      "custom_css": [
+        ".title-wrapper--no-top-margin h2 {text-align: center; font-size: 25px;}",
+        ".title-wrapper--no-top-margin h2 > a {text-decoration: none;}",
+        ".title-wrapper.title-wrapper--no-top-margin {justify-content: center;}"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "graduation",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 12,
+        "padding_bottom": 36
+      }
+    },
+    "slideshow_eCAGDj": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_ednUMp": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/banner_1.png",
+            "heading": "Image slide",
+            "heading_size": "h2",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": true,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "",
+            "text_alignment_mobile": "center"
+          }
+        }
+      },
+      "block_order": [
+        "slide_ednUMp"
+      ],
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "adapt_image",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "featured_collection_kbxURi": {
+      "type": "featured-collection",
+      "custom_css": [],
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "pickleball",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
+    "slideshow_TTR9pE": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_rA3L3P": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/banner_7.png",
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": true,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "",
+            "text_alignment_mobile": "center"
+          }
+        }
+      },
+      "block_order": [
+        "slide_rA3L3P"
+      ],
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "adapt_image",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "featured_collection_f8t77a": {
+      "type": "featured-collection",
+      "disabled": true,
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "fathers-day-1",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 8,
+        "padding_bottom": 8
+      }
+    },
+    "collection_list_Fgq4XE": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_qWha4C": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "mug-1"
+          }
+        },
+        "featured_collection_FY3VNi": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "tumbler"
+          }
+        },
+        "featured_collection_f838B6": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "whiskey-glass"
+          }
+        },
+        "featured_collection_gMzDrQ": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "window-hanging-suncatcher-ornament-1"
+          }
+        },
+        "featured_collection_4xKpJ4": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "doormat"
+          }
+        },
+        "featured_collection_TYze3P": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "wallet-card"
+          }
+        },
+        "featured_collection_VtBhjN": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "blanket-1"
+          }
+        },
+        "featured_collection_KkabqA": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "shirt"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_qWha4C",
+        "featured_collection_FY3VNi",
+        "featured_collection_f838B6",
+        "featured_collection_gMzDrQ",
+        "featured_collection_4xKpJ4",
+        "featured_collection_TYze3P",
+        "featured_collection_VtBhjN",
+        "featured_collection_KkabqA"
+      ],
+      "custom_css": [
+        ".title-wrapper-with-link {justify-content: center; text-align: center;}",
+        ".collection-list-title {text-align: center; width: 100%; font-size: 25px;}"
+      ],
+      "name": "t:sections.collection-list.presets.name",
+      "settings": {
+        "title": "Shop by product",
+        "heading_size": "h2",
+        "image_ratio": "square",
+        "columns_desktop": 8,
+        "color_scheme": "",
+        "show_view_all": false,
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "rich_text_XhGxtx": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_Urk9CL": {
+          "type": "heading",
+          "settings": {
+            "heading": "What is Myprintsy?",
+            "heading_size": "h2"
+          }
+        },
+        "text_jQ4wzT": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Personal gifts, made to mean more</strong><br/>At Myprintsy, we create thoughtful personalised gifts that celebrate the people, stories, and moments that matter most.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_Urk9CL",
+        "text_jQ4wzT"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-59f8862f-bbc6-47f4-a723-22412e41e90e",
+        "full_width": true,
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
+    "rich_text_dMmYTU": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_nRBVfb": {
+          "type": "heading",
+          "settings": {
+            "heading": "",
+            "heading_size": "h2"
+          }
+        },
+        "text_xpJXXb": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Made for everyday meaning</strong><br/>From names and dates to designs inspired by what people love, each piece is made to feel personal, timeless, and worth keeping.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_nRBVfb",
+        "text_xpJXXb"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-59f8862f-bbc6-47f4-a723-22412e41e90e",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 28
+      }
+    },
+    "image_marquee_home": {
+      "type": "image-marquee",
+      "blocks": {
+        "image_JTExqm": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/1_6a5492a3-208a-48c2-b302-97e874b50306.jpg",
+            "caption": "@James",
+            "row": "top",
+            "link": "https://www.myprintsy.com/products/mediterranean-style-majolica-print-personalized-accent-mug-travelling-tumbler-upthah2e13"
+          }
+        },
+        "image_TGxReg": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/3_991687b9-3637-4312-9804-83c981f0415d.jpg",
+            "caption": "@Linda",
+            "row": "top",
+            "link": "https://www.myprintsy.com/products/mediterranean-style-majolica-print-blue-lemon-personalized-pillow-decorative-pillows-for-couch-upthah3e19"
+          }
+        },
+        "image_EdLPAc": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/5_ada6ea09-5bde-468d-b688-2f1425912ca3.jpg",
+            "caption": "@Alex",
+            "row": "top",
+            "link": "https://www.myprintsy.com/products/mediterranean-style-majolica-print-personalized-wine-tumbler-travelling-tumbler-trthah1e11"
+          }
+        },
+        "image_mr3mGN": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/10.jpg",
+            "caption": "@Tiffany",
+            "row": "top",
+            "link": "https://www.myprintsy.com/products/the-future-is-mine-personalized-graduation-blankets-with-photo-graduation-gifts-for-her-grthah1y22"
+          }
+        },
+        "image_4QaL7B": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/s2.jpg",
+            "caption": "@Richard",
+            "row": "top",
+            "link": "https://www.myprintsy.com/products/pickleball-lover-personalized-40oz-tumbler-with-straw-pklaah2m12"
+          }
+        },
+        "image_bLjyWf": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/s6.jpg",
+            "caption": "@Sophia",
+            "row": "bottom",
+            "link": "https://www.myprintsy.com/products/gifts-for-pickleball-players-lovers-personalized-blanket-pklaah1m25"
+          }
+        },
+        "image_3awF8c": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/7_8573e3a1-a0e0-4d96-b1d0-ac036f71e5c1.jpg",
+            "caption": "@Nick",
+            "row": "bottom",
+            "link": "https://www.myprintsy.com/products/mediterranean-style-majolica-print-personalized-ceramic-plate-plates-for-decoration-upthah2e16"
+          }
+        },
+        "image_FJgTap": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/6_bd4eb274-a596-4084-a135-3289157e1285.jpg",
+            "caption": "@Rodal",
+            "row": "bottom",
+            "link": "https://www.myprintsy.com/products/oh-sip-its-a-girls-trip-personalized-girls-trip-luggage-cover-girls-trip-gifts-trthah1e02?_pos=17&_sid=8172573bd&_ss=r"
+          }
+        },
+        "image_DxBtJe": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/2_74cbdafd-6bcb-4af8-b26c-4ca0807118b8.jpg",
+            "caption": "@Stephanie",
+            "row": "bottom",
+            "link": "https://www.myprintsy.com/products/oh-sip-its-a-girls-trip-personalized-wine-tumbler-girls-trip-gifts-trthah1y06?_pos=3&_sid=8172573bd&_ss=r"
+          }
+        },
+        "image_ULHjeh": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/s4.jpg",
+            "caption": "@Josie",
+            "row": "bottom",
+            "link": "https://www.myprintsy.com/products/personalized-pickleball-accent-mug-gifts-for-pickleball-players-pkthah1a23?_pos=2&_psq=mug&_ss=e&_v=1.0"
+          }
+        }
+      },
+      "block_order": [
+        "image_JTExqm",
+        "image_TGxReg",
+        "image_EdLPAc",
+        "image_mr3mGN",
+        "image_4QaL7B",
+        "image_bLjyWf",
+        "image_3awF8c",
+        "image_FJgTap",
+        "image_DxBtJe",
+        "image_ULHjeh"
+      ],
+      "name": "Image marquee",
+      "settings": {
+        "title": "OUR HAPPY CUSTOMERS",
+        "heading_size": "h2",
+        "description": "<p>We pour so much care into every product we create, and nothing means more than seeing the joy they bring to families.</p>",
+        "layout_style": "two_row_stagger",
+        "row_gap": 16,
+        "stagger_offset": 130,
+        "image_source": "blocks",
+        "collection": "",
+        "products_to_show": 12,
+        "scroll_speed": 30,
+        "direction": "left",
+        "pause_on_hover": true,
+        "image_height": 180,
+        "card_width": 260,
+        "card_radius": 12,
+        "image_gap": 16,
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "17740032045c5eb8ea": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_featured_carousel_pC4p6a": {
+          "type": "shopify://apps/judge-me-reviews/blocks/featured_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "disabled": true,
+          "settings": {
+            "maxwidth": 1080
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_featured_carousel_pC4p6a"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "newsletter_FMeHHG": {
+      "type": "newsletter",
+      "blocks": {
+        "heading_ypiFWt": {
+          "type": "heading",
+          "settings": {
+            "heading": "UNLOCK YOUR 10% OFF!",
+            "heading_size": "h2"
+          }
+        },
+        "paragraph_jGtL8t": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Deals and handpicked gift ideas, made just for you!</p>"
+          }
+        },
+        "email_form_qWycnF": {
+          "type": "email_form",
+          "disabled": true,
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading_ypiFWt",
+        "paragraph_jGtL8t",
+        "email_form_qWycnF"
+      ],
+      "disabled": true,
+      "custom_css": [],
+      "settings": {
+        "color_scheme": "scheme-bfcae555-4f64-4808-a246-a02e9e728388",
+        "full_width": true,
+        "klaviyo_form_id": "",
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    }
+  },
+  "order": [
+    "slideshow_nz7mjK",
+    "featured_collection_pEwzn6",
+    "slideshow_NyXEbe",
+    "featured_collection_CCkQmc",
+    "slideshow_gL8XLx",
+    "featured_collection_UiJjTj",
+    "slideshow_KjWFz8",
+    "featured_collection_VfKrRq",
+    "slideshow_eCAGDj",
+    "featured_collection_kbxURi",
+    "slideshow_TTR9pE",
+    "featured_collection_f8t77a",
+    "collection_list_Fgq4XE",
+    "rich_text_XhGxtx",
+    "rich_text_dMmYTU",
+    "image_marquee_home",
+    "17740032045c5eb8ea",
+    "newsletter_FMeHHG"
+  ]
+}

@@ -1,0 +1,56 @@
+{%- comment -%}
+  Macorner-style cart sidebar extras. Pass part: 'payments' or 'protection'.
+  Curated payment icons match Macorner cart (trust badges); not limited to shop.enabled_payment_types.
+{%- endcomment -%}
+
+{%- if part == 'payments' or part == blank -%}
+  {%- if show_payment_icons -%}
+    {%- liquid
+      assign curated_payment_types = 'amazon,american_express,apple_pay,bancontact,diners_club,discover,google_pay,ideal,master,paypal,shopify_pay,venmo,visa' | split: ','
+      assign payment_types_to_show = curated_payment_types
+      if payment_icons_mode == 'shop' and shop.enabled_payment_types.size > 0
+        assign payment_types_to_show = shop.enabled_payment_types
+      endif
+    -%}
+    <div class="cart-macorner-payments">
+      <h3 class="cart-macorner-payments__title">{{ payment_title | default: 'Payment Methods' }}</h3>
+      <ul class="cart-macorner-payments__list" role="list">
+        {%- for type in payment_types_to_show -%}
+          <li class="cart-macorner-payments__item">
+            {{ type | payment_type_svg_tag: class: 'cart-macorner-payments__icon' }}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+{%- if part == 'protection' or part == blank -%}
+  {%- if show_buyer_protection -%}
+    <div class="cart-macorner-protection">
+      <div class="cart-macorner-protection__icon-wrap" aria-hidden="true">
+        <img
+          class="cart-macorner-protection__icon"
+          src="{{ 'icon-buyer-protection.png' | asset_url }}"
+          alt=""
+          width="120"
+          height="136"
+          loading="lazy"
+        >
+      </div>
+      <div class="cart-macorner-protection__body">
+        <h3 class="cart-macorner-protection__title">{{ protection_title | default: 'Buyer Protection' }}</h3>
+        <ul class="cart-macorner-protection__list" role="list">
+          <li class="cart-macorner-protection__item">
+            <span class="cart-macorner-protection__check" aria-hidden="true">✓</span>
+            <span><strong>Full refund</strong> for faulty production. No question asked</span>
+          </li>
+          <li class="cart-macorner-protection__item">
+            <span class="cart-macorner-protection__check" aria-hidden="true">✓</span>
+            <span><strong>Full or Partial Refund</strong> if the item is not as described</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}

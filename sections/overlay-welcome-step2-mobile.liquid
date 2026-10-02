@@ -1,0 +1,339 @@
+{{ 'overlay-success-opt-in-mobile.css' | asset_url | stylesheet_tag }}
+{{ 'overlay-welcome-step2-mobile.css' | asset_url | stylesheet_tag }}
+{{ 'overlay-welcome-teaser.css' | asset_url | stylesheet_tag }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="{{ 'overlay-welcome-step2.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign mobile_image = section.settings.image
+  assign content_bg = section.settings.image_content_bg
+  assign promo_code = section.settings.promo_code | strip
+-%}
+
+<welcome-step2-popup
+  id="WelcomeStep2Mobile-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-device-target="mobile"
+  data-default-link="{{ section.settings.button_link | default: '/collections/all' }}"
+  data-countdown-hours="{{ section.settings.countdown_hours | default: 2 }}"
+  {% if promo_code != blank %}
+    data-promo-code="{{ promo_code | escape }}"
+  {% endif %}
+>
+  <div
+    class="success-opt-in-popup success-opt-in-popup--mobile welcome-step2 welcome-step2--mobile{% if request.design_mode %} is-open{% endif %}"
+    aria-hidden="{% if request.design_mode %}false{% else %}true{% endif %}"
+    style="
+      --welcome-step2-heading-color: {{ section.settings.color_heading }};
+      --welcome-step2-text-color: {{ section.settings.color_text }};
+      --welcome-step2-box-bg: {{ section.settings.color_box_bg }};
+      --welcome-step2-box-border: {{ section.settings.color_box_border }};
+      --welcome-step2-button-bg: {{ section.settings.color_button_bg }};
+      --welcome-step2-button-text: {{ section.settings.color_button_text }};
+      --welcome-step2-button-2-bg: {{ section.settings.color_button_2_bg }};
+      --welcome-step2-button-2-text: {{ section.settings.color_button_2_text }};
+      --welcome-step2-button-2-border: {{ section.settings.color_button_2_border }};
+      --welcome-step2-button-3-bg: {{ section.settings.color_button_3_bg }};
+      --welcome-step2-button-3-text: {{ section.settings.color_button_3_text }};
+    "
+  >
+    <div class="success-opt-in-popup__overlay"></div>
+
+    <div
+      class="success-opt-in-popup__dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-label="{{ section.settings.heading | escape }}"
+    >
+      <button
+        type="button"
+        class="success-opt-in-popup__close"
+        aria-label="{{ 'accessibility.close' | t }}"
+      >
+        <span class="svg-wrapper">
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </span>
+      </button>
+
+      <div class="success-opt-in-popup__media">
+        {%- if mobile_image != blank -%}
+          {% render 'overlay-defer-image', image: mobile_image, alt: mobile_image.alt, default: section.settings.heading, max_width: 1100, widths: '375,550,750,1100', sizes: '100vw' %}
+        {%- else -%}
+          <div class="success-opt-in-popup__media-placeholder">
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div
+        class="success-opt-in-popup__panel welcome-step2__content{% if content_bg != blank %} welcome-step2__content--has-bg{% endif %}"
+        {% if content_bg != blank %}
+          data-myprintsy-defer-bg="{{ content_bg | image_url: width: 900 }}"
+        {% endif %}
+      >
+        <div class="welcome-step2__copy">
+          {%- if section.settings.heading != blank -%}
+            <h2 class="welcome-step2__heading">
+              <span class="welcome-step2__flourish" aria-hidden="true"></span>
+              <span class="welcome-step2__heading-text">{{ section.settings.heading | escape }}</span>
+              <span class="welcome-step2__flourish" aria-hidden="true"></span>
+            </h2>
+          {%- endif -%}
+
+          {%- if section.settings.info_text != blank -%}
+            <p class="welcome-step2__info">{{ section.settings.info_text | escape }}</p>
+          {%- endif -%}
+
+          <div class="welcome-step2__divider" aria-hidden="true">
+            <span class="welcome-step2__divider-line"></span>
+            <span class="welcome-step2__divider-diamond">✦</span>
+            <span class="welcome-step2__divider-line"></span>
+          </div>
+
+          {%- if section.settings.timer_label != blank -%}
+            <p class="welcome-step2__timer-label">{{ section.settings.timer_label | escape }}</p>
+          {%- endif -%}
+
+          <div class="welcome-step2__timer-box" aria-live="polite">
+            <span class="welcome-step2__timer" data-welcome-step2-countdown>02:00:00</span>
+          </div>
+
+          {%- if section.settings.help_text != blank -%}
+            <p class="welcome-step2__help">{{ section.settings.help_text | escape }}</p>
+          {%- endif -%}
+        </div>
+
+        <div class="welcome-step2__actions">
+          {%- if section.settings.button_3_label != blank -%}
+            <a
+              class="welcome-step2__button welcome-step2__button--tertiary"
+              href="{{ section.settings.button_3_link | default: '/collections/all' }}"
+            >
+              <span class="welcome-step2__btn-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M20.6 13.4 12.7 21.3a2 2 0 0 1-2.8 0L3 14.4V4h10.4l7.2 7.2a2 2 0 0 1 0 2.2z"></path>
+                  <circle cx="8.5" cy="8.5" r="1.2" fill="currentColor" stroke="none"></circle>
+                </svg>
+              </span>
+              {{ section.settings.button_3_label | escape }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% render 'welcome-teaser', device_target: 'mobile' %}
+</welcome-step2-popup>
+
+{% schema %}
+{
+  "name": "Welcome-Step2 (mobile)",
+  "tag": "section",
+  "class": "overlay-section overlay-section--welcome-step2-mobile",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Top image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_content_bg",
+      "label": "Bottom panel background"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Welcome to Myprintsy!"
+    },
+    {
+      "type": "color",
+      "id": "color_heading",
+      "label": "Heading color",
+      "default": "#1a3a5c"
+    },
+    {
+      "type": "text",
+      "id": "promo_code",
+      "label": "Promo code (box 1)",
+      "default": "MP15"
+    },
+    {
+      "type": "text",
+      "id": "info_text",
+      "label": "Info text (under code)",
+      "default": "Applies to all order, including sale items."
+    },
+    {
+      "type": "text",
+      "id": "timer_label",
+      "label": "Timer label",
+      "default": "This code expires in"
+    },
+    {
+      "type": "range",
+      "id": "countdown_hours",
+      "min": 1,
+      "max": 24,
+      "step": 1,
+      "unit": "h",
+      "label": "Countdown duration",
+      "default": 2,
+      "info": "Starts when Welcome-Step2 first opens; persists in localStorage."
+    },
+    {
+      "type": "text",
+      "id": "help_text",
+      "label": "Help text",
+      "default": "If you missed it, check your email (including spam folder)!"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Body text color",
+      "default": "#1a3a5c"
+    },
+    {
+      "type": "color",
+      "id": "color_box_bg",
+      "label": "Box background",
+      "default": "#fff8e8"
+    },
+    {
+      "type": "color",
+      "id": "color_box_border",
+      "label": "Box border",
+      "default": "#c4a35a"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button 1 label",
+      "default": "SHOP BESTSELLERS"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "text",
+      "id": "button_2_label",
+      "label": "Button 2 label",
+      "default": "SHOP TOP TRENDING"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Button 2 link"
+    },
+    {
+      "type": "text",
+      "id": "button_3_label",
+      "label": "Button 3 label",
+      "default": "Browse All Deals"
+    },
+    {
+      "type": "url",
+      "id": "button_3_link",
+      "label": "Button 3 link"
+    },
+    {
+      "type": "color",
+      "id": "color_button_bg",
+      "label": "Button 1 background",
+      "default": "#1a3a5c"
+    },
+    {
+      "type": "color",
+      "id": "color_button_text",
+      "label": "Button 1 text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_button_2_bg",
+      "label": "Button 2 background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_button_2_text",
+      "label": "Button 2 text",
+      "default": "#1a3a5c"
+    },
+    {
+      "type": "color",
+      "id": "color_button_2_border",
+      "label": "Button 2 border",
+      "default": "#1a3a5c"
+    },
+    {
+      "type": "color",
+      "id": "color_button_3_bg",
+      "label": "Button 3 background",
+      "default": "#c4a35a"
+    },
+    {
+      "type": "color",
+      "id": "color_button_3_text",
+      "label": "Button 3 text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Teaser (after close)"
+    },
+    {
+      "type": "text",
+      "id": "teaser_label",
+      "label": "Teaser label",
+      "default": "Extra 10% Off"
+    },
+    {
+      "type": "color",
+      "id": "teaser_bar_color",
+      "label": "Teaser bar background",
+      "default": "#1a3a5c"
+    },
+    {
+      "type": "color",
+      "id": "teaser_bar_text_color",
+      "label": "Teaser bar text",
+      "default": "#ffffff"
+    }
+  ]
+}
+{% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'overlay-defer-image',\r\n            image: mobile_image,\r\n
+    \           alt: mobile_image.alt | default: section.settings.heading,\r\n            max_width:
+    1100,\r\n            widths: '375,550,750,1100',\r\n            sizes: '100vw'\r\n
+    \         %}"
+  to: "{% render 'overlay-defer-image', image: mobile_image, alt: mobile_image.alt,
+    default: section.settings.heading, max_width: 1100, widths: '375,550,750,1100',
+    sizes: '100vw' %}"
+  position: 2875..3049
+{% endcomment %}

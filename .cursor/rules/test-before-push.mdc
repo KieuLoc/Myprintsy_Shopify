@@ -1,0 +1,36 @@
+---
+description: Mỗi thay đổi logic phải có check chạy được và phải pass trước khi push theme
+alwaysApply: true
+---
+
+# Test trước khi push
+
+Mọi thay đổi **logic** (JS trong `assets/`, JS inline trong `sections/`/`snippets/`) phải để lại **1 check chạy được** và check đó phải **pass** trước khi `shopify theme push`.
+
+## Check ở đâu
+
+`scripts/check-<chủ-đề>.js` — Node + Playwright (`node_modules/playwright` đã có) + `assert`. Không thêm test framework, không fixture.
+
+```bash
+node scripts/check-atc-popup-gate.js   # exit 0 = pass, exit 1 = fail
+```
+
+## Check phải như thế nào
+
+- Assert **hành vi user thấy**, không assert nội dung file (grep code không phải test).
+- Chạy trên **DEV** `?preview_theme_id=186878558524` — push DEV trước, check sau, chỉ push LIVE khi pass.
+- Có **cả 2 nhánh**: case đúng *và* case lỗi (thiếu required option, network fail, timeout…). Chỉ test happy path = chưa test.
+- `assert` với message nói rõ số đo thật: `` assert.ok(t < 1500, `popup mở ${t}ms`) ``.
+- Fail → **không push**, sửa rồi chạy lại.
+
+## Thứ tự làm
+
+1. Sửa code → 2. `shopify theme push --theme 186878558524 --only <files>` → 3. `node scripts/check-*.js` →
+4. Pass thì báo user số đo thật + xin phép push LIVE. Fail thì sửa, **không** báo "đã xong".
+
+## Giới hạn cần nói ra
+
+Shopify chặn automation: `/cart/add.js` từ Playwright trả `200` body `{}`, không set cookie `cart`.
+⇒ **không** assert được số item trong giỏ. Assert UI/timing/request thay vì cart persistence, và nói rõ giới hạn này cho user.
+
+Sửa GUI (CSS/markup thuần) không bắt buộc check — screenshot Playwright là đủ.

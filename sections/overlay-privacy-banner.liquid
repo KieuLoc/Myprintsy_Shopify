@@ -1,0 +1,20 @@
+{%- if section.settings.enabled -%}
+  <div id="OverlayPrivacyBanner-{{ section.id }}" class="overlay-popup overlay-privacy-banner" hidden></div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Privacy banner",
+  "tag": "section",
+  "class": "overlay-section overlay-section--privacy-banner",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Enable privacy banner",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

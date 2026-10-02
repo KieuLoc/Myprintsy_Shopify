@@ -1,0 +1,13 @@
+node_modules/
+.env
+.env.*
+*.log
+*.zip
+*.wasm
+.codegraph/
+.cursor/mcp.json
+scripts/*.png
+shopify-gift-box-discount/dist/
+shopify-gift-box-discount/.shopify/
+_*/
+debug-*

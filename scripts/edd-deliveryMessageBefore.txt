@@ -1,0 +1,37 @@
+true;
+    }
+
+    if (!checKGoogleBoat) {
+
+      /* globel variables */
+      var selected_state_code ='';
+      var startAt, user_date_with_weekoff_cutoff, passcartvalue, get_product_tag, cart_msg_apperance, custom_cart_label, specific_preview_design, sb_edd_obj, shoplanguage, country_name, plan, check_cutoff, cutofftime_enable, date_format, detail_page_class, msg_preview, display_on_other_page, monthName, monthShort, dayOrd, dayName, dayNameShort;
+      var shopnamefull = getCartDate = deliveryMessageBefore = hide_default_message = message = today_date = custom_date_format = cartDateSign = hideOutOfStockMessage = hideDefaultMessage = cartAdditionalMessage = changeCartLabel = shopnamefull = user_full_date = message_lowercase = '';
+      var check_currentDay_is_weekoff = showOnlyDateOnCartpage = 0;
+      var shortcodeList = weekday = [];
+      var activate_premium_feature = '1';
+      var showDeliveryMessage = 1;
+      var CollectionDelvieryClass = '';
+      var msg_preview = {};
+      var get_custom_date_format = 'not_set';
+      var date_option = 'default';
+      holidays = [];
+      every_year_holidays = [];
+      var check_week_off_for_startdate = 0;
+      var add_day_in_next_date = 0;
+      var add_animation_class = '';
+      var set_country_msg = '0';
+      var off_day = [];
+      var get_shortcode_with_value = [];
+      var edd_main_object = {};
+
+      var get_shortcode_with_value = {};
+      var get_shortcode_with_value_with_en_lag = [];
+      var get_shortcode_with_value_with_store_lag = [];
+
+      var page_builder_classes = [".beae-add-to-cart--submit", "gp-product-button", ".ecom-product-single__add-to-cart"];
+      var page_builder_classes_parent = [".ecom-product-single__add-to-cart--submit, .page_builder_classes", "button.pf-button-1[data-product-id]"];
+
+      var count_down_interval = '';
+
+     var timer_translation = { "en": { "Days": "Days", "Hours": "Hours", "Minutes": "Minutes", "Seconds": "Seconds", "Hrs": "Hrs", "Mins": "Mins", "Secs": "Secs", "H": "H", "M": "M", "S": "S", "days": "days", "hours": "hours", "minutes": "minutes", "seconds": "seconds" }, "af": { "Days": "Dae", "Hours": "Ure", "Minutes": "Minute", "Seconds": "Sekondes", "Hrs": "Ure", "Mins": "Minute", "Secs": "Sekondes", "H": "H", "M": "M", "S": "S", "days": "dae", "hours": "ure", "minutes": "minute", "seconds": "sekondes" }, "ak": { "Days": "Dɔm", "Hours": "Dɔnhwere", "Minutes": "Minit", "Seconds": "Sɛkɛnd", "Hrs": "Dɔnhwere", "Mins": "M

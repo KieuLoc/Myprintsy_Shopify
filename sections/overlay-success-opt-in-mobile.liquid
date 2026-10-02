@@ -1,0 +1,175 @@
+{{ 'overlay-success-opt-in-mobile.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'overlay-success-opt-in.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign success_opt_in_promo_code = section.settings.heading_prefix | append: section.settings.heading_highlight | append: section.settings.heading_suffix | strip
+-%}
+
+<success-opt-in-popup
+  id="SuccessOptInMobile-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-device-target="mobile"
+  data-default-link="{{ section.settings.button_link | default: '/checkout' }}"
+  {% if success_opt_in_promo_code != blank %}
+    data-promo-code="{{ success_opt_in_promo_code | escape }}"
+  {% endif %}
+>
+  <div
+    class="success-opt-in-popup success-opt-in-popup--mobile{% if request.design_mode %} is-open{% endif %}"
+    aria-hidden="{% if request.design_mode %}false{% else %}true{% endif %}"
+  >
+    <div class="success-opt-in-popup__overlay"></div>
+
+    <div
+      class="success-opt-in-popup__dialog color-{{ section.settings.color_scheme }}"
+      role="dialog"
+      aria-modal="true"
+      aria-label="{{ section.settings.heading_prefix | escape }}{{ section.settings.heading_highlight | escape }}{{ section.settings.heading_suffix | escape }}"
+    >
+      <div class="success-opt-in-popup__media">
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: 900
+            | image_tag:
+              loading: 'lazy',
+              widths: '375, 550, 750, 900',
+              sizes: '100vw',
+              alt: section.settings.image.alt | default: shop.name
+          }}
+        {%- else -%}
+          <div class="success-opt-in-popup__media-placeholder">
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="success-opt-in-popup__panel">
+        <div class="success-opt-in-popup__decor" aria-hidden="true">
+          <span class="success-opt-in-popup__spark success-opt-in-popup__spark--1">✦</span>
+          <span class="success-opt-in-popup__spark success-opt-in-popup__spark--2">✦</span>
+          <span class="success-opt-in-popup__spark success-opt-in-popup__spark--3">✦</span>
+          <span class="success-opt-in-popup__leaf success-opt-in-popup__leaf--left">❧</span>
+          <span class="success-opt-in-popup__leaf success-opt-in-popup__leaf--right">❧</span>
+        </div>
+
+        <header class="success-opt-in-popup__brand">
+          {%- if settings.logo != blank -%}
+            {{
+              settings.logo
+              | image_url: width: 200
+              | image_tag:
+                class: 'success-opt-in-popup__logo',
+                alt: shop.name,
+                widths: '120, 160, 200',
+                loading: 'lazy'
+            }}
+          {%- endif -%}
+        </header>
+
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="success-opt-in-popup__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+
+        {% render 'success-opt-in-promo-code' %}
+
+        {%- if section.settings.subtext != blank -%}
+          <div class="success-opt-in-popup__subtext rte">{{ section.settings.subtext }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank -%}
+          <button type="button" class="success-opt-in-popup__button button button--primary" data-success-opt-in-cta>
+            {{ section.settings.button_label | escape }}
+          </button>
+        {%- endif -%}
+
+        {%- if section.settings.dismiss_label != blank -%}
+          <button type="button" class="success-opt-in-popup__dismiss" data-success-opt-in-dismiss>
+            {{ section.settings.dismiss_label | escape }}
+          </button>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</success-opt-in-popup>
+
+{% schema %}
+{
+  "name": "Success opt-in (mobile)",
+  "tag": "section",
+  "class": "overlay-section overlay-section--success-opt-in-mobile",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Before you go"
+    },
+    {
+      "type": "text",
+      "id": "heading_prefix",
+      "label": "Heading (start)",
+      "default": "Here's Extra "
+    },
+    {
+      "type": "text",
+      "id": "heading_highlight",
+      "label": "Heading (middle)",
+      "default": "15% Off"
+    },
+    {
+      "type": "text",
+      "id": "heading_suffix",
+      "label": "Heading (end)",
+      "default": " Just for You!"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "<p>Join our email list and get an exclusive discount on your next purchase</p>"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Unlock My Benefits"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "dismiss_label",
+      "label": "Dismiss link label",
+      "default": "I'll miss the deal this time, remind me later."
+    }
+  ]
+}
+{% endschema %}

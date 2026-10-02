@@ -1,0 +1,32 @@
+{%- liquid
+  assign promo_code = section.settings.heading_prefix | append: section.settings.heading_highlight | append: section.settings.heading_suffix | strip
+-%}
+
+<div class="success-opt-in-popup__code-wrap">
+  <h2 class="success-opt-in-popup__heading">
+    {%- if section.settings.heading_prefix != blank -%}
+      <span class="success-opt-in-popup__heading-prefix">{{ section.settings.heading_prefix | escape }}</span>
+    {%- endif -%}
+    {%- if section.settings.heading_highlight != blank -%}
+      <span class="success-opt-in-popup__heading-highlight">{{ section.settings.heading_highlight | escape }}</span>
+    {%- endif -%}
+    {%- if section.settings.heading_suffix != blank -%}
+      <span class="success-opt-in-popup__heading-suffix">{{ section.settings.heading_suffix | escape }}</span>
+    {%- endif -%}
+  </h2>
+
+  {%- if promo_code != blank -%}
+    <button
+      type="button"
+      class="success-opt-in-popup__copy"
+      data-success-opt-in-copy
+      data-copy-code="{{ promo_code | escape }}"
+      aria-label="Copy promo code {{ promo_code | escape }}"
+    >
+      <span class="svg-wrapper">
+        {{- 'icon-copy.svg' | inline_asset_content -}}
+      </span>
+      <span class="visually-hidden" data-success-opt-in-copy-label>Copy promo code</span>
+    </button>
+  {%- endif -%}
+</div>

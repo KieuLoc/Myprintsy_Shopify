@@ -1,0 +1,71 @@
+.product--no-media .rating-wrapper {
+  text-align: center;
+}
+
+.rating {
+  display: inline-block;
+  margin: 0;
+}
+
+.product .rating-star {
+  --letter-spacing: 0.8;
+  --font-size: 1.7;
+}
+
+/* You May Also Like / product cards — match Judge.me #E95D2C, ~16px */
+.card-wrapper .rating-star,
+.related-products .rating-star,
+.product-recommendations .rating-star {
+  --letter-spacing: 0.2;
+  --font-size: 1.6;
+  --color-rating-star: #e95d2c;
+}
+
+.rating-star {
+  --color-rating-star: #e95d2c;
+  --percent: calc(
+    (
+        var(--rating) / var(--rating-max) + var(--rating-decimal) * var(--font-size) /
+          (var(--rating-max) * (var(--letter-spacing) + var(--font-size)))
+      ) * 100%
+  );
+  letter-spacing: calc(var(--letter-spacing) * 1rem);
+  font-size: calc(var(--font-size) * 1rem);
+  line-height: 1;
+  display: inline-block;
+  font-family: Times;
+  margin: 0;
+}
+
+.rating-star::before {
+  content: '★★★★★';
+  background: linear-gradient(
+    90deg,
+    var(--color-rating-star) var(--percent),
+    #dadada var(--percent)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.rating-text {
+  display: none;
+}
+
+.rating-count {
+  display: inline-block;
+  margin: 0;
+  font-size: 1.3rem;
+  color: #666;
+}
+
+@media (forced-colors: active) {
+  .rating {
+    display: none;
+  }
+
+  .rating-text {
+    display: block;
+  }
+}

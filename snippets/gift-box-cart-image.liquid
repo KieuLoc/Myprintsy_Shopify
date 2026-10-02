@@ -1,0 +1,42 @@
+{% comment %}
+  Canonical gift box thumbnail for cart lines (_addon_gift_box).
+  Tier variants (vertical-gift-box-*) may have wrong images in Admin — always use display product image.
+
+  Accepts:
+  - image: {Object} required — featured_image from add-on-gift-box-service (or fallback)
+  - item_url: {String} optional — link target
+  - width: {Number} optional — default 300
+  - layout: {String} 'page' | 'drawer' — default 'page'
+{% endcomment %}
+{%- if image != blank -%}
+  {%- assign _gb_img_width = width | default: 300 -%}
+  {%- assign _gb_img_alt = image.alt | default: 'Add-On Gift Box Service' | escape -%}
+  {%- assign _gb_img_height = 150 | divided_by: image.aspect_ratio | ceil -%}
+  {%- if layout == 'drawer' -%}
+    {%- if item_url != blank -%}
+      <a href="{{ item_url }}" class="cart-item__link" tabindex="-1" aria-hidden="true"> </a>
+    {%- endif -%}
+    <img
+      class="cart-item__image"
+      src="{{ image | image_url: width: _gb_img_width }}"
+      alt="{{ _gb_img_alt }}"
+      loading="lazy"
+      width="150"
+      height="{{ _gb_img_height }}"
+    >
+  {%- else -%}
+    {%- if item_url != blank -%}
+      <a href="{{ item_url }}" class="cart-item__link" aria-hidden="true" tabindex="-1"> </a>
+    {%- endif -%}
+    <div class="cart-item__image-container gradient global-media-settings">
+      <img
+        src="{{ image | image_url: width: _gb_img_width }}"
+        class="cart-item__image"
+        alt="{{ _gb_img_alt }}"
+        loading="lazy"
+        width="150"
+        height="{{ _gb_img_height }}"
+      >
+    </div>
+  {%- endif -%}
+{%- endif -%}

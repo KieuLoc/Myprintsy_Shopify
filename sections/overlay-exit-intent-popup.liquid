@@ -1,0 +1,20 @@
+{%- if section.settings.enabled -%}
+  <div id="OverlayExitIntentPopup-{{ section.id }}" class="overlay-popup overlay-exit-intent-popup" hidden></div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Exit intent popup",
+  "tag": "section",
+  "class": "overlay-section overlay-section--exit-intent-popup",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Enable exit intent popup",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,13 @@
+detail_page_class, msg_preview, display_on_other_page, monthName, monthShort, dayOrd, dayName, dayNameShort; var shopnamefull = getCartDate = deliveryMessageBefore = hide_default_message = message = today_date = custom_date_format = cartDateSign = hideOutOfStockMessage = hideDefaultMessage = 
+---
+detail_page_class = edd_options.detail_page_class; msg_preview = edd_options.msg_preview; display_on_other_page = edd_options.display_on_other_page; hide_default_message = edd_options.hide_default_message; cart_msg_apperance = edd_options.cart_msg_apperance; 
+---
+detail_page_class; msg_preview = edd_options.msg_preview; display_on_other_page = edd_options.display_on_other_page; hide_default_message = edd_options.hide_default_message; cart_msg_apperance = edd_options.cart_msg_apperance; //cart_msg_apperance = 'mess
+---
+detail_page_class != 'undefined' && detail_page_class != '' && ($(detail_page_class).length > 0)) { $(detail_page_class + ':first').after('<div class="sb_ETA"><div class="deliverydate sb_delivery"><div class="animation_class ' + add_animation_class + '"><span class="delivery_icon"><
+---
+detail_page_class != '' && ($(detail_page_class).length > 0)) { $(detail_page_class + ':first').after('<div class="sb_ETA"><div class="deliverydate sb_delivery"><div class="animation_class ' + add_animation_class + '"><span class="delivery_icon"></span><span class="delivery_msg"></s
+---
+detail_page_class).length > 0)) { $(detail_page_class + ':first').after('<div class="sb_ETA"><div class="deliverydate sb_delivery"><div class="animation_class ' + add_animation_class + '"><span class="delivery_icon"></span><span class="delivery_msg"></span></div></div><div class="po
+---
+detail_page_class + ':first').after('<div class="sb_ETA"><div class="deliverydate sb_delivery"><div class="animation_class ' + add_animation_class + '"><span class="delivery_icon"></span><span class="delivery_msg"></span></div></div><div class="power_by_sb"></div></div>'); } else { 

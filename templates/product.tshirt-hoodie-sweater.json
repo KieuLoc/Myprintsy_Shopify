@@ -1,0 +1,199 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "judge_me_reviews_preview_badge_qekbVJ": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "custom_liquid_67KrCi": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "{% render 'free-shipping-callout' %}"
+          }
+        },
+        "popup_eKnwmK": {
+          "type": "popup",
+          "settings": {
+            "text": "Size Chart",
+            "page": "size-chart-shirt-sweater-hoodie"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "complementary_RjcJaT": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "Pairs well with",
+            "make_collapsible_row": false,
+            "icon": "price_tag",
+            "product_list_limit": 10,
+            "products_per_page": 3,
+            "pagination_style": "counter",
+            "image_ratio": "square",
+            "enable_quick_add": false
+          }
+        },
+        "custom_liquid_N7hJfh": {
+          "type": "custom_liquid",
+          "source": "{{ shop.metaobjects.upsell_box[\"upsell-box-9zauusdr\"] }}",
+          "settings": {
+            "custom_liquid": "<div class=\"gift-box\" id=\"is-a-gift\" style=\"display: block; margin: 30px 0;\" class=\"clearfix rte\">\n{% render 'gift-wrapping' %}\n</div>"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "custom_liquid_7kBdDh": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "<div class=\"custom_delivery_estimation_widget\"></div>"
+          }
+        },
+        "buy_buttons_cDRCUQ": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "collapsible_tab_wcrDbk": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Shipping & Refund Policies",
+            "icon": "truck",
+            "content": "<ul><li>Orders can be cancelled or modified within <strong>2 hours</strong> after being placed.</li><li>The above time frame is applied with standard shipping methods.</li><li>International orders: It may take additional days if orders have to go through customs. We have no influence on the customs process and apologize for any inconvenience due to delivery delays resulting from this.</li><li>For more detailed information and instructions, please visit our <a href=\"https://myprintsy.com/policies/shipping-policy\" target=\"_blank\" title=\"https://myprintsy.com/policies/shipping-policy\">Shipping Policy</a>.<br/><br/><strong>Refund & Replacement </strong></li><li>100% refund or a replacement if the Myprintsy product does not meet your expectations, and you do not have to return the received item.</li><li>For more detailed information and instructions, please visit our <a href=\"https://myprintsy.com/policies/refund-policy\" target=\"_blank\" title=\"https://myprintsy.com/policies/refund-policy\">Refund & Replacement Policy</a>.</li></ul>",
+            "page": ""
+          }
+        },
+        "collapsible_tab_cfwtF4": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Personalization",
+            "icon": "check_mark",
+            "content": "<ul><li>Please complete fields required to customize options (Name/Characteristics) and recheck carefully all the customized options.</li><li>Text: Standard English excluding special characters, emojis to ensure the best looking.</li><li>Characteristics: Pick one-by-one options that match your description.</li><li>The last step, click \"Preview\" to get a glimpse of the wonderful creation you’ve made ❤️.<br/>Please be aware that the Preview may be slightly different from the physical item in terms of color due to our lighting at our product photoshoot or your device’s display.</li></ul>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "judge_me_reviews_preview_badge_qekbVJ",
+        "price",
+        "custom_liquid_67KrCi",
+        "popup_eKnwmK",
+        "variant_picker",
+        "complementary_RjcJaT",
+        "custom_liquid_N7hJfh",
+        "quantity_selector",
+        "custom_liquid_7kBdDh",
+        "buy_buttons_cDRCUQ",
+        "description",
+        "collapsible_tab_wcrDbk",
+        "collapsible_tab_cfwtF4"
+      ],
+      "custom_css": [
+        ".product__title h1 {font-size: 1.8rem; font-weight: 600;}",
+        ".form__label,.customily_option .option_name {font-size: 16px; font-weight: 600;}",
+        ".product-form__input--pill label {border-radius: 1.6rem;}",
+        ".product-form__buttons button {width: 100% !important;}",
+        ".product__tax {display: none !important;}",
+        ".product-popup-modal__opener {margin-bottom: 0px; height: auto;}",
+        ".product-popup-modal__opener + variant-selects {margin-top: 0px;}"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "media_size": "small",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail_slider",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "mobile_thumbnails": "show",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "1740381347d8def4cf": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "17348125503956c8dc": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_LtkHCf": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_LtkHCf"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "main",
+    "1740381347d8def4cf",
+    "17348125503956c8dc",
+    "related-products"
+  ]
+}

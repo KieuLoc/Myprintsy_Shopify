@@ -1,0 +1,53 @@
+findSpecificEDDMsg();
+          myAppcallForMessage($);
+        });
+      }
+
+      // store locatore
+      function updateStoreLocatorMessage(message) {
+
+        if (typeof sb_edd_options.store_link_label != 'undefined') {
+          store_locatore_msg = sb_edd_options.store_link_label
+        } else {
+          var store_locatore_msg = 'Check store locator availability';
+        }
+        // Replace 'store_pickup_link' with a span containing the locator message
+        message = message.replaceAll('{store_pickup_link}', '<span class="store_pickup_link" id="checkAvailabilityLink" style="text-decoration: underline;cursor:pointer;">' + store_locatore_msg + '</span>');
+        message = message.replaceAll('{Store_pickup_link}', '<span class="store_pickup_link" id="checkAvailabilityLink" style="text-decoration: underline;cursor:pointer;">' + store_locatore_msg + '</span>');
+        message = message.replaceAll('{STORE_PICKUP_LINK}', '<span class="store_pickup_link" id="checkAvailabilityLink" style="text-decoration: underline;cursor:pointer;">' + store_locatore_msg + '</span>');
+
+        return message;
+      }
+
+      function displayStorePickup($) {
+
+        if (sb_edd_store_locatore_enable == '1' && sb_edd_options.store_locatore != 'not_set') {
+
+          var allLocatoreData = JSON.parse(sb_edd_options.store_locatore);
+          var storeLocatoreData = [];
+          if (sb_edd_store_locatore_list != 'not_set') {
+            for (a = 0; a < sb_edd_store_locatore_list.length; a++) {
+              check_handle = sb_edd_store_locatore_list[a]
+              for (b = 0; b < allLocatoreData.length; b++) {
+                get_handle = allLocatoreData[b]['store_handle'];
+                if (check_handle == get_handle) {
+                  storeLocatoreData.push(allLocatoreData[b])
+                }
+              }
+            }
+          }
+          console.log('storeLocatoreData ', storeLocatoreData)
+          if (!Array.isArray(storeLocatoreData) || storeLocatoreData.length === 0) {
+            //$('.store_locatore_link').css('display','none')
+            $('.store_pickup_link').remove()
+            console.error('No store locator data available.');
+            return;
+          }
+
+          var storePickupHTML = '';
+
+          storeLocatoreData.forEach(store => {
+            console.log("Processing store:", store);
+
+            var store_name = store.store_name || 'Store Name not provided';
+            var availabil

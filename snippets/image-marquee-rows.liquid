@@ -1,0 +1,171 @@
+{%- comment -%}
+  Renders marquee cards into top/bottom rows.
+  mode: blocks | collection
+{%- endcomment -%}
+
+{%- if layout_style == 'two_row_stagger' -%}
+  <div class="image-marquee__rows">
+    <div class="image-marquee__row image-marquee__row--top">
+      {%- if mode == 'collection' -%}
+        {%- for product in collection.products limit: products_limit -%}
+          {%- if product.featured_media -%}
+            {%- assign row_mod = forloop.index0 | modulo: 2 -%}
+            {%- if row_mod == 0 -%}
+              {%- render 'image-marquee-item', link: product.url, image: product.featured_media, alt: product.featured_media.alt, default: product.title, caption: product.title, image_width: image_width -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in blocks -%}
+          {%- if block.settings.image != blank -%}
+            {%- liquid
+              assign show_in_top = true
+              if block.settings.row == 'bottom'
+                assign show_in_top = false
+              elsif block.settings.row == 'top'
+                assign show_in_top = true
+              else
+                assign row_mod = forloop.index0 | modulo: 2
+                if row_mod == 1
+                  assign show_in_top = false
+                endif
+              endif
+            -%}
+            {%- if show_in_top -%}
+              {%- render 'image-marquee-item', link: block.settings.link, image: block.settings.image, alt: block.settings.image.alt, caption: block.settings.caption, image_width: image_width, shopify_attributes: block.shopify_attributes -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+    <div class="image-marquee__row image-marquee__row--bottom">
+      {%- if mode == 'collection' -%}
+        {%- for product in collection.products limit: products_limit -%}
+          {%- if product.featured_media -%}
+            {%- assign row_mod = forloop.index0 | modulo: 2 -%}
+            {%- if row_mod == 1 -%}
+              {%- render 'image-marquee-item', link: product.url, image: product.featured_media, alt: product.featured_media.alt, default: product.title, caption: product.title, image_width: image_width -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in blocks -%}
+          {%- if block.settings.image != blank -%}
+            {%- liquid
+              assign show_in_bottom = false
+              if block.settings.row == 'bottom'
+                assign show_in_bottom = true
+              elsif block.settings.row == 'top'
+                assign show_in_bottom = false
+              else
+                assign row_mod = forloop.index0 | modulo: 2
+                if row_mod == 1
+                  assign show_in_bottom = true
+                endif
+              endif
+            -%}
+            {%- if show_in_bottom -%}
+              {%- render 'image-marquee-item', link: block.settings.link, image: block.settings.image, alt: block.settings.image.alt, caption: block.settings.caption, image_width: image_width, shopify_attributes: block.shopify_attributes -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+{%- else -%}
+  {%- if mode == 'collection' -%}
+    {%- for product in collection.products limit: products_limit -%}
+      {%- if product.featured_media -%}
+        {%- render 'image-marquee-item', link: product.url, image: product.featured_media, alt: product.featured_media.alt, default: product.title, caption: product.title, image_width: image_width -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- else -%}
+    {%- for block in blocks -%}
+      {%- if block.settings.image != blank -%}
+        {%- render 'image-marquee-item', link: block.settings.link, image: block.settings.image, alt: block.settings.image.alt, caption: block.settings.caption, image_width: image_width, shopify_attributes: block.shopify_attributes -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endif -%}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {%- render 'image-marquee-item',
+                    link: product.url,
+                    image: product.featured_media,
+                    alt: product.featured_media.alt | default: product.title | escape,
+                    caption: product.title,
+                    image_width: image_width
+                  -%}
+  to: "{%- render 'image-marquee-item', link: product.url, image: product.featured_media,
+    alt: product.featured_media.alt, default: product.title, caption: product.title,
+    image_width: image_width -%}"
+  position: 521..713
+- from: |-
+    {%- render 'image-marquee-item',
+                    link: block.settings.link,
+                    image: block.settings.image,
+                    alt: block.settings.image.alt | escape,
+                    caption: block.settings.caption,
+                    image_width: image_width,
+                    shopify_attributes: block.shopify_attributes
+                  -%}
+  to: "{%- render 'image-marquee-item', link: block.settings.link, image: block.settings.image,
+    alt: block.settings.image.alt, caption: block.settings.caption, image_width: image_width,
+    shopify_attributes: block.shopify_attributes -%}"
+  position: 1400..1627
+- from: |-
+    {%- render 'image-marquee-item',
+                    link: product.url,
+                    image: product.featured_media,
+                    alt: product.featured_media.alt | default: product.title | escape,
+                    caption: product.title,
+                    image_width: image_width
+                  -%}
+  to: "{%- render 'image-marquee-item', link: product.url, image: product.featured_media,
+    alt: product.featured_media.alt, default: product.title, caption: product.title,
+    image_width: image_width -%}"
+  position: 2065..2257
+- from: |-
+    {%- render 'image-marquee-item',
+                    link: block.settings.link,
+                    image: block.settings.image,
+                    alt: block.settings.image.alt | escape,
+                    caption: block.settings.caption,
+                    image_width: image_width,
+                    shopify_attributes: block.shopify_attributes
+                  -%}
+  to: "{%- render 'image-marquee-item', link: block.settings.link, image: block.settings.image,
+    alt: block.settings.image.alt, caption: block.settings.caption, image_width: image_width,
+    shopify_attributes: block.shopify_attributes -%}"
+  position: 2959..3186
+- from: |-
+    {%- render 'image-marquee-item',
+              link: product.url,
+              image: product.featured_media,
+              alt: product.featured_media.alt | default: product.title | escape,
+              caption: product.title,
+              image_width: image_width
+            -%}
+  to: "{%- render 'image-marquee-item', link: product.url, image: product.featured_media,
+    alt: product.featured_media.alt, default: product.title, caption: product.title,
+    image_width: image_width -%}"
+  position: 3464..3656
+- from: |-
+    {%- render 'image-marquee-item',
+              link: block.settings.link,
+              image: block.settings.image,
+              alt: block.settings.image.alt | escape,
+              caption: block.settings.caption,
+              image_width: image_width,
+              shopify_attributes: block.shopify_attributes
+            -%}
+  to: "{%- render 'image-marquee-item', link: block.settings.link, image: block.settings.image,
+    alt: block.settings.image.alt, caption: block.settings.caption, image_width: image_width,
+    shopify_attributes: block.shopify_attributes -%}"
+  position: 3798..4025
+{% endcomment %}

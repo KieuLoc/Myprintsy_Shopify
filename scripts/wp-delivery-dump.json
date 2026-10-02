@@ -1,0 +1,39 @@
+{
+  "bestHtml": "<div><div class=\"wp-flex wp-border wp-border-border-light-gray wp-rounded-xl wp-p-3 wp-w-full md:wp-w-max wp-gap-3\">\n  <div class=\"wp-flex wp-flex-col wp-gap-2 wp-flex-1\">\n    <div class=\"wp-leading-6 wp-flex wp-items-center\">\n      <button id=\"btn-change-currency\" class=\"wp-text-sm\" onclick=\"openModalChangeCountry('US')\">\n  \n    <div class=\"wp-flex\">\n      <div class=\"wp-flex wp-items-center wp-justify-center\">\n        <img id=\"flag-country-2\" width=\"24\" class=\"flag-header wp-rounded-sm\" height=\"20\" src=\"https://cdn.shopify.com/static/images/flags/us.svg?width=20\" alt=\"flag-02\">\n      </div>\n      <div class=\"wp-ml-1\">Delivery to</div>\n      <div id=\"\" class=\"wp-ml-1 wp-font-semibold wp-text-primary hover:wp-text-secondary country-name\">\n        United States\n      </div>\n    </div>\n  \n</button>\n<script>\n  if (window) {\n    window.currency_symbol = '$';\n  }\n</script>\n\n    </div>\n    \n<div class=\"\">\n  <div id=\"est-shipping-text\" class=\"wp-gap-2 wp-flex wp-items-center wp-justify-start wp-leading-6\">\n    \n    <img src=\"https://cdn.shopify.com/s/files/1/0949/1454/3899/files/Shipping_Icon_Standard.png?v=1766742290\" alt=\"Shipping\" width=\"28\" height=\"28\">\n    <div class=\"wp-flex wp-flex-col\">\n      <span class=\"wp-text-sm wp-font-normal wp-leading-4 wp-text-neutral-60 wp-mt-0.5\">Order today and get it by:\n        <span id=\"delivered-day\" class=\"wp-text-sm wp-font-semibold wp-leading-4 wp-text-neutral-60 wp-border-b wp-border-dashed wp-border-[#444] wp-cursor-pointer\">Aug 4 - 10</span>\n      </span>\n      <span id=\"faster-delivery\" class=\"wp-text-sm wp-font-normal wp-leading-4 wp-text-neutral-60 wp-mt-3 wp-hidden\">\n        Or faster delivery with\n        <span class=\"wp-text-sm wp-font-semibold wp-leading-4 wp-text-neutral-60\">Expedited Shipping</span>\n      </span>\n    </div>\n  </div><div id=\"popup-shipping\" class=\"wp-hidden wp-absolute wp-z-50 wp-flex wp-flex-col wp-rounded-[20px] wp-max-w-[460px] wp-h-[240px] wp-bg-white wp-shadow-md  wp-p-5\" style=\"position: absolute; z-index: 50; display: none; flex-direction: column; border-radius: 20px; max-width: 540px; min-height: 240px; height: auto; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.1) 0px 2px 4px -2px; padding: 1.25rem;\">\n      <div class=\"es-delivery-eta-container\">\n        <div class=\"es-eta-timeline\">\n          <div class=\"es-eta-icons\">\n            <div class=\"es-eta-line\"></div>\n            <div class=\"es-eta-icon-circle\" style=\"left: 0;\">\n              <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\"><path fill=\"#000\" d=\"M23 17C23 20.31 20.31 23 17 23V21.5C19.5 21.5 21.5 19.5 21.5 17H23M1 7C1 3.69 3.69 1 7 1V2.5C4.5 2.5 2.5 4.5 2.5 7H1M8 4.32L3.41 8.92C.19 12.14 .19 17.37 3.41 20.59S11.86 23.81 15.08 20.59L22.15 13.5C22.64 13.03 22.64 12.24 22.15 11.75C21.66 11.26 20.87 11.26 20.38 11.75L15.96 16.17L15.25 15.46L21.79 8.92C22.28 8.43 22.28 7.64 21.79 7.15S20.5 6.66 20 7.15L14.19 13L13.5 12.27L20.37 5.38C20.86 4.89 20.86 4.1 20.37 3.61S19.09 3.12 18.6 3.61L11.71 10.5L11 9.8L16.5 4.32C17 3.83 17 3.04 16.5 2.55S15.22 2.06 14.73 2.55L7.11 10.17C8.33 11.74 8.22 14 6.78 15.45L6.07 14.74C7.24 13.57 7.24 11.67 6.07 10.5L5.72 10.15L9.79 6.08C10.28 5.59 10.28 4.8 9.79 4.31C9.29 3.83 8.5 3.83 8 4.32Z\"></path></svg>\n            </div>\n            <div class=\"es-eta-icon-circle\" style=\"left: 50%; transform: translate(-50%, -50%);\">\n              <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\"><path fill=\"#000\" d=\"M3,13.5L2.25,12H7.5L6.9,10.5H2L1.25,9H9.05L8.45,7.5H1.11L0.25,6H4A2,2 0 0,1 6,4H18V8H21L24,12V17H22A3,3 0 0,1 19,20A3,3 0 0,1 16,17H12A3,3 0 0,1 9,20A3,3 0 0,1 6,17H4V13.5H3M19,18.5A1.5,1.5 0 0,0 20.5,17A1.5,1.5 0 0,0 19,15.5A1.5,1.5 0 0,0 17.5,17A1.5,1.5 0 0,0 19,18.5M20.5,9.5H18V12H22.46L20.5,9.5M9,18.5A1.5,1.5 0 0,0 10.5,17A1.5,1.5 0 0,0 9,15.5A1.5,1.5 0 0,0 7.5,17A1.5,1.5 0 0,0 9,18.5Z\"></path></svg>\n            </div>\n            <div class=\"es-eta-icon-circle\" style=\"right: 0; left: auto;\">\n              <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\"><path fill=\"#000\" d=\"M9.06,1.93C7.17,1.92 5.33,3.74 6.17,6H3A2,2 0 0,0 1,8V10A1,1 0 0,0 2,11H11V8H13V11H22A1,1 0 0,0 23,10V8A2,2 0 0,0 21,6H17.83C19,2.73 14.6,0.42 12.57,3.24L12,4L11.43,3.22C10.8,2.33 9.93,1.94 9.06,1.93M9,4C9.89,4 10.34,5.08 9.71,5.71C9.08,6.34 8,5.89 8,5A1,1 0 0,1 9,4M15,4C15.89,4 16.34,5.08 15.71,5.71C15.08,6.34 14,5.89 14,5A1,1 0 0,1 15,4M2,12V20A2,2 0 0,0 4,22H20A2,2 0 0,0 22,20V12H13V20H11V12H2Z\"></path></svg>\n            </div>\n          </div>\n          <div class=\"es-eta-labels\">\n            <div class=\"es-eta-step es-ta-left\">\n              <div class=\"es-eta-date\">Jul 28</div>\n              <div class=\"es-eta-title\">Order placed</div>\n            </div>\n            <div class=\"es-eta-step es-ta-center\">\n              <div class=\"es-eta-date\">Jul 29 - 31</div>\n              <div class=\"es-eta-title\">Order shipped</div>\n            </div>\n            <div class=\"es-eta-step es-ta-right\">\n              <div class=\"es-eta-date\">Aug 4 - 10</div>\n              <div class=\"es-eta-title\">Order delivered</div>\n            </div>\n          </div>\n          <div class=\"es-eta-note\"><ul><li><p>Orders can be cancelled or modified within 2 hours after being placed.</p></li><li><p>The above time frame is applied with standard shipping methods.</p></li><li><p>This product ships worldwide. Orders may take a few extra days to arrive due to customs clearance.</p></li></ul><p></p></div>\n        </div>\n      </div>\n    </div>\n<div id=\"modal-shipping\" class=\"wp-h-[100vh] wp-w-[100vw] wp-fixed wp-top-0 wp-left-0 wp-z-[1011] wp-hidden wp-items-center wp-justify-center wp-gap-5 wp-bg-black wp-bg-opacity-70\" style=\"height: 100vh; width: 100vw; position: fixed; top: 0px; left: 0px; z-index: 1011; align-items: center; justify-content: center; gap: 1.25rem; background-color: rgba(0, 0, 0, 0.7); display: none;\" data-es-backdrop-bound=\"1\"><div data-es-modal-wrapper=\"1\" style=\"position: relative; z-index: 50; display: flex; flex-directio",
+  "bestCls": "",
+  "bestText": "Delivery to United States Order today and get it by: Aug 4 - 10",
+  "countryBtn": {
+    "tag": "DIV",
+    "cls": "wp-ml-1 wp-font-semibold wp-text-primary hover:wp-text-secondary country-name",
+    "text": "United States",
+    "href": null,
+    "role": null,
+    "onclick": null
+  },
+  "matches": [
+    {
+      "cls": "",
+      "text": "Delivery to United States Order today and get it by: Aug 4 - 10"
+    },
+    {
+      "cls": "wp-flex wp-border wp-border-border-light-gray wp-rounded-xl wp-p-3 wp-w-full md:wp-w-max wp-gap-3",
+      "text": "Delivery to United States Order today and get it by: Aug 4 - 10"
+    },
+    {
+      "cls": "wp-flex wp-flex-col wp-gap-2 wp-flex-1",
+      "text": "Delivery to United States Order today and get it by: Aug 4 - 10"
+    },
+    {
+      "cls": "wp-flex wp-flex-col wp-gap-4 lg:wp-w-2/5 wp-w-full wp-px-[10px] lg:wp-px-0 wp-mt-4 md:wp-mt-0",
+      "text": "Family Monogram With Address Vintage Decor - Personalized Doormat 4.7 (48) Trending $45.95 USD 7k+ bought in past month Delivery to United States Order today an"
+    },
+    {
+      "cls": "shopify-section flex gap-7 pt-6",
+      "text": "1 / 4 Family Monogram With Address Vintage Decor - Personalized Doormat 4.7 (48) Trending $45.95 USD 7k+ bought in past month Delivery to United States Order to"
+    },
+    {
+      "cls": "wp-w-full wp-flex wp-flex-col wp-items-center wp-max-w-8xl md:wp-gap-3 lg:wp-gap-5 md:wp-flex-row md",
+      "text": "1 / 4 Family Monogram With Address Vintage Decor - Personalized Doormat 4.7 (48) Trending $45.95 USD 7k+ bought in past month Delivery to United States Order to"
+    }
+  ]
+}

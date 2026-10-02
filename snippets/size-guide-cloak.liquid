@@ -1,0 +1,119 @@
+{% comment %}
+  Size Guide popup for product.type == 'Cloak'. Opened by the "Size Guide" link in product-variant-picker.
+  Rows: size|<one value per sgc_cols> (cm), a~b for a range. Inches are derived. Use - for unknown.
+{% endcomment %}
+{%- assign sgc_type = product.type | downcase -%}
+{%- if sgc_type == 'zip hoodie' or sgc_type == 'zip hoodies' or sgc_type == 'hoodie 3d' -%}
+  {%- assign sgc_cols = 'LENGTH|CHEST' | split: '|' -%}
+  {%- assign sgc_rows = 'S|70.9|107,M|72.1|111,L|74.9|115,XL|76.2|120,2XL|77.5|125,3XL|80|130,4XL|81.3|136,5XL|82.5|141' | split: ',' -%}
+{%- elsif sgc_type == 'bomber jacket' or sgc_type == 'bomber jackets' -%}
+  {%- assign sgc_cols = 'LENGTH|CHEST|WAIST' | split: '|' -%}
+  {%- assign sgc_rows = 'S|69.2|55.9|53.3,M|71.8|58.4|55.9,L|74.3|61|58.4,XL|76.8|64.8|62.2,2XL|79.4|68.6|66,3XL|81.9|72.4|69.8' | split: ',' -%}
+{%- elsif sgc_type == 'ultra cloak' or sgc_type == 'ultra cloaks' -%}
+  {%- assign sgc_cols = 'CHEST|FULL SLEEVE|SLEEVE CUFFED|LENGTH' | split: '|' -%}
+  {%- assign sgc_rows = 'XS|55.9|74.9|67.3|99.1,S|58.4|76.2|68.6|102,M|61|77.5|69.8|104,L|63.5|78.7|71.1|107,XL|66|80|72.4|109,2XL|68.6|81.3|73.7|112,3XL|71.1|82.5|74.9|114,4XL|73.7|83.8|76.2|117,5XL|76.2|85.1|77.5|119' | split: ',' -%}
+{%- elsif sgc_type == 'jogger' or sgc_type == 'joggers' -%}
+  {%- assign sgc_cols = 'WAIST|INSEAM|RISE|OUTSEAM' | split: '|' -%}
+  {%- assign sgc_rows = 'XS|66~71.1|68.6|25.4|96.5,S|71.1~76.2|71.1|25.4|99.1,M|76.2~81.3|73.7|25.4|102,L|81.3~86.4|76.2|27.9|104,XL|86.4~91.4|78.7|27.9|107,2XL|91.4~96.5|81.3|27.9|109,3XL|96.5~101.6|83.8|30.5|111.8,4XL|101.6~106.7|86.4|30.5|114.3,5XL|106.7~111.8|88.9|30.5|116.8' | split: ',' -%}
+{%- else -%}
+  {%- assign sgc_cols = 'CHEST|SLEEVE|SLEEVE CIRC.|LENGTH' | split: '|' -%}
+  {%- assign sgc_rows = 'XS|107|64.8|38.1|94,S|122|64.8|40.6|96.5,M|127|68.6|45.7|104,L|135|71.1|47|107,XL|145|73.7|48.3|108,2XL|150|73.7|50.8|109,3XL|155|76.2|53.3|117,4XL|160|78.7|55.8|120,5XL|165|81.2|58.3|123' | split: ',' -%}
+{%- endif -%}
+<modal-dialog id="SizeGuideCloak-{{ section.id }}" class="product-popup-modal size-guide-cloak">
+  <div role="dialog" aria-label="Size Guide" aria-modal="true" class="product-popup-modal__content" tabindex="-1">
+    <button id="ModalClose-SizeGuideCloak-{{ section.id }}" type="button" class="product-popup-modal__toggle" aria-label="{{ 'accessibility.close' | t }}">
+      {{- 'icon-close.svg' | inline_asset_content -}}
+    </button>
+    <div class="product-popup-modal__content-info">
+      <div class="sgc__head">
+        {%- if settings.logo != blank -%}
+          {{ settings.logo | image_url: width: 320 | image_tag: class: 'sgc__logo', alt: shop.name, loading: 'lazy' }}
+        {%- endif -%}
+        <p class="sgc__title">{{ product.title | escape }}</p>
+        <p class="sgc__sub">Size Charts</p>
+      </div>
+      <p class="sgc__note"><strong>Measurements are in inches +/- 0.5" tolerance.</strong></p>
+      <ul class="sgc__list">
+        <li>Our Cloaks are tight fitting. We recommend that if you would like a looser fit to order one size up.</li>
+        <li>These are approximate size guidelines. Please take your body measurements to determine the best fit for you.</li>
+      </ul>
+      <input type="radio" name="sgc-unit-{{ section.id }}" id="sgc-cm-{{ section.id }}" class="sgc__radio sgc__radio--cm" checked>
+      <input type="radio" name="sgc-unit-{{ section.id }}" id="sgc-in-{{ section.id }}" class="sgc__radio sgc__radio--in">
+      <div class="sgc__units">
+        <label for="sgc-cm-{{ section.id }}" class="sgc__unit sgc__unit--cm">CM</label>
+        <span aria-hidden="true">|</span>
+        <label for="sgc-in-{{ section.id }}" class="sgc__unit sgc__unit--in">INCHES</label>
+      </div>
+      <div class="sgc__scroll">
+        <table class="sgc__table">
+          <thead>
+            <tr><th>SIZE</th>{% for col in sgc_cols %}<th>{{ col }}</th>{% endfor %}</tr>
+          </thead>
+          <tbody>
+            {%- for row in sgc_rows -%}
+              {%- assign c = row | split: '|' -%}
+              <tr>
+                <th scope="row">{{ c[0] }}</th>
+                {%- for i in (1..sgc_cols.size) -%}
+                  {%- if c[i] == '-' -%}<td>–</td>{%- continue -%}{%- endif -%}
+                  {%- assign parts = c[i] | split: '~' -%}
+                  <td><span class="sgc__cm">{{ parts | join: ' - ' }}</span><span class="sgc__in">{% for v in parts %}{{ v | plus: 0 | divided_by: 2.54 | round: 1 }}{% unless forloop.last %} - {% endunless %}{% endfor %}</span></td>
+                {%- endfor -%}
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+      <div class="sgc__howto">
+        <img src="{{ 'size-guide-cloak.jpg' | asset_url }}" alt="How to measure: length from top of hood to below the knee, chest circumference" width="600" height="530" loading="lazy">
+      </div>
+    </div>
+  </div>
+</modal-dialog>
+<style>
+  .size-guide-cloak .product-popup-modal__content { max-width: 70rem; height: auto; overflow: visible; position: relative; top: auto; left: auto; transform: none; margin: 4rem auto; padding-bottom: 2rem; }
+  .size-guide-cloak .product-popup-modal__content-info { padding: 1.6rem 0 0; }
+  .size-guide-cloak .product-popup-modal__toggle { position: absolute; top: .6rem; right: .6rem; margin: 0; border: 0; background: none; padding: .8rem; width: auto; color: rgb(var(--color-foreground)); }
+  .size-guide-cloak .product-popup-modal__toggle .icon { width: 1.8rem; }
+  .sgc__head { position: relative; text-align: center; border-bottom: 1px solid rgba(var(--color-foreground), .15); padding-bottom: 1.2rem; margin-bottom: 1.6rem; }
+  .size-guide-cloak .sgc__logo { position: absolute; left: 0; top: 0; height: 3rem; width: auto; max-width: 16rem; object-fit: contain; }
+  .sgc__howto { border-top: 1px solid rgba(var(--color-foreground), .15); margin-top: 1.6rem; padding-top: 1.6rem; text-align: center; }
+  .sgc__howto img { max-width: 100%; height: auto; }
+  @media screen and (min-width: 750px) {
+    .size-guide-cloak .sgc__note { font-size: 1.3rem; }
+    .size-guide-cloak .sgc__list { font-size: 1.2rem; line-height: 1.5; letter-spacing: 0; }
+    .size-guide-cloak .sgc__list li { margin-bottom: .3rem; }
+  }
+  .size-guide-cloak .sgc__note, .size-guide-cloak .sgc__list, .size-guide-cloak .sgc__list li { font-family: Georgia, 'Times New Roman', Times, serif; color: #000; }
+  @media screen and (max-width: 749px) {
+    .size-guide-cloak .sgc__head .sgc__logo { position: static; transform: none; display: block; margin: 0 0 .8rem; height: 3.2rem; }
+    .sgc__head .sgc__title { padding: 0 2rem; }
+  }
+  .sgc__title { padding: 0 16.5rem; font-size: 1.8rem; font-weight: 600; margin: 0; letter-spacing: .04em; }
+  .sgc__sub { font-size: 1.2rem; margin: .4rem 0 0; opacity: .7; }
+  .sgc__note { font-family: Georgia, 'Times New Roman', serif; font-size: 1.4rem; margin: 0 0 1rem; }
+  .sgc__list { font-family: Georgia, 'Times New Roman', serif; font-size: 1.4rem; line-height: 1.6; margin: 0 0 1.6rem; padding-left: 2.4rem; border-bottom: 1px solid rgba(var(--color-foreground), .15); padding-bottom: 1.6rem; }
+  .sgc__list li { margin-bottom: .6rem; }
+  .sgc__radio { position: absolute; opacity: 0; pointer-events: none; }
+  .sgc__units { text-align: center; font-size: 1.3rem; letter-spacing: .06em; margin-bottom: 1rem; color: rgba(var(--color-foreground), .5); }
+  .sgc__unit { cursor: pointer; padding: 0 .4rem; }
+  .sgc__radio--cm:checked ~ .sgc__units .sgc__unit--cm,
+  .sgc__radio--in:checked ~ .sgc__units .sgc__unit--in { color: #e8a33d; }
+  .sgc__radio:focus-visible ~ .sgc__units { outline: 2px solid rgba(var(--color-foreground), .5); outline-offset: 2px; }
+  .sgc__radio--in:checked ~ .sgc__scroll .sgc__cm,
+  .sgc__radio--cm:checked ~ .sgc__scroll .sgc__in { display: none; }
+  .sgc__scroll { overflow-x: auto; }
+  .size-guide-cloak .sgc__table { display: table; max-width: none; margin: 0; }
+  .sgc__table { width: 100%; border-collapse: collapse; font-size: 1.4rem; text-align: center; }
+  .sgc__table th, .sgc__table td { border: 1px solid rgba(var(--color-foreground), .15); padding: .5rem .8rem; white-space: nowrap; }
+  .sgc__table thead th { font-weight: 700; letter-spacing: .04em; }
+  .sgc__table tbody th { font-weight: 700; }
+  @media screen and (max-width: 749px) {
+    .sgc__table { font-size: 1.2rem; }
+    .sgc__table th, .sgc__table td { padding: .5rem .3rem; }
+    .sgc__table thead th { white-space: normal; letter-spacing: 0; }
+  }
+  .sgc-opener { margin-left: auto; }
+  .sgc-opener .product-popup-modal__button { font-size: 1.3rem; font-weight: 700; min-height: auto; padding: 0; text-decoration: underline; text-underline-offset: .3rem; color: rgb(var(--color-foreground)); }
+  .product-form__input .form__label--sgc { display: flex; width: 100%; align-items: center; }
+</style>

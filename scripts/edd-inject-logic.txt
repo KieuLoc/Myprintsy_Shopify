@@ -1,0 +1,113 @@
+ASSIGN@1449
+deliveryMessageBefore = hide_default_message = message = today_date = custom_date_format = cartDateSign = hideOutOfStockMessage = hideDefaultMessage = cartAdditionalMessage = changeCartLabel = shopnamefull = user_full_date = message_lowercase = '';
+      var check_currentDay_is_weekoff = showOnlyDateOnCartpage = 0;
+      var shortcodeList = weekday = [];
+      var activate_premium_feature = '1';
+      var showDeliveryMessage = 1;
+      var CollectionDelvieryClass = '';
+      var msg_previe
+
+====
+
+DETAIL@1300
+detail_page_class, msg_preview, display_on_other_page, monthName, monthShort, dayOrd, dayName, dayNameShort;
+      var shopnamefull = getCartDate = deliveryMessageBefore = hide_default_message = message = today_date = custom_date_format = cartDateSign = hideOutOfStockMessage = hideDefaultMessage = cartAdditionalMessage = changeCartLabel = shopnamefull = user_full_date = message_lowercase = '';
+      var check_currentDay_is_weekoff = showOnlyDateOnCartpage = 0;
+      var shortcodeList = weekday = [];
+      var activate_premium_feature = '1';
+      var showDeliveryMessage = 1;
+      var CollectionDelvieryClass = '';
+      var msg_preview = {};
+      var get_custom_date_format = 'not_se
+
+====
+
+DETAIL@61418
+detail_page_class = edd_options.detail_page_class;
+        msg_preview = edd_options.msg_preview;
+        display_on_other_page = edd_options.display_on_other_page;
+        hide_default_message = edd_options.hide_default_message;
+        cart_msg_apperance = edd_options.cart_msg_apperance;
+        //cart_msg_apperance = 'message';
+        custom_cart_label = edd_options.custom_cart_label;
+
+        /* get transalted word */
+        if (typeof edd_options.translated_wrods != 'undefined') {
+          translated_wrods = JSON.parse(edd_options.translated_wrods)
+          for (var p = 0; p < translated_wrods.length; p++) {
+            check_lan_obj = translated_wrods[p]
+            $.
+
+====
+
+DETAIL@61450
+detail_page_class;
+        msg_preview = edd_options.msg_preview;
+        display_on_other_page = edd_options.display_on_other_page;
+        hide_default_message = edd_options.hide_default_message;
+        cart_msg_apperance = edd_options.cart_msg_apperance;
+        //cart_msg_apperance = 'message';
+        custom_cart_label = edd_options.custom_cart_label;
+
+        /* get transalted word */
+        if (typeof edd_options.translated_wrods != 'undefined') {
+          translated_wrods = JSON.parse(edd_options.translated_wrods)
+          for (var p = 0; p < translated_wrods.length; p++) {
+            check_lan_obj = translated_wrods[p]
+            $.each(check_lan_obj, function (ke
+
+====
+
+DETAIL@222773
+detail_page_class != 'undefined' && detail_page_class != '' && ($(detail_page_class).length > 0)) {
+
+              $(detail_page_class + ':first').after('<div class="sb_ETA"><div class="deliverydate sb_delivery"><div class="animation_class ' + add_animation_class + '"><span class="delivery_icon"></span><span class="delivery_msg"></span></div></div><div class="power_by_sb"></div></div>');
+            } else {
+              var get_cart_form_all = $("form");
+              var get_cart_form_count = get_cart_form_all.length;
+              $("form").each(function (index) {
+                var getForm = $(this).attr("action");
+                if (typeof (getForm) != "undefined") {
+       
+
+====
+
+DETAIL@222809
+detail_page_class != '' && ($(detail_page_class).length > 0)) {
+
+              $(detail_page_class + ':first').after('<div class="sb_ETA"><div class="deliverydate sb_delivery"><div class="animation_class ' + add_animation_class + '"><span class="delivery_icon"></span><span class="delivery_msg"></span></div></div><div class="power_by_sb"></div></div>');
+            } else {
+              var get_cart_form_all = $("form");
+              var get_cart_form_count = get_cart_form_all.length;
+              $("form").each(function (index) {
+                var getForm = $(this).attr("action");
+                if (typeof (getForm) != "undefined") {
+                  if (getForm.includes("/ca
+
+====
+
+DETAIL@222839
+detail_page_class).length > 0)) {
+
+              $(detail_page_class + ':first').after('<div class="sb_ETA"><div class="deliverydate sb_delivery"><div class="animation_class ' + add_animation_class + '"><span class="delivery_icon"></span><span class="delivery_msg"></span></div></div><div class="power_by_sb"></div></div>');
+            } else {
+              var get_cart_form_all = $("form");
+              var get_cart_form_count = get_cart_form_all.length;
+              $("form").each(function (index) {
+                var getForm = $(this).attr("action");
+                if (typeof (getForm) != "undefined") {
+                  if (getForm.includes("/cart/add")) {
+                 
+
+====
+
+DETAIL@222892
+detail_page_class + ':first').after('<div class="sb_ETA"><div class="deliverydate sb_delivery"><div class="animation_class ' + add_animation_class + '"><span class="delivery_icon"></span><span class="delivery_msg"></span></div></div><div class="power_by_sb"></div></div>');
+            } else {
+              var get_cart_form_all = $("form");
+              var get_cart_form_count = get_cart_form_all.length;
+              $("form").each(function (index) {
+                var getForm = $(this).attr("action");
+                if (typeof (getForm) != "undefined") {
+                  if (getForm.includes("/cart/add")) {
+                    var getCartButton = $(this).find("button[type=subm

@@ -1,0 +1,322 @@
+{% comment %}
+  Renders pack size picker for produc-pack-011926 template
+  Shows size selectors for each item in the pack based on selected pack variant
+  
+  Accepts:
+  - product: {Object} product object
+  - product_form_id: {String} product form ID
+  - section_id: {String} section ID
+{% endcomment %}
+
+{%- if template.suffix == 'produc-pack-011926' -%}
+  <style>
+    .pack-size-picker__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .pack-size-picker__header-title {
+      margin: 0;
+    }
+
+    .pack-size-picker__link {
+      font-family: inherit;        /* giống font text xung quanh */
+      font-weight: 600;            /* in đậm */
+      font-size: 1.4rem;           /* gần với heading phụ như "Buy more save more" */
+      color: #1E90FF;              /* đỏ đồng bộ với border nút pack */
+      background: transparent;
+      border: none;
+      padding: 0;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .pack-size-picker__items-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .pack-size-picker__item {
+      flex: 0 0 calc(33.333% - 14px); /* 3 items per row với gap */
+      min-width: 0;
+    }
+
+    .pack-size-select--error {
+      border-color: #dc2626 !important;
+      box-shadow: 0 0 0 1px #dc2626 inset;
+    }
+
+    .pack-size-picker__error-message {
+      margin-top: 10px;
+      font-size: 1.2rem;
+      color: #dc2626;
+      display: none;
+    }
+
+    @media (max-width: 749px) {
+      .pack-size-picker__item {
+        flex: 0 0 100%; /* Mobile: 1 item per row */
+      }
+    }
+
+    /* Ẩn nút Size Chart gốc trong block popup, chỉ dùng nút trong pack-size-picker */
+    #ProductPopup-popup_eKnwmK {
+      display: none;
+    }
+  </style>
+  {%- assign pack_option = null -%}
+  {%- assign pack_value = null -%}
+  {%- assign pack_count = 0 -%}
+  
+  {%- for option in product.options_with_values -%}
+    {%- if option.name == 'Pack' or option.name == 'pack' -%}
+      {%- assign pack_option = option -%}
+      {%- assign pack_value = option.selected_value -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+  
+  {%- if pack_value -%}
+    {%- assign pack_value_lower = pack_value | downcase -%}
+    {%- if pack_value_lower contains '1' -%}
+      {%- assign pack_count = 1 -%}
+    {%- elsif pack_value_lower contains '2' -%}
+      {%- assign pack_count = 2 -%}
+    {%- elsif pack_value_lower contains '3' -%}
+      {%- assign pack_count = 3 -%}
+    {%- elsif pack_value_lower contains '4' -%}
+      {%- assign pack_count = 4 -%}
+    {%- elsif pack_value_lower contains '5' -%}
+      {%- assign pack_count = 5 -%}
+    {%- endif -%}
+  {%- endif -%}
+  
+  {%- comment -%} Debug: Check template suffix {%- endcomment -%}
+  {%- if template.suffix != 'produc-pack-011926' -%}
+    {%- comment -%} Template suffix is: {{ template.suffix }} {%- endcomment -%}
+  {%- endif -%}
+  
+  <div 
+    id="pack-size-picker-{{ section_id }}" 
+    class="pack-size-picker pack-size-picker--{{ section_id }}"
+    data-pack-count="0"
+    style="margin-top: 20px; display: none;"
+    data-template-suffix="{{ template.suffix }}"
+  >
+    <div class="pack-size-picker__header">
+      <h3 class="pack-size-picker__title pack-size-picker__header-title" style="font-size: 1.5rem; font-weight: 600;">
+        Select Sizes for Each Item
+      </h3>
+      {%- comment -%}
+        Nút Size Chart được đặt cùng hàng với tiêu đề.
+        Sử dụng cùng modal id với block popup_eKnwmK trong main-product.
+      {%- endcomment -%}
+      <modal-opener
+        class="product-popup-modal__opener quick-add-hidden"
+        data-modal="#PopupModal-popup_eKnwmK"
+      >
+        <button
+          id="ProductPopup-popup_eKnwmK-pack-header"
+          class="product-popup-modal__button link pack-size-picker__link"
+          type="button"
+          aria-haspopup="dialog"
+        >
+          Size Chart
+        </button>
+      </modal-opener>
+    </div>
+    
+    <div class="pack-size-picker__items-container">
+      {%- comment -%} Render tối đa 5 items, JavaScript sẽ show/hide dựa trên pack count {%- endcomment -%}
+      {%- for i in (1..5) -%}
+        <div class="pack-size-picker__item" data-item-index="{{ i }}" style="display: none;">
+        <label class="form__label" for="pack-size-{{ section_id }}-{{ i }}" style="display: block; margin-bottom: 8px; font-size: 1.2rem; font-weight: 500;">
+          Item {{ i }}: Select Size
+        </label>
+        <div class="select" style="position: relative;">
+          <select
+            id="pack-size-{{ section_id }}-{{ i }}"
+            name="properties[Item {{ i }} Size]"
+            data-property-name="properties[Item {{ i }} Size]"
+            class="select__select pack-size-select"
+            form="{{ product_form_id }}"
+            data-item-index="{{ i }}"
+            disabled
+            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;"
+          >
+            <option value="S" selected>S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="2XL">2XL</option>
+            <option value="3XL">3XL</option>
+            <option value="4XL">4XL</option>
+            <option value="5XL">5XL</option>
+          </select>
+          <span class="svg-wrapper" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">
+            {{- 'icon-caret.svg' | inline_asset_content -}}
+          </span>
+        </div>
+      </div>
+      {%- endfor -%}
+    </div>
+    <p id="pack-size-error-{{ section_id }}" class="pack-size-picker__error-message" role="alert"></p>
+  </div>
+    
+    <script>
+      (function () {
+        var picker = document.getElementById('pack-size-picker-{{ section_id }}');
+        if (!picker) return;
+
+        var items = picker.querySelectorAll('.pack-size-picker__item');
+
+        function extractPackCount(value) {
+          if (!value) return 0;
+          var m = String(value).match(/(\d+)/);
+          if (!m) return 0;
+          var n = parseInt(m[1], 10);
+          return n >= 1 && n <= 5 ? n : 0;
+        }
+
+        function applyPackCount(count) {
+          picker.dataset.packCount = String(count);
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            var select = item.querySelector('select');
+            if (i < count) {
+              item.style.display = 'block';
+              if (select) {
+                if (!select.value) select.value = 'S';
+                select.disabled = false;
+                var propertyName = select.getAttribute('data-property-name');
+                if (propertyName) select.setAttribute('name', propertyName);
+              }
+            } else {
+              item.style.display = 'none';
+              if (select) {
+                select.value = 'S';
+                select.disabled = true;
+                select.removeAttribute('name');
+              }
+            }
+          }
+          picker.style.display = count > 0 ? 'block' : 'none';
+        }
+
+        function getPackValueFromDom() {
+          var variantSelects = document.querySelector('variant-selects[data-section="{{ section_id }}"]');
+          if (!variantSelects) return null;
+
+          var fieldsets = variantSelects.querySelectorAll('fieldset');
+          for (var i = 0; i < fieldsets.length; i++) {
+            var fs = fieldsets[i];
+            var legend = fs.querySelector('legend');
+            if (!legend) continue;
+            var name = legend.textContent.trim().toLowerCase();
+            if (name.indexOf('pack') === -1 && name.indexOf('buy more') === -1) continue;
+
+            var checked = fs.querySelector('input[type="radio"]:checked');
+            if (checked && checked.value) return checked.value;
+          }
+          return null;
+        }
+
+        function showError(message) {
+          var errorNode = document.getElementById('pack-size-error-{{ section_id }}');
+          if (!errorNode) return;
+          errorNode.textContent = message || '';
+          errorNode.style.display = message ? 'block' : 'none';
+        }
+
+        function clearSelectError(select) {
+          if (!select) return;
+          select.classList.remove('pack-size-select--error');
+        }
+
+        function validateRequiredSizes(showFeedback) {
+          var count = parseInt(picker.dataset.packCount || '0', 10);
+          if (!count || count < 1) return true;
+
+          var hasMissingSize = false;
+          for (var i = 1; i <= count; i++) {
+            var select = document.getElementById('pack-size-{{ section_id }}-' + i);
+            if (!select) continue;
+            var isMissing = !select.value;
+            if (isMissing) hasMissingSize = true;
+            if (showFeedback) {
+              if (isMissing) select.classList.add('pack-size-select--error');
+              else clearSelectError(select);
+            }
+          }
+
+          if (showFeedback) {
+            showError(hasMissingSize ? 'Please choose a size for each item before adding to cart.' : '');
+          }
+
+          return !hasMissingSize;
+        }
+
+        function updateFrom(value) {
+          var v = value || getPackValueFromDom();
+          var count = extractPackCount(v);
+          applyPackCount(count);
+          validateRequiredSizes(false);
+        }
+
+        // Khi đổi pack bằng radio
+        document.addEventListener(
+          'change',
+          function (e) {
+            var target = e.target;
+            if (!target || target.type !== 'radio') return;
+
+            var fs = target.closest('fieldset');
+            if (!fs) return;
+            var legend = fs.querySelector('legend');
+            if (!legend) return;
+            var name = legend.textContent.trim().toLowerCase();
+            if (name.indexOf('pack') === -1 && name.indexOf('buy more') === -1) return;
+
+            updateFrom(target.value);
+          },
+          true
+        );
+
+        // Khi theme publish sự kiện đổi variant (Shopify Dawn)
+        document.addEventListener('variant:change', function () {
+          updateFrom();
+        });
+
+        picker.addEventListener('change', function (e) {
+          var target = e.target;
+          if (!target || !target.classList || !target.classList.contains('pack-size-select')) return;
+          clearSelectError(target);
+          validateRequiredSizes(false);
+        });
+
+        var productForm = document.getElementById('{{ product_form_id }}');
+        if (productForm) {
+          productForm.addEventListener('submit', function (e) {
+            if (!validateRequiredSizes(true)) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          });
+        }
+
+        // Lần đầu vào trang
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', function () {
+            updateFrom();
+          });
+        } else {
+          updateFrom();
+        }
+      })();
+    </script>
+{%- endif -%}
+

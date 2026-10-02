@@ -1,0 +1,378 @@
+{{ 'component-cart.css' | asset_url | stylesheet_tag }}
+{{ 'component-cart-macorner.css' | asset_url | stylesheet_tag }}
+{{ 'component-totals.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  class="gradient color-{{ section.settings.color_scheme }} cart-page-macorner__sidebar{% if cart == empty %} is-empty{% endif %}"
+  id="main-cart-footer"
+  data-id="{{ section.id }}"
+>
+  <div class="page-width cart-page-macorner__sidebar-inner">
+    <div class="cart__footer isolate section-{{ section.id }}-padding">
+      <div class="cart-page-macorner__sidebar-stack">
+        <div class="cart-macorner-summary">
+      {%- if settings.show_cart_note -%}
+        <cart-note class="cart__note field">
+          <label for="Cart-note">{{ 'sections.cart.note' | t }}</label>
+          <textarea
+            class="text-area field__input"
+            name="note"
+            form="cart"
+            id="Cart-note"
+            placeholder="{{ 'sections.cart.note' | t }}"
+          >{{ cart.note }}</textarea>
+        </cart-note>
+      {%- endif -%}
+
+      <div class="cart__blocks">
+        {% for block in section.blocks %}
+          {%- case block.type -%}
+            {%- when '@app' -%}
+              {% render block %}
+            {%- when 'subtotal' -%}
+              <div class="js-contents" {{ block.shopify_attributes }}>
+                <div>
+                  {%- if cart.cart_level_discount_applications.size > 0 -%}
+                    <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">
+                      {%- for discount in cart.cart_level_discount_applications -%}
+                        <li class="discounts__discount discounts__discount--position">
+                          {{- 'icon-discount.svg' | inline_asset_content -}}
+                          {{ discount.title | escape }}
+                          (-{{ discount.total_allocated_amount | money }})
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+
+                <div class="totals">
+                  <h2 class="totals__total">{{ section.settings.subtotal_label | default: 'Subtotal' }}</h2>
+                  <p data-hulkapps-cart-total class="totals__total-value">{{ cart.total_price | money_with_currency }}</p>
+                </div>
+
+                <small class="tax-note caption-large rte">
+                  {%- if cart.duties_included and cart.taxes_included -%}
+                    {%- if shop.shipping_policy.body == blank -%}
+                      {{ 'sections.cart.duties_and_taxes_included_shipping_at_checkout_without_policy' | t }}
+                    {%- else -%}
+                      {{
+                        'sections.cart.duties_and_taxes_included_shipping_at_checkout_with_policy_html'
+                        | t: link: shop.shipping_policy.url
+                      }}
+                    {%- endif -%}
+                  {%- elsif cart.duties_included == false and cart.taxes_included -%}
+                    {%- if shop.shipping_policy.body == blank -%}
+                      {{ 'sections.cart.taxes_included_shipping_at_checkout_without_policy' | t }}
+                    {%- else -%}
+                      {{
+                        'sections.cart.taxes_included_shipping_at_checkout_with_policy_html'
+                        | t: link: shop.shipping_policy.url
+                      }}
+                    {%- endif -%}
+                  {%- elsif cart.duties_included and cart.taxes_included == false -%}
+                    {%- if shop.shipping_policy.body == blank -%}
+                      {{ 'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+                    {%- else -%}
+                      {{
+                        'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html'
+                        | t: link: shop.shipping_policy.url
+                      }}
+                    {%- endif -%}
+                  {%- elsif cart.duties_included == false and cart.taxes_included == false -%}
+                    {%- if shop.shipping_policy.body == blank -%}
+                      {{ 'sections.cart.taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+                    {%- else -%}
+                      {{
+                        'sections.cart.taxes_at_checkout_shipping_at_checkout_with_policy_html'
+                        | t: link: shop.shipping_policy.url
+                      }}
+                    {%- endif -%}
+                  {%- endif -%}
+                </small>
+              </div>
+            {%- else -%}
+              <div class="cart__ctas" {{ block.shopify_attributes }}>
+                <button
+                  type="submit"
+                  id="checkout"
+                  class="cart__checkout-button button cart-macorner-checkout"
+                  name="checkout"
+                  data-cart-native-checkout
+                  {% if cart == empty %}
+                    disabled
+                  {% endif %}
+                  form="cart"
+                >
+                  <svg class="cart-macorner-checkout__lock" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                    <path d="M17 8h-1V6a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2Zm-7-2a2 2 0 1 1 4 0v2h-4V6Zm7 13H7v-9h10v9Z"/>
+                  </svg>
+                  <span>{{ 'sections.cart.checkout' | t }}</span>
+                </button>
+              </div>
+
+              {%- if additional_checkout_buttons -%}
+                <div class="cart__dynamic-checkout-buttons additional-checkout-buttons">
+                  {{ content_for_additional_checkout_buttons }}
+                </div>
+              {%- endif -%}
+          {%- endcase -%}
+        {% endfor %}
+
+        <div id="cart-errors"></div>
+      </div>
+
+          {% render 'cart-macorner-sidebar-extras',
+            part: 'payments',
+            show_payment_icons: section.settings.show_payment_icons,
+            payment_title: section.settings.payment_title,
+            payment_icons_mode: section.settings.payment_icons_mode
+          %}
+        </div>
+
+        {% render 'cart-macorner-sidebar-extras',
+          part: 'protection',
+          show_buyer_protection: section.settings.show_buyer_protection,
+          protection_title: section.settings.protection_title,
+          protection_text_1: section.settings.protection_text_1,
+          protection_text_2: section.settings.protection_text_2
+        %}
+
+        <a href="{{ routes.all_products_collection_url }}" class="cart-macorner-keep-shopping">
+          {{ section.settings.keep_shopping_label | default: 'Keep Shopping' }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- unless cart == empty -%}
+  <div class="cart-macorner-sticky-checkout" data-cart-sticky-checkout aria-hidden="true">
+    <button
+      type="submit"
+      class="cart__checkout-button button cart-macorner-checkout"
+      name="checkout"
+      form="cart"
+    >
+      <svg class="cart-macorner-checkout__lock" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+        <path d="M17 8h-1V6a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2Zm-7-2a2 2 0 1 1 4 0v2h-4V6Zm7 13H7v-9h10v9Z"/>
+      </svg>
+      <span>{{ 'sections.cart.checkout' | t }}</span>
+    </button>
+  </div>
+  <script>
+    (function () {
+      var MQ = '(max-width: 749px)';
+      var io = null;
+      var observed = null;
+
+      function isMobile() {
+        return window.matchMedia(MQ).matches;
+      }
+
+      function nativeCheckout() {
+        return document.querySelector('[data-cart-native-checkout], #main-cart-footer #checkout');
+      }
+
+      function scrolledPast(btn) {
+        if (!btn) return false;
+        return btn.getBoundingClientRect().bottom < 0;
+      }
+
+      function updateStickyCheckout() {
+        var bars = document.querySelectorAll('[data-cart-sticky-checkout]');
+        if (!bars.length) return;
+
+        var bar = bars[0];
+        for (var i = 1; i < bars.length; i++) bars[i].remove();
+        if (bar.parentElement !== document.body) document.body.appendChild(bar);
+
+        var native = nativeCheckout();
+        var footer = document.getElementById('main-cart-footer');
+        var empty = footer && footer.classList.contains('is-empty');
+        var show = isMobile() && !empty && native && !native.disabled && scrolledPast(native);
+
+        bar.classList.toggle('is-visible', show);
+        bar.setAttribute('aria-hidden', show ? 'false' : 'true');
+        document.body.classList.toggle('cart-sticky-checkout-visible', show);
+      }
+
+      function observeNativeCheckout() {
+        var native = nativeCheckout();
+        if (!native) {
+          observed = null;
+          if (io) io.disconnect();
+          updateStickyCheckout();
+          return;
+        }
+        if (observed === native) {
+          updateStickyCheckout();
+          return;
+        }
+        if (io) io.disconnect();
+        observed = native;
+        io = new IntersectionObserver(function () {
+          updateStickyCheckout();
+        }, { root: null, threshold: 0, rootMargin: '0px' });
+        io.observe(native);
+        updateStickyCheckout();
+      }
+
+      function mountStickyCheckout() {
+        observeNativeCheckout();
+
+        var footer = document.getElementById('main-cart-footer');
+        if (footer && !footer.dataset.stickyCheckoutObserved) {
+          footer.dataset.stickyCheckoutObserved = '1';
+          new MutationObserver(updateStickyCheckout).observe(footer, {
+            attributes: true,
+            attributeFilter: ['class'],
+          });
+        }
+      }
+
+      window.addEventListener('scroll', updateStickyCheckout, { passive: true });
+      window.addEventListener('resize', updateStickyCheckout);
+      document.addEventListener('shopify:section:load', mountStickyCheckout);
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', mountStickyCheckout);
+      } else {
+        mountStickyCheckout();
+      }
+    })();
+  </script>
+{%- endunless -%}
+
+{% schema %}
+{
+  "name": "t:sections.main-cart-footer.name",
+  "class": "cart__footer-wrapper",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 40
+    },
+    {
+      "type": "text",
+      "id": "subtotal_label",
+      "default": "Subtotal",
+      "label": "Subtotal label"
+    },
+    {
+      "type": "text",
+      "id": "keep_shopping_label",
+      "default": "Keep Shopping",
+      "label": "Keep shopping link label"
+    },
+    {
+      "type": "header",
+      "content": "Sidebar extras"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "default": true,
+      "label": "Show payment method icons"
+    },
+    {
+      "type": "text",
+      "id": "payment_title",
+      "default": "Payment Methods",
+      "label": "Payment methods heading"
+    },
+    {
+      "type": "select",
+      "id": "payment_icons_mode",
+      "default": "curated",
+      "label": "Payment icons source",
+      "options": [
+        {
+          "value": "curated",
+          "label": "Macorner-style (all major cards)"
+        },
+        {
+          "value": "shop",
+          "label": "Shopify enabled payments only"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_buyer_protection",
+      "default": true,
+      "label": "Show buyer protection box"
+    },
+    {
+      "type": "text",
+      "id": "protection_title",
+      "default": "Buyer Protection",
+      "label": "Buyer protection heading"
+    },
+    {
+      "type": "text",
+      "id": "protection_text_1",
+      "default": "Full refund for faulty production. No question asked",
+      "label": "Buyer protection line 1"
+    },
+    {
+      "type": "text",
+      "id": "protection_text_2",
+      "default": "Full or Partial Refund if the item is not as described",
+      "label": "Buyer protection line 2"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "subtotal",
+      "name": "t:sections.main-cart-footer.blocks.subtotal.name",
+      "limit": 1
+    },
+    {
+      "type": "buttons",
+      "name": "t:sections.main-cart-footer.blocks.buttons.name",
+      "limit": 1
+    },
+    {
+      "type": "@app"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,60 @@
+.related-products {
+  display: block;
+}
+
+.related-products__heading {
+  margin: 0 0 3rem;
+  text-align: center;
+  width: 100%;
+}
+
+.related-products .card__heading {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.related-products .card__heading .full-unstyled-link {
+  display: inline;
+}
+
+/* Tight stack: Customer Reviews → You may also like */
+.shopify-section:has(#judgeme_product_reviews) {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.shopify-section:has(#judgeme_product_reviews) .page-width {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Empty Apps section (no blocks) between reviews & related */
+.shopify-section:has(#judgeme_product_reviews) + .shopify-section.section:has(.page-width:not(:has(*))),
+.shopify-section:has(#judgeme_product_reviews) + .shopify-section.section:has(.page-width):not(:has([id^='shopify-block'])) {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+.shopify-section:has(#judgeme_product_reviews) + .shopify-section:has(.related-products),
+.shopify-section:has(#judgeme_product_reviews) + .shopify-section + .shopify-section:has(.related-products),
+.shopify-section:has(.related-products) {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.shopify-section:has(.related-products) .related-products {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.shopify-section:has(.related-products) .related-products__heading {
+  margin: 0 0 1.2rem !important;
+  padding-top: 0 !important;
+}

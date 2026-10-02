@@ -1,0 +1,35 @@
+{% comment %}
+  Template: product.variant_link
+  Metafield per variant: custom.link_url (URL) — Admin label often "Link url"
+  Admin: Settings → Custom data → Variants → definition namespace custom, key link_url
+  Storefront access: required for Liquid to read the value
+
+  byMock: map option1 (Type/mock) → link_url so picking mock jumps even if
+  current Handle Color combo has no metafield.
+{% endcomment %}
+{%- liquid
+  assign mock_option = product.options_with_values.first
+-%}
+<script type="application/json" id="VariantLinkConfig-{{ section_id }}">
+  {
+    "mockOptionPosition": {{ mock_option.position | default: 1 }},
+    "mockOptionName": {{ mock_option.name | default: 'Type' | json }},
+    "variants": {
+      {%- for variant in product.variants -%}
+        "{{ variant.id }}": {{ variant.metafields.custom.link_url.value | default: '' | json }}{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    },
+    "byMock": {
+      {%- assign by_mock_first = true -%}
+      {%- for variant in product.variants -%}
+        {%- assign link_url = variant.metafields.custom.link_url.value | default: '' -%}
+        {%- if link_url != blank and variant.option1 != blank -%}
+          {%- unless by_mock_first -%},{%- endunless -%}
+          {{ variant.option1 | json }}: {{ link_url | json }}
+          {%- assign by_mock_first = false -%}
+        {%- endif -%}
+      {%- endfor -%}
+    }
+  }
+</script>
+<script src="{{ 'variant-link.js' | asset_url }}" defer="defer"></script>
