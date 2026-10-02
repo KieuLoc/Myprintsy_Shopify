@@ -1,0 +1,20 @@
+---
+description: Mỗi lần push LIVE thì commit + push GitHub
+alwaysApply: true
+---
+
+# Push LIVE ⇒ commit + push GitHub
+
+Repo: `D:\Shoppify\myprintsy_github_shopify` · remote `origin` = https://github.com/KieuLoc/Myprintsy_Shopify.git · branch `main`.
+
+Ngay sau khi `shopify theme push --theme 183186358588 --allow-live ...` **thành công** (và check đã pass theo `test-before-push.mdc`):
+
+1. Nếu đang sửa ở thư mục khác (vd `theme_export__...`), copy đúng các file vừa push LIVE (+ `JOURNAL.md`, `scripts/check-*.js` liên quan) vào repo, cùng đường dẫn.
+2. `git add` **chỉ** các file đó — không `git add -A` bừa.
+3. `git commit -m "live: <tóm tắt thay đổi> (#183186358588)"`.
+4. `git push origin main`, rồi `git status -sb` phải là `## main...origin/main` (không ahead/behind).
+5. Báo user hash commit + link repo.
+
+Không bao giờ commit `.cursor/mcp.json`, `.env*`, `node_modules/`, thư mục `_backup*` / `_live*`.
+Push LIVE fail ⇒ **không** commit. `git push` fail (vd bị reject vì remote mới hơn) ⇒ `git pull --rebase` rồi push lại; conflict thì dừng, hỏi user.
+Push DEV thì **không** cần commit.
