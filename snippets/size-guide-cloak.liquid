@@ -19,6 +19,24 @@
   {%- assign sgc_cols = 'CHEST|SLEEVE|SLEEVE CIRC.|LENGTH' | split: '|' -%}
   {%- assign sgc_rows = 'XS|107|64.8|38.1|94,S|122|64.8|40.6|96.5,M|127|68.6|45.7|104,L|135|71.1|47|107,XL|145|73.7|48.3|108,2XL|150|73.7|50.8|109,3XL|155|76.2|53.3|117,4XL|160|78.7|55.8|120,5XL|165|81.2|58.3|123' | split: ',' -%}
 {%- endif -%}
+{%- assign sgc_img_alt = 'How to measure: length and chest' -%}
+{%- case sgc_type -%}
+  {%- when 'zip hoodie', 'zip hoodies' -%}
+    {%- assign sgc_img = 'size-guide-zip-hoodie.jpg' -%}{%- assign sgc_img_w = 800 -%}{%- assign sgc_img_h = 707 -%}
+  {%- when 'hoodie 3d' -%}
+    {%- assign sgc_img = 'size-guide-hoodie-3d.jpg' -%}{%- assign sgc_img_w = 600 -%}{%- assign sgc_img_h = 530 -%}
+  {%- when 'ultra cloak', 'ultra cloaks' -%}
+    {%- assign sgc_img = 'size-guide-ultra-cloak.jpg' -%}{%- assign sgc_img_w = 800 -%}{%- assign sgc_img_h = 707 -%}
+    {%- assign sgc_img_alt = 'How to measure: chest edge to edge, length from top of hood to below the knee' -%}
+  {%- when 'bomber jacket', 'bomber jackets' -%}
+    {%- assign sgc_img = 'size-guide-bomber-jacket.jpg' -%}{%- assign sgc_img_w = 800 -%}{%- assign sgc_img_h = 707 -%}
+  {%- when 'jogger', 'joggers' -%}
+    {%- assign sgc_img = 'size-guide-jogger.jpg' -%}{%- assign sgc_img_w = 600 -%}{%- assign sgc_img_h = 530 -%}
+    {%- assign sgc_img_alt = 'How to measure: waist, rise, inseam, outseam' -%}
+  {%- else -%}
+    {%- assign sgc_img = 'size-guide-cloak.jpg' -%}{%- assign sgc_img_w = 600 -%}{%- assign sgc_img_h = 530 -%}
+    {%- assign sgc_img_alt = 'How to measure: length from top of hood to below the knee, chest circumference' -%}
+{%- endcase -%}
 <modal-dialog id="SizeGuideCloak-{{ section.id }}" class="product-popup-modal size-guide-cloak">
   <div role="dialog" aria-label="Size Guide" aria-modal="true" class="product-popup-modal__content" tabindex="-1">
     <button id="ModalClose-SizeGuideCloak-{{ section.id }}" type="button" class="product-popup-modal__toggle" aria-label="{{ 'accessibility.close' | t }}">
@@ -65,7 +83,7 @@
         </table>
       </div>
       <div class="sgc__howto">
-        <img src="{{ 'size-guide-cloak.jpg' | asset_url }}" alt="How to measure: length from top of hood to below the knee, chest circumference" width="600" height="530" loading="lazy">
+        <img src="{{ sgc_img | asset_url }}" alt="{{ sgc_img_alt }}" width="{{ sgc_img_w }}" height="{{ sgc_img_h }}" loading="lazy">
       </div>
     </div>
   </div>

@@ -60,6 +60,13 @@ async function open(browser, handle) {
           sizes: [...t.querySelectorAll('tbody th')].map((th) => th.textContent.trim()).join(','),
           cm: [...t.querySelectorAll('tbody tr')].map((tr) => [...tr.querySelectorAll('.sgc__cm')].map((s) => s.textContent.trim()).join('/')).join(','),
         }));
+        const img = modal.locator('.sgc__howto img');
+        await img.scrollIntoViewIfNeeded();
+        await page.waitForFunction((m) => m.querySelector('.sgc__howto img')?.complete, await modal.elementHandle(), { timeout: 5000 });
+        const { src, nw } = await img.evaluate((i) => ({ src: i.currentSrc || i.src, nw: i.naturalWidth }));
+        const wantImg = 'size-guide-' + type.toLowerCase().replace(/ /g, '-');
+        assert.ok(src.includes(wantImg), `${handle}: howto img ${src}, want ${wantImg}`);
+        assert.ok(nw > 0, `${handle}: howto img not loaded (naturalWidth ${nw})`);
         if (type === 'Zip Hoodie' || type === 'hoodie 3d') {
           assert.strictEqual(table.head, 'SIZE,LENGTH,CHEST', `zip head: ${table.head}`);
           assert.strictEqual(table.sizes, 'S,M,L,XL,2XL,3XL,4XL,5XL', `zip sizes: ${table.sizes}`);
