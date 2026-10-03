@@ -1,5 +1,12 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-04 — Hoodie 3D / Jogger / Bomber Jacket / Zip Hoodie → BMSM
+
+**User:** hoodie 3d, jogger, bomber jacket, zip hoodie cũng hiển thị như BMSM.
+**Fix:** `snippets/free-shipping-callout.liquid` — thêm so khớp chính xác `hoodie 3d`, `jogger`, `bomber jacket`, `zip hoodie` (không dùng contains "hoodie" để Wearable Blanket Hoodie giữ Free Shipping).
+**Check:** `scripts/check-cloak-bmsm.js` DEV + LIVE — Cloak, Ultra Cloak, hoodie 3d, Jogger, Bomber Jacket, Zip Hoodie → BMSM; Wearable Blanket Hoodie, Mug → Free Shipping. PASS.
+**LIVE:** pushed `183186358588`. Commit GitHub `main`.
+
 ## 2026-10-03 — Cloak → hiển thị BMSM
 
 **User:** sản phẩm product_type cloak hiển thị giống template BMSM.
