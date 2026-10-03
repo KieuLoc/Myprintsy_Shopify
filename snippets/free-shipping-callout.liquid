@@ -1,7 +1,13 @@
 {%- comment -%}
   Free shipping callout — default product template only (product.json).
   Keeps .bmsm class so EDD placement + gap CSS still hook correctly.
+  Product types containing "cloak" (Cloak, Ultra Cloak) show the Buy More, Save More box
+  (same as product.buy-more-save-more).
 {%- endcomment -%}
+{%- assign fsc_type = product.type | downcase -%}
+{%- if fsc_type contains 'cloak' -%}
+  {%- render 'special-coupon' -%}
+{%- else -%}
 <style>
   .bmsm {
     margin: 0.8rem 0 0;
@@ -48,3 +54,4 @@
     Free Shipping For Orders <span class="bmsm__from">From $59</span>
   </p>
 </div>
+{%- endif -%}

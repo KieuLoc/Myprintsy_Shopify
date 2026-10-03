@@ -1,5 +1,12 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-03 — Cloak → hiển thị BMSM
+
+**User:** sản phẩm product_type cloak hiển thị giống template BMSM.
+**Fix:** `snippets/free-shipping-callout.liquid` — nếu `product.type` chứa "cloak" (Cloak, Ultra Cloak) thì render `special-coupon` (hộp Buy More, Save More), còn lại giữ Free Shipping. Áp dụng cho mọi template đang dùng snippet này, không cần đổi template từng sản phẩm.
+**Check:** `scripts/check-cloak-bmsm.js` trên DEV `186878558524` — Yggdrasil Cloak (type Cloak) + 2 Ultra Cloak → BMSM, hoodie 3d + Jogger → Free Shipping. PASS.
+**LIVE:** pushed `183186358588`, check chạy lại trên LIVE PASS. Commit GitHub `main`.
+
 ## 2026-09-24 — Push DEV + LIVE (Free Ship / BMSM template)
 
 **User:** push DEV và LIVE.
