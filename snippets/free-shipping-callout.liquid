@@ -1,11 +1,16 @@
 {%- comment -%}
   Free shipping callout — default product template only (product.json).
   Keeps .bmsm class so EDD placement + gap CSS still hook correctly.
-  Product types containing "cloak" (Cloak, Ultra Cloak), Hoodie 3D, Jogger, Bomber Jacket,
-  Zip Hoodie show the Buy More, Save More box (same as product.buy-more-save-more).
+  Product type "Cloak" shows the Buy More, Save More box (same as product.buy-more-save-more).
+  bmsm_extra_on = true also enables it for bmsm_extra_types (needs their discount collection first).
 {%- endcomment -%}
+{%- assign bmsm_extra_on = false -%}
+{%- assign bmsm_extra_types = 'ultra cloak,hoodie 3d,jogger,bomber jacket,zip hoodie' | split: ',' -%}
 {%- assign fsc_type = product.type | strip | downcase -%}
-{%- if fsc_type contains 'cloak' or fsc_type == 'hoodie 3d' or fsc_type == 'jogger' or fsc_type == 'bomber jacket' or fsc_type == 'zip hoodie' -%}
+{%- assign fsc_bmsm = false -%}
+{%- if fsc_type == 'cloak' -%}{%- assign fsc_bmsm = true -%}{%- endif -%}
+{%- if bmsm_extra_on and bmsm_extra_types contains fsc_type -%}{%- assign fsc_bmsm = true -%}{%- endif -%}
+{%- if fsc_bmsm -%}
   {%- render 'special-coupon' -%}
 {%- else -%}
 <style>

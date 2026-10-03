@@ -1,5 +1,13 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-04 — Revert BMSM về chỉ Cloak (flag off các type khác)
+
+**User:** chưa tạo collection giảm giá → chỉ giữ Cloak, các type khác flag off, mai bật.
+**Fix:** `snippets/free-shipping-callout.liquid` — chỉ type `Cloak` (khớp chính xác) hiện BMSM. `bmsm_extra_on = false` tắt `bmsm_extra_types` (Ultra Cloak, Hoodie 3D, Jogger, Bomber Jacket, Zip Hoodie). Mai: đổi `bmsm_extra_on = true` + chạy check với `BMSM_EXTRA_ON=1`.
+**Gotcha:** gộp `a or b and c` trong 1 `{% if %}` Liquid cho kết quả sai (Ultra Cloak vẫn BMSM) → tách thành 2 `if` gán biến.
+**Check:** `scripts/check-cloak-bmsm.js` DEV + LIVE — Cloak → BMSM; 7 type còn lại → Free Shipping. PASS.
+**LIVE:** pushed `183186358588`. Commit GitHub `main`.
+
 ## 2026-10-04 — Hoodie 3D / Jogger / Bomber Jacket / Zip Hoodie → BMSM
 
 **User:** hoodie 3d, jogger, bomber jacket, zip hoodie cũng hiển thị như BMSM.
