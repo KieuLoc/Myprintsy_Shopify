@@ -1,5 +1,12 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-04 (tối) — Bật BMSM cho Ultra Cloak / Hoodie 3D / Jogger / Bomber Jacket / Zip Hoodie
+
+**User:** bật lại flag, các type kia nhận BMSM luôn, không tắt về Free Ship nữa.
+**Fix:** `snippets/free-shipping-callout.liquid` — bỏ flag `bmsm_extra_on`, dùng 1 danh sách cố định `bmsm_types` (cloak, ultra cloak, hoodie 3d, jogger, bomber jacket, zip hoodie). Thêm type mới = thêm vào danh sách.
+**Check:** `scripts/check-cloak-bmsm.js` DEV + LIVE — 6 type → BMSM; Wearable Blanket Hoodie, Mug → Free Shipping. PASS.
+**LIVE:** pushed `183186358588`. Commit GitHub `main`.
+
 ## 2026-10-04 — Revert BMSM về chỉ Cloak (flag off các type khác)
 
 **User:** chưa tạo collection giảm giá → chỉ giữ Cloak, các type khác flag off, mai bật.
