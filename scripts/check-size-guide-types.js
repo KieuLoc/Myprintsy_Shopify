@@ -14,6 +14,15 @@ const SHOW = {
   Jogger: 'kitsune-joggers-1653',
   'Bomber Jacket': 'ogham-bomber-jacket-926',
   'Zip Hoodie': 'dragon-luna-zip-hoodie-1150',
+  Cloak: 'yggdrasil-cloak-218',
+};
+const FIT = {
+  'Ultra Cloak': 'Myprintsy Ultra Cloaks feature a loose and oversized fit.',
+  'hoodie 3d': 'Myprintsy Pullover Hoodies fit true to size.',
+  Jogger: 'Myprintsy Joggers are slim fit.',
+  'Bomber Jacket': 'Myprintsy Bomber Jackets fit true to size.',
+  'Zip Hoodie': 'Myprintsy Zip Hoodies fit true to size.',
+  Cloak: 'Myprintsy Cloaks are tight fitting.',
 };
 const HIDE = {
   Mug: 'pickleball-lover-personalized-mug-pklaah2a03',
@@ -55,6 +64,9 @@ async function open(browser, handle) {
         const rows = await modal.locator('.sgc__table tbody tr').count();
         assert.ok(rows >= 5, `${handle}: size table has ${rows} rows`);
         console.log(`  ${handle}: modal open ${Date.now() - t0}ms, ${rows} rows`);
+        const fit = (await modal.locator('.sgc__list li').first().innerText()).trim();
+        assert.ok(fit.startsWith(FIT[type]), `${handle}: fit note "${fit}", want "${FIT[type]}…"`);
+        assert.ok(!/lunafide/i.test(await modal.innerText()), `${handle}: modal mentions Lunafide`);
         const table = await modal.locator('.sgc__table').evaluate((t) => ({
           head: [...t.querySelectorAll('thead th')].map((th) => th.textContent.trim()).join(','),
           sizes: [...t.querySelectorAll('tbody th')].map((th) => th.textContent.trim()).join(','),

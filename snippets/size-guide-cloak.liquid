@@ -3,21 +3,33 @@
   Rows: size|<one value per sgc_cols> (cm), a~b for a range. Inches are derived. Use - for unknown.
 {% endcomment %}
 {%- assign sgc_type = product.type | downcase -%}
+{%- assign sgc_true_fit = ' fit true to size. We recommend Men who like a looser fit to order a size up, and Ladies to order a size down.' -%}
+{%- assign sgc_note = 'These are approximate size guidelines. Please take your body measurements to determine the best fit for you.' -%}
 {%- if sgc_type == 'zip hoodie' or sgc_type == 'zip hoodies' or sgc_type == 'hoodie 3d' -%}
   {%- assign sgc_cols = 'LENGTH|CHEST' | split: '|' -%}
   {%- assign sgc_rows = 'S|70.9|107,M|72.1|111,L|74.9|115,XL|76.2|120,2XL|77.5|125,3XL|80|130,4XL|81.3|136,5XL|82.5|141' | split: ',' -%}
+  {%- if sgc_type == 'hoodie 3d' -%}
+    {%- assign sgc_fit = 'Myprintsy Pullover Hoodies' | append: sgc_true_fit -%}
+  {%- else -%}
+    {%- assign sgc_fit = 'Myprintsy Zip Hoodies' | append: sgc_true_fit -%}
+  {%- endif -%}
 {%- elsif sgc_type == 'bomber jacket' or sgc_type == 'bomber jackets' -%}
   {%- assign sgc_cols = 'LENGTH|CHEST|WAIST' | split: '|' -%}
   {%- assign sgc_rows = 'S|69.2|55.9|53.3,M|71.8|58.4|55.9,L|74.3|61|58.4,XL|76.8|64.8|62.2,2XL|79.4|68.6|66,3XL|81.9|72.4|69.8' | split: ',' -%}
+  {%- assign sgc_fit = 'Myprintsy Bomber Jackets' | append: sgc_true_fit -%}
 {%- elsif sgc_type == 'ultra cloak' or sgc_type == 'ultra cloaks' -%}
   {%- assign sgc_cols = 'CHEST|FULL SLEEVE|SLEEVE CUFFED|LENGTH' | split: '|' -%}
   {%- assign sgc_rows = 'XS|55.9|74.9|67.3|99.1,S|58.4|76.2|68.6|102,M|61|77.5|69.8|104,L|63.5|78.7|71.1|107,XL|66|80|72.4|109,2XL|68.6|81.3|73.7|112,3XL|71.1|82.5|74.9|114,4XL|73.7|83.8|76.2|117,5XL|76.2|85.1|77.5|119' | split: ',' -%}
+  {%- assign sgc_fit = 'Myprintsy Ultra Cloaks feature a loose and oversized fit.' -%}
+  {%- assign sgc_note = 'Please note that our size guide is approximate. The measurements provided are your body measurements and choosing a size within this range should provide you with the best possible fit.' -%}
 {%- elsif sgc_type == 'jogger' or sgc_type == 'joggers' -%}
   {%- assign sgc_cols = 'WAIST|INSEAM|RISE|OUTSEAM' | split: '|' -%}
   {%- assign sgc_rows = 'XS|66~71.1|68.6|25.4|96.5,S|71.1~76.2|71.1|25.4|99.1,M|76.2~81.3|73.7|25.4|102,L|81.3~86.4|76.2|27.9|104,XL|86.4~91.4|78.7|27.9|107,2XL|91.4~96.5|81.3|27.9|109,3XL|96.5~101.6|83.8|30.5|111.8,4XL|101.6~106.7|86.4|30.5|114.3,5XL|106.7~111.8|88.9|30.5|116.8' | split: ',' -%}
+  {%- assign sgc_fit = 'Myprintsy Joggers are slim fit. We recommend Men who like a looser fit to order a size up, and Ladies to order a size down.' -%}
 {%- else -%}
   {%- assign sgc_cols = 'CHEST|SLEEVE|SLEEVE CIRC.|LENGTH' | split: '|' -%}
   {%- assign sgc_rows = 'XS|107|64.8|38.1|94,S|122|64.8|40.6|96.5,M|127|68.6|45.7|104,L|135|71.1|47|107,XL|145|73.7|48.3|108,2XL|150|73.7|50.8|109,3XL|155|76.2|53.3|117,4XL|160|78.7|55.8|120,5XL|165|81.2|58.3|123' | split: ',' -%}
+  {%- assign sgc_fit = 'Myprintsy Cloaks are tight fitting. We recommend that if you would like a looser fit to order one size up.' -%}
 {%- endif -%}
 {%- assign sgc_img_alt = 'How to measure: length and chest' -%}
 {%- case sgc_type -%}
@@ -52,8 +64,8 @@
       </div>
       <p class="sgc__note"><strong>Measurements are in inches +/- 0.5" tolerance.</strong></p>
       <ul class="sgc__list">
-        <li>Our Cloaks are tight fitting. We recommend that if you would like a looser fit to order one size up.</li>
-        <li>These are approximate size guidelines. Please take your body measurements to determine the best fit for you.</li>
+        <li>{{ sgc_fit }}</li>
+        <li>{{ sgc_note }}</li>
       </ul>
       <input type="radio" name="sgc-unit-{{ section.id }}" id="sgc-cm-{{ section.id }}" class="sgc__radio sgc__radio--cm" checked>
       <input type="radio" name="sgc-unit-{{ section.id }}" id="sgc-in-{{ section.id }}" class="sgc__radio sgc__radio--in">

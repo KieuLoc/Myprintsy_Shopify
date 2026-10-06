@@ -1,5 +1,24 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-06 — Size guide: câu fit theo từng loại SP
+
+**User:** dòng "Our Cloaks are tight fitting…" bị dùng cho mọi loại (clone từ cloak) → đổi đúng loại, giống Lunafide nhưng brand Myprintsy.
+**Nguồn:** đọc Kiwi size chart trên Lunafide (pullover/zip hoodie, bomber, joggers, ultra cloak, cloak).
+**Fix:** `snippets/size-guide-cloak.liquid` — `sgc_fit` + `sgc_note` gán theo type: Pullover Hoodies (hoodie 3d) / Zip Hoodies / Bomber Jackets "fit true to size…"; Joggers "slim fit…"; Ultra Cloaks "loose and oversized fit" + note riêng; Cloak "tight fitting…".
+**Check:** `scripts/check-size-guide-types.js` thêm assert câu fit + không chứa "Lunafide", thêm Cloak (yggdrasil-cloak-218). DEV PASS 9/9.
+**LIVE:** pushed `183186358588` (chỉ `size-guide-cloak.liquid`, đã diff với LIVE trước), check LIVE PASS 9/9. Commit GitHub `main`. Pairs well with vẫn chỉ ở DEV (user để sau).
+
+## 2026-10-05 — Pairs well with (giống Lunafide)
+
+**User:** làm Pairs well with như Lunafide; chọn SP qua Search & Discovery, bấm → mở trang SP.
+**Phát hiện:** Lunafide dùng chính block `complementary` của Dawn (horizontal card + Choose options →). Theme đã có block trên 8 template, nhưng chưa SP nào có complementary products → block ẩn.
+**Fix:** `card-product.liquid` thêm `quick_add: 'link'` (nút Choose options → là `<a href=product.url>`, cùng style Dawn); `main-product.liquid` block complementary dùng `'link'` khi tắt quick add.
+**Check:** `scripts/check-pairs-well-with.js` (DEV) — nhánh không gán (Mug) → ẩn PASS; nhánh có gán FAIL vì chưa gán SP nào trong Search & Discovery. Chờ user gán Kitsune Ultra Cloak.
+**Update:** user muốn block xuống dưới Personalization, dạng dấu + bấm mới xổ. 10 template product (pull LIVE trước, JSON y hệt local): `make_collapsible_row: true`, block dời ra sau collapsible_tab cuối (sweater / test-no-klip không có Personalization → sau Shipping). `main-product.liquid`: `<details>` bỏ `open` (mặc định đóng), caret → `icon-plus` (xoay 45° thành × khi mở) — CSS trong `component-complementary-products.css`.
+**Check DEV:** follow-the-moon mug (7 SP đi kèm) — dưới "Personalization", đóng mặc định, click mở, CTA → trang SP; Mug không gán → ẩn. PASS. Kitsune Ultra Cloak API vẫn trả 0 complementary (SP gán có thể chưa Active/Online Store).
+**Update 2:** user muốn icon đồng bộ với các tab trên → bỏ dấu + quay lại `icon-caret` (lật khi mở). Bỏ margin-top thừa 10px phía trên block (CSS `.product__accordion + product-recommendations.is-accordion`) → 4 dòng cao đều 40-41px, sát nhau. Check DEV PASS.
+**Chưa push LIVE.**
+
 ## 2026-10-04 (tối) — Bật BMSM cho Ultra Cloak / Hoodie 3D / Jogger / Bomber Jacket / Zip Hoodie
 
 **User:** bật lại flag, các type kia nhận BMSM luôn, không tắt về Free Ship nữa.
