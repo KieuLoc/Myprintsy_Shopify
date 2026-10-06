@@ -20,12 +20,30 @@
 {%- elsif sgc_type == 'ultra cloak' or sgc_type == 'ultra cloaks' -%}
   {%- assign sgc_cols = 'CHEST|FULL SLEEVE|SLEEVE CUFFED|LENGTH' | split: '|' -%}
   {%- assign sgc_rows = 'XS|55.9|74.9|67.3|99.1,S|58.4|76.2|68.6|102,M|61|77.5|69.8|104,L|63.5|78.7|71.1|107,XL|66|80|72.4|109,2XL|68.6|81.3|73.7|112,3XL|71.1|82.5|74.9|114,4XL|73.7|83.8|76.2|117,5XL|76.2|85.1|77.5|119' | split: ',' -%}
-  {%- assign sgc_fit = 'Myprintsy Ultra Cloaks feature a loose and oversized fit.' -%}
-  {%- assign sgc_note = 'Please note that our size guide is approximate. The measurements provided are your body measurements and choosing a size within this range should provide you with the best possible fit.' -%}
+  {%- assign sgc_fit = 'Please note that our size guide is approximate. The measurements provided are your body measurements and choosing a size within this range should provide you with the best possible fit.' -%}
+  {%- assign sgc_note = 'Our Ultra Cloaks feature a loose and oversized fit.' -%}
+  {%- assign sgc_note2 = 'Note that the Chest measurements are from “Side Seam to Side Seam” not full chest circumference.' -%}
 {%- elsif sgc_type == 'jogger' or sgc_type == 'joggers' -%}
   {%- assign sgc_cols = 'WAIST|INSEAM|RISE|OUTSEAM' | split: '|' -%}
   {%- assign sgc_rows = 'XS|66~71.1|68.6|25.4|96.5,S|71.1~76.2|71.1|25.4|99.1,M|76.2~81.3|73.7|25.4|102,L|81.3~86.4|76.2|27.9|104,XL|86.4~91.4|78.7|27.9|107,2XL|91.4~96.5|81.3|27.9|109,3XL|96.5~101.6|83.8|30.5|111.8,4XL|101.6~106.7|86.4|30.5|114.3,5XL|106.7~111.8|88.9|30.5|116.8' | split: ',' -%}
   {%- assign sgc_fit = 'Myprintsy Joggers are slim fit. We recommend Men who like a looser fit to order a size up, and Ladies to order a size down.' -%}
+{%- elsif sgc_type == 'sweater' or sgc_type == 'sweaters' or sgc_type == 'ugly sweater' or sgc_type == 'ugly sweaters' -%}
+  {%- assign sgc_cols = 'LENGTH|CHEST' | split: '|' -%}
+  {%- assign sgc_rows = 'S|68.6|122,M|71.1|124,L|73.7|127,XL|76.2|130,2XL|78.7|132,3XL|81.3|135,4XL|83.8|137,5XL|86.4|140' | split: ',' -%}
+  {%- assign sgc_caption = 'These Measurements are approximate' -%}
+  {%- assign sgc_fit = 'Myprintsy Sweaters' | append: sgc_true_fit -%}
+{%- elsif sgc_type == 'legging' or sgc_type == 'leggings' -%}
+  {%- assign sgc_cols = 'WAIST|HIP|INSEAM' | split: '|' -%}
+  {%- assign sgc_rows = 'XS|58.4~66|83.8~90.2|81.8,S|67.3~73.7|91.4~97.8|82.5,M|74.9~78.7|99.1~105|82.5,L|80~86.4|104~113|83.2,XL|87.6~99.1|114~121|83.2,2XL|100~104|122~128|83.2,3XL|105~112|130~138|83.2,4XL|113~150|140~146|83.2,5XL|151~158|148~156|83.2' | split: ',' -%}
+  {%- assign sgc_caption = 'Fabric Used for Leggings has a four-way stretch' -%}
+  {%- assign sgc_fit = 'Myprintsy Leggings are slim fit. We recommend ordering a size up for a snug fit.' -%}
+  {%- assign sgc_note2 = 'Please note that our size guides are a guideline and the actual fit of our leggings will differ from style and size. The measurements provided are your body measurements and our leggings are made using four-way stretch fabric meaning they will stretch to accommodate you.' -%}
+{%- elsif sgc_type == 'robe' or sgc_type == 'robes' -%}
+  {%- assign sgc_cols = 'LENGTH (HPS)|CHEST|SLEEVE|SLEEVE CIRC.|BELT LENGTH' | split: '|' -%}
+  {%- assign sgc_rows = 'S|127|66.7|57.8|15.2|185,L|132|73|58.4|15.9|198,XL|132|76.2|58.8|16.2|204.5,2XL|132|79.4|59.1|16.5|211,3XL|132|85.7|59.7|17.1|224,4XL|132|92.1|60.3|17.8|236,5XL|132|98.4|61|18.4|249' | split: ',' -%}
+  {%- assign sgc_fit = 'These are approximate size guidelines. Our Robes are made using a generous cut which means each individual size accommodates a wide variety of body shapes and sizes.' -%}
+  {%- assign sgc_note = 'The overlapping front flaps allow individuals of all sizes to create their own custom fit.' -%}
+  {%- assign sgc_note2 = 'Use the size guide as an approximate guide, take your measurements and choose a robe closest to your size while keeping in mind that each robe will comfortably fit a variety of sizes.' -%}
 {%- else -%}
   {%- assign sgc_cols = 'CHEST|SLEEVE|SLEEVE CIRC.|LENGTH' | split: '|' -%}
   {%- assign sgc_rows = 'XS|107|64.8|38.1|94,S|122|64.8|40.6|96.5,M|127|68.6|45.7|104,L|135|71.1|47|107,XL|145|73.7|48.3|108,2XL|150|73.7|50.8|109,3XL|155|76.2|53.3|117,4XL|160|78.7|55.8|120,5XL|165|81.2|58.3|123' | split: ',' -%}
@@ -45,6 +63,14 @@
   {%- when 'jogger', 'joggers' -%}
     {%- assign sgc_img = 'size-guide-jogger.jpg' -%}{%- assign sgc_img_w = 600 -%}{%- assign sgc_img_h = 530 -%}
     {%- assign sgc_img_alt = 'How to measure: waist, rise, inseam, outseam' -%}
+  {%- when 'sweater', 'sweaters', 'ugly sweater', 'ugly sweaters' -%}
+    {%- assign sgc_img = 'size-guide-sweater.jpg' -%}{%- assign sgc_img_w = 600 -%}{%- assign sgc_img_h = 530 -%}
+  {%- when 'legging', 'leggings' -%}
+    {%- assign sgc_img = 'size-guide-legging.jpg' -%}{%- assign sgc_img_w = 600 -%}{%- assign sgc_img_h = 530 -%}
+    {%- assign sgc_img_alt = 'How to measure: waist, hips, inseam' -%}
+  {%- when 'robe', 'robes' -%}
+    {%- assign sgc_img = 'size-guide-robe.jpg' -%}{%- assign sgc_img_w = 1200 -%}{%- assign sgc_img_h = 1060 -%}
+    {%- assign sgc_img_alt = 'How to measure: sleeve, length, chest' -%}
   {%- else -%}
     {%- assign sgc_img = 'size-guide-cloak.jpg' -%}{%- assign sgc_img_w = 600 -%}{%- assign sgc_img_h = 530 -%}
     {%- assign sgc_img_alt = 'How to measure: length from top of hood to below the knee, chest circumference' -%}
@@ -66,7 +92,9 @@
       <ul class="sgc__list">
         <li>{{ sgc_fit }}</li>
         <li>{{ sgc_note }}</li>
+        {%- if sgc_note2 -%}<li>{{ sgc_note2 }}</li>{%- endif -%}
       </ul>
+      {%- if sgc_caption -%}<p class="sgc__caption">{{ sgc_caption }}</p>{%- endif -%}
       <input type="radio" name="sgc-unit-{{ section.id }}" id="sgc-cm-{{ section.id }}" class="sgc__radio sgc__radio--cm" checked>
       <input type="radio" name="sgc-unit-{{ section.id }}" id="sgc-in-{{ section.id }}" class="sgc__radio sgc__radio--in">
       <div class="sgc__units">
@@ -125,6 +153,7 @@
   .sgc__list { font-family: Georgia, 'Times New Roman', serif; font-size: 1.4rem; line-height: 1.6; margin: 0 0 1.6rem; padding-left: 2.4rem; border-bottom: 1px solid rgba(var(--color-foreground), .15); padding-bottom: 1.6rem; }
   .sgc__list li { margin-bottom: .6rem; }
   .sgc__radio { position: absolute; opacity: 0; pointer-events: none; }
+  .sgc__caption { text-align: center; font-size: 1.4rem; font-weight: 700; margin: 0 0 .4rem; }
   .sgc__units { text-align: center; font-size: 1.3rem; letter-spacing: .06em; margin-bottom: 1rem; color: rgba(var(--color-foreground), .5); }
   .sgc__unit { cursor: pointer; padding: 0 .4rem; }
   .sgc__radio--cm:checked ~ .sgc__units .sgc__unit--cm,

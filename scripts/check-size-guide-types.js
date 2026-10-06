@@ -1,5 +1,5 @@
 /**
- * Check: Size Guide (cloak table) shows for Cloak / Ultra Cloak / Jogger / Bomber Jacket / Zip Hoodie,
+ * Check: Size Guide (cloak table) shows for Cloak / Ultra Cloak / Jogger / Bomber Jacket / Zip Hoodie / Ugly Sweater / Robes,
  * opens on click, closes on Esc; other types (Mug, T-Shirt, Wearable Blanket Hoodie) have no opener.
  */
 const { chromium } = require('playwright');
@@ -15,14 +15,21 @@ const SHOW = {
   'Bomber Jacket': 'ogham-bomber-jacket-926',
   'Zip Hoodie': 'dragon-luna-zip-hoodie-1150',
   Cloak: 'yggdrasil-cloak-218',
+  'Ugly Sweater': 'f-caw-f-crow-joke-personalized-unisex-ugly-sweater',
+  Robes: 'ryu-robe',
+  Legging: 'ghost-oath-leggings',
 };
+const IMG = { 'Ugly Sweater': 'size-guide-sweater', Robes: 'size-guide-robe' };
 const FIT = {
-  'Ultra Cloak': 'Myprintsy Ultra Cloaks feature a loose and oversized fit.',
+  'Ultra Cloak': 'Please note that our size guide is approximate.',
   'hoodie 3d': 'Myprintsy Pullover Hoodies fit true to size.',
   Jogger: 'Myprintsy Joggers are slim fit.',
   'Bomber Jacket': 'Myprintsy Bomber Jackets fit true to size.',
   'Zip Hoodie': 'Myprintsy Zip Hoodies fit true to size.',
   Cloak: 'Myprintsy Cloaks are tight fitting.',
+  'Ugly Sweater': 'Myprintsy Sweaters fit true to size.',
+  Robes: 'These are approximate size guidelines. Our Robes are made using a generous cut',
+  Legging: 'Myprintsy Leggings are slim fit.',
 };
 const HIDE = {
   Mug: 'pickleball-lover-personalized-mug-pklaah2a03',
@@ -76,21 +83,48 @@ async function open(browser, handle) {
         await img.scrollIntoViewIfNeeded();
         await page.waitForFunction((m) => m.querySelector('.sgc__howto img')?.complete, await modal.elementHandle(), { timeout: 5000 });
         const { src, nw } = await img.evaluate((i) => ({ src: i.currentSrc || i.src, nw: i.naturalWidth }));
-        const wantImg = 'size-guide-' + type.toLowerCase().replace(/ /g, '-');
+        const wantImg = IMG[type] || 'size-guide-' + type.toLowerCase().replace(/ /g, '-');
         assert.ok(src.includes(wantImg), `${handle}: howto img ${src}, want ${wantImg}`);
         assert.ok(nw > 0, `${handle}: howto img not loaded (naturalWidth ${nw})`);
-        if (type === 'Zip Hoodie' || type === 'hoodie 3d') {
+        if (type === 'Ultra Cloak') {
+          const notes = (await modal.locator('.sgc__list li').allInnerTexts()).map((s) => s.trim());
+          assert.strictEqual(notes.length, 3, `ultra notes: ${notes.length} bullets`);
+          assert.strictEqual(notes[1], 'Our Ultra Cloaks feature a loose and oversized fit.', `ultra note 2: "${notes[1]}"`);
+          assert.ok(notes[2].includes('Side Seam to Side Seam'), `ultra note 3: "${notes[2]}"`);
+          assert.strictEqual(table.head, 'SIZE,CHEST,FULL SLEEVE,SLEEVE CUFFED,LENGTH', `ultra head: ${table.head}`);
+          assert.strictEqual(table.sizes, 'XS,S,M,L,XL,2XL,3XL,4XL,5XL', `ultra sizes: ${table.sizes}`);
+          assert.strictEqual(table.cm, '55.9/74.9/67.3/99.1,58.4/76.2/68.6/102,61/77.5/69.8/104,63.5/78.7/71.1/107,66/80/72.4/109,68.6/81.3/73.7/112,71.1/82.5/74.9/114,73.7/83.8/76.2/117,76.2/85.1/77.5/119', `ultra cm: ${table.cm}`);
+        } else if (type === 'Zip Hoodie' || type === 'hoodie 3d') {
           assert.strictEqual(table.head, 'SIZE,LENGTH,CHEST', `zip head: ${table.head}`);
           assert.strictEqual(table.sizes, 'S,M,L,XL,2XL,3XL,4XL,5XL', `zip sizes: ${table.sizes}`);
           assert.strictEqual(table.cm, '70.9/107,72.1/111,74.9/115,76.2/120,77.5/125,80/130,81.3/136,82.5/141', `zip cm: ${table.cm}`);
+        } else if (type === 'Ugly Sweater') {
+          assert.strictEqual(table.head, 'SIZE,LENGTH,CHEST', `sweater head: ${table.head}`);
+          assert.strictEqual(table.sizes, 'S,M,L,XL,2XL,3XL,4XL,5XL', `sweater sizes: ${table.sizes}`);
+          assert.strictEqual(table.cm, '68.6/122,71.1/124,73.7/127,76.2/130,78.7/132,81.3/135,83.8/137,86.4/140', `sweater cm: ${table.cm}`);
+          const cap = await modal.locator('.sgc__caption').innerText().catch(() => '');
+          assert.strictEqual(cap, 'These Measurements are approximate', `sweater caption: "${cap}"`);
+          await modal.locator('.sgc__unit--in').click();
+          const inS = await modal.locator('.sgc__table tbody tr').first().locator('.sgc__in').allInnerTexts();
+          assert.strictEqual(inS.join('/'), '27.0/48.0', `sweater S inches: ${inS.join('/')}`);
+        } else if (type === 'Legging') {
+          assert.strictEqual(table.head, 'SIZE,WAIST,HIP,INSEAM', `legging head: ${table.head}`);
+          assert.strictEqual(table.sizes, 'XS,S,M,L,XL,2XL,3XL,4XL,5XL', `legging sizes: ${table.sizes}`);
+          assert.ok(table.cm.endsWith('151 - 158/148 - 156/83.2'), `legging 5XL: ${table.cm}`);
+          assert.ok(table.cm.startsWith('58.4 - 66/83.8 - 90.2/81.8,'), `legging XS cm: ${table.cm}`);
+          const cap = await modal.locator('.sgc__caption').innerText().catch(() => '');
+          assert.strictEqual(cap, 'Fabric Used for Leggings has a four-way stretch', `legging caption: "${cap}"`);
+        } else if (type === 'Robes') {
+          assert.strictEqual(table.head, 'SIZE,LENGTH (HPS),CHEST,SLEEVE,SLEEVE CIRC.,BELT LENGTH', `robe head: ${table.head}`);
+          assert.strictEqual(table.sizes, 'S,L,XL,2XL,3XL,4XL,5XL', `robe sizes: ${table.sizes}`);
+          assert.ok(table.cm.startsWith('127/66.7/57.8/15.2/185,132/73/58.4/15.9/198,132/76.2/58.8/16.2/204.5,132/79.4/59.1/16.5/211,'), `robe cm: ${table.cm}`);
+          assert.ok(table.cm.endsWith('132/98.4/61/18.4/249'), `robe 5XL: ${table.cm}`);
+          const n = await modal.locator('.sgc__list li').count();
+          assert.strictEqual(n, 3, `robe notes: ${n} bullets`);
         } else if (type === 'Bomber Jacket') {
           assert.strictEqual(table.head, 'SIZE,LENGTH,CHEST,WAIST', `bomber head: ${table.head}`);
           assert.strictEqual(table.sizes, 'S,M,L,XL,2XL,3XL', `bomber sizes: ${table.sizes}`);
           assert.strictEqual(table.cm, '69.2/55.9/53.3,71.8/58.4/55.9,74.3/61/58.4,76.8/64.8/62.2,79.4/68.6/66,81.9/72.4/69.8', `bomber cm: ${table.cm}`);
-        } else if (type === 'Ultra Cloak') {
-          assert.strictEqual(table.head, 'SIZE,CHEST,FULL SLEEVE,SLEEVE CUFFED,LENGTH', `ultra head: ${table.head}`);
-          assert.strictEqual(table.sizes, 'XS,S,M,L,XL,2XL,3XL,4XL,5XL', `ultra sizes: ${table.sizes}`);
-          assert.strictEqual(table.cm, '55.9/74.9/67.3/99.1,58.4/76.2/68.6/102,61/77.5/69.8/104,63.5/78.7/71.1/107,66/80/72.4/109,68.6/81.3/73.7/112,71.1/82.5/74.9/114,73.7/83.8/76.2/117,76.2/85.1/77.5/119', `ultra cm: ${table.cm}`);
         } else if (type === 'Jogger') {
           assert.strictEqual(table.head, 'SIZE,WAIST,INSEAM,RISE,OUTSEAM', `jogger head: ${table.head}`);
           assert.strictEqual(table.sizes, 'XS,S,M,L,XL,2XL,3XL,4XL,5XL', `jogger sizes: ${table.sizes}`);

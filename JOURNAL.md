@@ -1,5 +1,19 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-06 — Size guide: Sweater + Legging (Robes chờ số đo)
+
+**User:** bổ sung size guide cho sweater, legging, robes.
+**Nguồn:** Kiwi API Lunafide (`getSizingChart`): Sweaters (ulfhednar-sweater), Women Leggings (cosmos-leggings), Robes (loki-robe-limited). Số đo inch → lưu cm (×2.54, 1 số lẻ). Ảnh how-to tải từ cdn.kiwisizing (không logo Lunafide) → `assets/size-guide-sweater.jpg`, `size-guide-legging.jpg` (600×530).
+**User chọn:** Sweater áp cho `sweater` + `ugly sweater` (store chỉ có Ugly Sweater, S–5XL), thêm 5XL ngoại suy +1" (34/55 in). Legging làm sẵn (store chưa có SP). Robes: Lunafide chỉ SM/LG/2XL, store M–5XL → **user sẽ gửi số đo riêng**.
+**Fix:** `size-guide-cloak.liquid` thêm 2 nhánh + `sgc_note2` (bullet thứ 3 cho leggings); `sgc_types` trong `main-product.liquid` + `product-variant-picker.liquid` thêm sweater(s), ugly sweater(s), legging(s).
+**Lưu ý:** 4XL waist leggings Lunafide ghi 44.5-59 in (có thể lỗi đánh máy) — giữ nguyên.
+**Check:** `check-size-guide-types.js` thêm Ugly Sweater (head/sizes/cm/inches/img/fit). DEV PASS 10/10. Legging chưa test được (không có SP).
+**Update (user gửi ảnh Lunafide):** Legging dùng đúng số cm bảng Lunafide (vd M hip 99.1-105, inseam S/M 82.5), thêm caption "Fabric Used for Leggings has a four-way stretch" (`sgc_caption`). Robes: cột LENGTH (HPS)|CHEST|SLEEVE|SLEEVE CIRC.|BELT LENGTH; S/L/2XL đúng hình, cộng thêm 3XL/4XL/5XL theo bước L→2XL (chest +2.5", sleeve/circ +0.25", belt +5", length 132). 3 bullet robes (không tên brand). Ảnh `assets/size-guide-robe.jpg` 1200×1060. Check thêm Robes (ryu-robe). DEV PASS 11/11.
+**Update sweater (ảnh Lunafide):** chest làm tròn như bảng họ (122,124,127,130,132,135,137, 5XL 140), thêm caption "These Measurements are approximate". Check assert cm mới + caption. DEV PASS 11/11.
+**Legging test được:** SP legging đang Unlisted nên không ra search, nhưng mở URL trực tiếp được. Check thêm Legging (ghost-oath-leggings: head/sizes/XS cm/caption). DEV PASS 12/12.
+**Bổ sung:** Ultra Cloak 3 bullet như Lunafide (approximate / loose & oversized / chest Side Seam to Side Seam). Robes thêm XL = trung bình L & 2XL (132|76.2|58.8|16.2|204.5). Legging thêm 5XL nội suy 151–158|148–156|83.2 (4XL waist 113–150 giữ nguyên theo Lunafide). Check gộp nhánh Ultra Cloak bị trùng. DEV PASS 12/12.
+**Đã push LIVE** (diff LIVE = repo trước khi push), check trên LIVE PASS 12/12.
+
 ## 2026-10-06 — Size guide: câu fit theo từng loại SP
 
 **User:** dòng "Our Cloaks are tight fitting…" bị dùng cho mọi loại (clone từ cloak) → đổi đúng loại, giống Lunafide nhưng brand Myprintsy.
