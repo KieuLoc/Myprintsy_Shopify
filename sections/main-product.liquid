@@ -569,7 +569,7 @@
                     >
                       <div class="complementary-products__container">
                         {%- if block.settings.make_collapsible_row -%}
-                          <details id="Details-{{ block.id }}-{{ section.id }}" open>
+                          <details id="Details-{{ block.id }}-{{ section.id }}">
                             <summary>
                         {%- endif %}
                         <div class="summary__title">
@@ -619,7 +619,7 @@
                                       {%- if block.settings.enable_quick_add -%}
                                         {% assign quick_add = 'standard' %}
                                       {%- else -%}
-                                        {% assign quick_add = 'none' %}
+                                        {% assign quick_add = 'link' %}
                                       {%- endif -%}
                                       {% render 'card-product',
                                         card_product: product,

@@ -17,7 +17,7 @@
 **Update:** user muốn block xuống dưới Personalization, dạng dấu + bấm mới xổ. 10 template product (pull LIVE trước, JSON y hệt local): `make_collapsible_row: true`, block dời ra sau collapsible_tab cuối (sweater / test-no-klip không có Personalization → sau Shipping). `main-product.liquid`: `<details>` bỏ `open` (mặc định đóng), caret → `icon-plus` (xoay 45° thành × khi mở) — CSS trong `component-complementary-products.css`.
 **Check DEV:** follow-the-moon mug (7 SP đi kèm) — dưới "Personalization", đóng mặc định, click mở, CTA → trang SP; Mug không gán → ẩn. PASS. Kitsune Ultra Cloak API vẫn trả 0 complementary (SP gán có thể chưa Active/Online Store).
 **Update 2:** user muốn icon đồng bộ với các tab trên → bỏ dấu + quay lại `icon-caret` (lật khi mở). Bỏ margin-top thừa 10px phía trên block (CSS `.product__accordion + product-recommendations.is-accordion`) → 4 dòng cao đều 40-41px, sát nhau. Check DEV PASS.
-**Chưa push LIVE.**
+**LIVE (2026-10-06):** pull 13 file từ LIVE, so với repo GitHub → giống hệt (không ai sửa qua editor). Pushed `183186358588`: `main-product.liquid`, `card-product.liquid`, `component-complementary-products.css`, 10 template product. Check LIVE PASS (block load 1348ms, 7 SP, CTA → trang SP; Mug ẩn). Commit GitHub `main`.
 
 ## 2026-10-04 (tối) — Bật BMSM cho Ultra Cloak / Hoodie 3D / Jogger / Bomber Jacket / Zip Hoodie
 

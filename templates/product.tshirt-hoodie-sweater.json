@@ -48,7 +48,7 @@
           "type": "complementary",
           "settings": {
             "block_heading": "Pairs well with",
-            "make_collapsible_row": false,
+            "make_collapsible_row": true,
             "icon": "price_tag",
             "product_list_limit": 10,
             "products_per_page": 3,
@@ -111,14 +111,14 @@
         "custom_liquid_67KrCi",
         "popup_eKnwmK",
         "variant_picker",
-        "complementary_RjcJaT",
         "custom_liquid_N7hJfh",
         "quantity_selector",
         "custom_liquid_7kBdDh",
         "buy_buttons_cDRCUQ",
         "description",
         "collapsible_tab_wcrDbk",
-        "collapsible_tab_cfwtF4"
+        "collapsible_tab_cfwtF4",
+        "complementary_RjcJaT"
       ],
       "custom_css": [
         ".product__title h1 {font-size: 1.8rem; font-weight: 600;}",

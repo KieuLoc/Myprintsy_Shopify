@@ -11,7 +11,6 @@ product-recommendations:not(.is-accordion) .complementary-products__container {
 .complementary-products__container > details[open] {
   padding-bottom: 1.5rem;
 }
-
 .complementary-slider {
   margin-top: 0;
   gap: 0;
@@ -65,6 +64,12 @@ product-recommendations:not(.is-accordion) .complementary-products__container {
 .accordion + product-recommendations .accordion,
 product-recommendations.is-accordion + .accordion {
   margin-top: 0;
+  border-top: none;
+}
+
+.product__info-container > .product__accordion + product-recommendations.is-accordion,
+.product__info-container > .product__accordion + product-recommendations.is-accordion .accordion {
+  margin-top: 0 !important;
   border-top: none;
 }
 
