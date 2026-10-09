@@ -18,6 +18,7 @@ const SHOW = {
   'Ugly Sweater': 'f-caw-f-crow-joke-personalized-unisex-ugly-sweater',
   Robes: 'ryu-robe',
   Legging: 'ghost-oath-leggings',
+  'Hawaii Shirt': 'hawaii-hawaiian-shirt-parrot',
 };
 const IMG = { 'Ugly Sweater': 'size-guide-sweater', Robes: 'size-guide-robe' };
 const FIT = {
@@ -30,6 +31,7 @@ const FIT = {
   'Ugly Sweater': 'Myprintsy Sweaters fit true to size.',
   Robes: 'These are approximate size guidelines. Our Robes are made using a generous cut',
   Legging: 'Myprintsy Leggings are slim fit.',
+  'Hawaii Shirt': 'Myprintsy Hawaiian Shirts fit true to size.',
 };
 const HIDE = {
   Mug: 'pickleball-lover-personalized-mug-pklaah2a03',
@@ -107,6 +109,13 @@ async function open(browser, handle) {
           await modal.locator('.sgc__unit--in').click();
           const inS = await modal.locator('.sgc__table tbody tr').first().locator('.sgc__in').allInnerTexts();
           assert.strictEqual(inS.join('/'), '27.0/48.0', `sweater S inches: ${inS.join('/')}`);
+        } else if (type === 'Hawaii Shirt') {
+          assert.strictEqual(table.head, 'SIZE,LENGTH,BUST,SHOULDER,SLEEVES', `hawaii head: ${table.head}`);
+          assert.strictEqual(table.sizes, 'XS,S,M,L,XL,2XL,3XL,4XL,5XL,6XL', `hawaii sizes: ${table.sizes}`);
+          await modal.locator('.sgc__unit--in').click();
+          const ins = await modal.locator('.sgc__table tbody tr').evaluateAll((trs) => trs.map((tr) => [...tr.querySelectorAll('.sgc__in')].map((s) => s.textContent.trim()).join('/')));
+          assert.strictEqual(ins[1], '29.9/48.8/21.5/9.1', `hawaii S inches: ${ins[1]}`);
+          assert.strictEqual(ins[9], '36.2/67.7/27.8/12.2', `hawaii 6XL inches: ${ins[9]}`);
         } else if (type === 'Legging') {
           assert.strictEqual(table.head, 'SIZE,WAIST,HIP,INSEAM', `legging head: ${table.head}`);
           assert.strictEqual(table.sizes, 'XS,S,M,L,XL,2XL,3XL,4XL,5XL', `legging sizes: ${table.sizes}`);

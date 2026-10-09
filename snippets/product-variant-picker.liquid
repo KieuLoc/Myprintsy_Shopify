@@ -44,7 +44,7 @@
         </fieldset>
       {%- elsif picker_type == 'button' -%}
         <fieldset class="js product-form__input product-form__input--pill">
-          {%- assign sgc_types = 'cloak,ultra cloak,hoodie,hoodies,hoodie 3d,jogger,joggers,bomber jacket,bomber jackets,zip hoodie,zip hoodies,sweater,sweaters,ugly sweater,ugly sweaters,legging,leggings,robe,robes' | split: ',' -%}
+          {%- assign sgc_types = 'cloak,ultra cloak,hoodie,hoodies,hoodie 3d,jogger,joggers,bomber jacket,bomber jackets,zip hoodie,zip hoodies,sweater,sweaters,ugly sweater,ugly sweaters,legging,leggings,robe,robes,hawaii shirt,hawaii shirts,hawaiian shirt,hawaiian shirts' | split: ',' -%}
           {%- assign sgc_type = product.type | downcase -%}
           {%- if sgc_types contains sgc_type and option.name == 'Size' -%}
             <legend class="form__label form__label--sgc">

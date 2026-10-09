@@ -15,6 +15,9 @@
 **Đã push LIVE** (diff LIVE = repo trước khi push), check trên LIVE PASS 12/12.
 **2026-10-09 fix Robes:** SP robe bán M–5XL (không có S) ⇒ đổi dòng S của bảng thành M (giữ số đo). DEV PASS 12/12. Đã push LIVE, check LIVE PASS 12/12.
 
+## 2026-10-10 — Size guide: Hawaii Shirt
+User gửi bảng inches (S–6XL: LENGTH|BUST|SHOULDER|SLEEVES) + ảnh áo sơ mi. Lưu cm = inches×2.54 (round 1, roundtrip về inches khớp 100%). SP bán XS–6XL ⇒ nội suy XS theo bước S→M (29.1|46.4|20.8|8.8 in). Fit "Myprintsy Hawaiian Shirts fit true to size…". Ảnh `assets/size-guide-hawaii-shirt.jpg` 1000×1000 (từ PNG user). Thêm `hawaii shirt(s)`, `hawaiian shirt(s)` vào `sgc_types` (main-product + variant-picker). Check thêm Hawaii Shirt (head/sizes/inches S & 6XL). DEV PASS 13/13. Đã push LIVE (diff LIVE = repo trước khi push), check LIVE PASS 13/13.
+
 ## 2026-10-06 — Size guide: câu fit theo từng loại SP
 
 **User:** dòng "Our Cloaks are tight fitting…" bị dùng cho mọi loại (clone từ cloak) → đổi đúng loại, giống Lunafide nhưng brand Myprintsy.
