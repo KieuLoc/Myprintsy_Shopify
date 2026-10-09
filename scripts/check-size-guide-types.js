@@ -116,7 +116,7 @@ async function open(browser, handle) {
           assert.strictEqual(cap, 'Fabric Used for Leggings has a four-way stretch', `legging caption: "${cap}"`);
         } else if (type === 'Robes') {
           assert.strictEqual(table.head, 'SIZE,LENGTH (HPS),CHEST,SLEEVE,SLEEVE CIRC.,BELT LENGTH', `robe head: ${table.head}`);
-          assert.strictEqual(table.sizes, 'S,L,XL,2XL,3XL,4XL,5XL', `robe sizes: ${table.sizes}`);
+          assert.strictEqual(table.sizes, 'M,L,XL,2XL,3XL,4XL,5XL', `robe sizes: ${table.sizes}`);
           assert.ok(table.cm.startsWith('127/66.7/57.8/15.2/185,132/73/58.4/15.9/198,132/76.2/58.8/16.2/204.5,132/79.4/59.1/16.5/211,'), `robe cm: ${table.cm}`);
           assert.ok(table.cm.endsWith('132/98.4/61/18.4/249'), `robe 5XL: ${table.cm}`);
           const n = await modal.locator('.sgc__list li').count();

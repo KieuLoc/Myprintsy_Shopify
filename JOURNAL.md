@@ -13,6 +13,7 @@
 **Legging test được:** SP legging đang Unlisted nên không ra search, nhưng mở URL trực tiếp được. Check thêm Legging (ghost-oath-leggings: head/sizes/XS cm/caption). DEV PASS 12/12.
 **Bổ sung:** Ultra Cloak 3 bullet như Lunafide (approximate / loose & oversized / chest Side Seam to Side Seam). Robes thêm XL = trung bình L & 2XL (132|76.2|58.8|16.2|204.5). Legging thêm 5XL nội suy 151–158|148–156|83.2 (4XL waist 113–150 giữ nguyên theo Lunafide). Check gộp nhánh Ultra Cloak bị trùng. DEV PASS 12/12.
 **Đã push LIVE** (diff LIVE = repo trước khi push), check trên LIVE PASS 12/12.
+**2026-10-09 fix Robes:** SP robe bán M–5XL (không có S) ⇒ đổi dòng S của bảng thành M (giữ số đo). DEV PASS 12/12. Đã push LIVE, check LIVE PASS 12/12.
 
 ## 2026-10-06 — Size guide: câu fit theo từng loại SP
 
