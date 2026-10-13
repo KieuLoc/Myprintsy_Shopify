@@ -18,6 +18,9 @@
 ## 2026-10-10 — Size guide: Hawaii Shirt
 User gửi bảng inches (S–6XL: LENGTH|BUST|SHOULDER|SLEEVES) + ảnh áo sơ mi. Lưu cm = inches×2.54 (round 1, roundtrip về inches khớp 100%). SP bán XS–6XL ⇒ nội suy XS theo bước S→M (29.1|46.4|20.8|8.8 in). Fit "Myprintsy Hawaiian Shirts fit true to size…". Ảnh `assets/size-guide-hawaii-shirt.jpg` 1000×1000 (từ PNG user). Thêm `hawaii shirt(s)`, `hawaiian shirt(s)` vào `sgc_types` (main-product + variant-picker). Check thêm Hawaii Shirt (head/sizes/inches S & 6XL). DEV PASS 13/13. Đã push LIVE (diff LIVE = repo trước khi push), check LIVE PASS 13/13.
 
+## 2026-10-13 — BMSM box cho Hawaii Shirt
+Thêm `hawaii shirt,hawaiian shirt` vào `bmsm_types` (`snippets/free-shipping-callout.liquid`) ⇒ Hawaii Shirt hiện box Buy More Save More (2 = 10%, 3 = 15%, 4 = 20%) thay Free Shipping. `check-cloak-bmsm.js` thêm hawaii-hawaiian-shirt-parrot. DEV PASS 9/9. Lưu ý: box chỉ là UI, giảm giá thật phụ thuộc automatic discount trong Shopify admin. Đã push LIVE (diff LIVE = repo), check LIVE PASS 9/9.
+
 ## 2026-10-06 — Size guide: câu fit theo từng loại SP
 
 **User:** dòng "Our Cloaks are tight fitting…" bị dùng cho mọi loại (clone từ cloak) → đổi đúng loại, giống Lunafide nhưng brand Myprintsy.
