@@ -3,7 +3,7 @@
   Keeps .bmsm class so EDD placement + gap CSS still hook correctly.
   Product types in bmsm_types show the Buy More, Save More box (same as product.buy-more-save-more).
 {%- endcomment -%}
-{%- assign bmsm_types = 'cloak,ultra cloak,hoodie 3d,jogger,bomber jacket,zip hoodie,hawaii shirt,hawaiian shirt' | split: ',' -%}
+{%- assign bmsm_types = 'cloak,ultra cloak,hoodie 3d,jogger,bomber jacket,zip hoodie,hawaii shirt,hawaiian shirt,socks,sock' | split: ',' -%}
 {%- assign fsc_type = product.type | strip | downcase -%}
 {%- if bmsm_types contains fsc_type -%}
   {%- render 'special-coupon' -%}

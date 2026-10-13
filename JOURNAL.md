@@ -21,6 +21,12 @@ User gửi bảng inches (S–6XL: LENGTH|BUST|SHOULDER|SLEEVES) + ảnh áo sơ
 ## 2026-10-13 — BMSM box cho Hawaii Shirt
 Thêm `hawaii shirt,hawaiian shirt` vào `bmsm_types` (`snippets/free-shipping-callout.liquid`) ⇒ Hawaii Shirt hiện box Buy More Save More (2 = 10%, 3 = 15%, 4 = 20%) thay Free Shipping. `check-cloak-bmsm.js` thêm hawaii-hawaiian-shirt-parrot. DEV PASS 9/9. Lưu ý: box chỉ là UI, giảm giá thật phụ thuộc automatic discount trong Shopify admin. Đã push LIVE (diff LIVE = repo), check LIVE PASS 9/9.
 
+## 2026-10-14 — Size guide: Socks (khung tạm, chờ số + ảnh của user)
+SP socks có option "Type & Size" (Kid 6-10Y … Men US 12-15) ⇒ variant-picker đổi `option.name == 'Size'` thành `option.name contains 'Size'` để opener hiện được. Thêm `sock,socks` vào `sgc_types` (main-product + variant-picker). Branch socks: cột FOOT LENGTH, 8 dòng đúng tên option, số cm **tạm** theo bảng size giày US. Chưa có ảnh ⇒ `sgc_img = blank`, markup `.sgc__howto` bọc `if sgc_img != blank`. Check thêm Socks (rows == option values, howto ẩn). DEV PASS 14/14. Chưa push LIVE — chờ user gửi bảng size + ảnh.
+**Update (user gửi bảng + ảnh):** cột LENGTH|WIDTH (cm): Kid 6-10Y 30, Kid 10-14Y 40, Women US 4-6 40, 6-10 46, 10-13 48, Men US 6-8 46, 8-12 48, 12-15 52; width 9.5 tất cả. Ảnh `assets/size-guide-socks.jpg` 1024×1024. Bỏ guard ảnh blank (không còn cần). Check: thêm head/cm socks; HIDE_OVERLAY thêm `.overlay-section--welcome-*` (welcome popup mới che nút INCHES làm Hawaii fail flaky). DEV PASS 14/14. Chưa push LIVE.
+**BMSM cho Socks:** thêm `socks,sock` vào `bmsm_types`; `check-cloak-bmsm.js` thêm SP socks. DEV PASS 10/10. Nhắc user: thêm collection Socks vào 3 discount BMSM.
+**Đã push LIVE** size guide Socks + BMSM Socks (diff LIVE = repo trước khi push). Check LIVE: size guide 14/14, BMSM 10/10.
+
 ## 2026-10-06 — Size guide: câu fit theo từng loại SP
 
 **User:** dòng "Our Cloaks are tight fitting…" bị dùng cho mọi loại (clone từ cloak) → đổi đúng loại, giống Lunafide nhưng brand Myprintsy.

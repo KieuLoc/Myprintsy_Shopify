@@ -1,5 +1,5 @@
 /**
- * Check: Cloak / Ultra Cloak / Hoodie 3D / Jogger / Bomber Jacket / Zip Hoodie / Hawaii Shirt show the Buy More, Save More box
+ * Check: Cloak / Ultra Cloak / Hoodie 3D / Jogger / Bomber Jacket / Zip Hoodie / Hawaii Shirt / Socks show the Buy More, Save More box
  * (like product.buy-more-save-more); other types keep the Free Shipping callout.
  */
 const { chromium } = require('playwright');
@@ -7,7 +7,7 @@ const assert = require('assert');
 
 const BASE = 'https://myprintsy-3.myshopify.com';
 const THEME = process.env.THEME || '186878558524';
-const BMSM = ['yggdrasil-cloak-218', 'kitsune-ultra-cloak-1010', 'siren-hoodie-1420', 'kitsune-joggers-1653', 'ogham-bomber-jacket-926', 'dragon-luna-zip-hoodie-1150', 'hawaii-hawaiian-shirt-parrot'];
+const BMSM = ['yggdrasil-cloak-218', 'kitsune-ultra-cloak-1010', 'siren-hoodie-1420', 'kitsune-joggers-1653', 'ogham-bomber-jacket-926', 'dragon-luna-zip-hoodie-1150', 'hawaii-hawaiian-shirt-parrot', 'i-have-always-been-enough-personalized-full-print-squad-socks-gfthah1o13'];
 const FREESHIP = ['cyber-hooded-blanket-limited-649', 'pickleball-lover-personalized-mug-pklaah2a03'];
 
 (async () => {

@@ -19,6 +19,7 @@ const SHOW = {
   Robes: 'ryu-robe',
   Legging: 'ghost-oath-leggings',
   'Hawaii Shirt': 'hawaii-hawaiian-shirt-parrot',
+  Socks: 'i-have-always-been-enough-personalized-full-print-squad-socks-gfthah1o13',
 };
 const IMG = { 'Ugly Sweater': 'size-guide-sweater', Robes: 'size-guide-robe' };
 const FIT = {
@@ -32,6 +33,7 @@ const FIT = {
   Robes: 'These are approximate size guidelines. Our Robes are made using a generous cut',
   Legging: 'Myprintsy Leggings are slim fit.',
   'Hawaii Shirt': 'Myprintsy Hawaiian Shirts fit true to size.',
+  Socks: 'Myprintsy Socks',
 };
 const HIDE = {
   Mug: 'pickleball-lover-personalized-mug-pklaah2a03',
@@ -41,7 +43,7 @@ const HIDE = {
 
 const HIDE_OVERLAY = `
 const s = document.createElement('style');
-s.textContent = '.cart-reminder-popup,.success-opt-in-popup,welcome-popup,welcome-step2-popup{display:none!important;pointer-events:none!important}';
+s.textContent = '.cart-reminder-popup,.success-opt-in-popup,welcome-popup,welcome-step2-popup,.overlay-section--welcome-desktop,.overlay-section--welcome-mobile{display:none!important;pointer-events:none!important}';
 document.documentElement.appendChild(s);
 `;
 
@@ -88,7 +90,12 @@ async function open(browser, handle) {
         const wantImg = IMG[type] || 'size-guide-' + type.toLowerCase().replace(/ /g, '-');
         assert.ok(src.includes(wantImg), `${handle}: howto img ${src}, want ${wantImg}`);
         assert.ok(nw > 0, `${handle}: howto img not loaded (naturalWidth ${nw})`);
-        if (type === 'Ultra Cloak') {
+        if (type === 'Socks') {
+          const opts = await page.evaluate(async (h) => (await (await fetch(`/products/${h}.js`)).json()).options.find((o) => /size/i.test(o.name)).values.join(','), handle);
+          assert.strictEqual(table.sizes, opts, `socks rows "${table.sizes}" != product sizes "${opts}"`);
+          assert.strictEqual(table.head, 'SIZE,LENGTH,WIDTH', `socks head: ${table.head}`);
+          assert.strictEqual(table.cm, '30/9.5,40/9.5,40/9.5,46/9.5,48/9.5,46/9.5,48/9.5,52/9.5', `socks cm: ${table.cm}`);
+        } else if (type === 'Ultra Cloak') {
           const notes = (await modal.locator('.sgc__list li').allInnerTexts()).map((s) => s.trim());
           assert.strictEqual(notes.length, 3, `ultra notes: ${notes.length} bullets`);
           assert.strictEqual(notes[1], 'Our Ultra Cloaks feature a loose and oversized fit.', `ultra note 2: "${notes[1]}"`);

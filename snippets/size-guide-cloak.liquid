@@ -48,6 +48,10 @@
   {%- assign sgc_cols = 'LENGTH|BUST|SHOULDER|SLEEVES' | split: '|' -%}
   {%- assign sgc_rows = 'XS|73.9|117.9|52.8|22.4,S|75.9|124|54.6|23.1,M|78|130|56.4|23.9,L|80|135.9|58.4|24.9,XL|82|142|60.5|25.9,2XL|84.1|148.1|62.5|26.9,3XL|86.1|153.9|64.5|27.9,4XL|87.9|160|66.5|29,5XL|89.9|166.1|68.6|30,6XL|91.9|172|70.6|31' | split: ',' -%}
   {%- assign sgc_fit = 'Myprintsy Hawaiian Shirts' | append: sgc_true_fit -%}
+{%- elsif sgc_type == 'socks' or sgc_type == 'sock' -%}
+  {%- assign sgc_cols = 'LENGTH|WIDTH' | split: '|' -%}
+  {%- assign sgc_rows = 'Kid 6-10Y|30|9.5,Kid 10-14Y|40|9.5,Women US 4-6|40|9.5,Women US 6-10|46|9.5,Women US 10-13|48|9.5,Men US 6-8|46|9.5,Men US 8-12|48|9.5,Men US 12-15|52|9.5' | split: ',' -%}
+  {%- assign sgc_fit = 'Myprintsy Socks are knitted with a soft stretch fabric for a snug fit. Choose the size range that matches your shoe size.' -%}
 {%- else -%}
   {%- assign sgc_cols = 'CHEST|SLEEVE|SLEEVE CIRC.|LENGTH' | split: '|' -%}
   {%- assign sgc_rows = 'XS|107|64.8|38.1|94,S|122|64.8|40.6|96.5,M|127|68.6|45.7|104,L|135|71.1|47|107,XL|145|73.7|48.3|108,2XL|150|73.7|50.8|109,3XL|155|76.2|53.3|117,4XL|160|78.7|55.8|120,5XL|165|81.2|58.3|123' | split: ',' -%}
@@ -78,6 +82,9 @@
   {%- when 'hawaii shirt', 'hawaii shirts', 'hawaiian shirt', 'hawaiian shirts' -%}
     {%- assign sgc_img = 'size-guide-hawaii-shirt.jpg' -%}{%- assign sgc_img_w = 1000 -%}{%- assign sgc_img_h = 1000 -%}
     {%- assign sgc_img_alt = 'How to measure: shoulder, sleeve, bust, length' -%}
+  {%- when 'socks', 'sock' -%}
+    {%- assign sgc_img = 'size-guide-socks.jpg' -%}{%- assign sgc_img_w = 1024 -%}{%- assign sgc_img_h = 1024 -%}
+    {%- assign sgc_img_alt = 'How to measure: sock length and width' -%}
   {%- else -%}
     {%- assign sgc_img = 'size-guide-cloak.jpg' -%}{%- assign sgc_img_w = 600 -%}{%- assign sgc_img_h = 530 -%}
     {%- assign sgc_img_alt = 'How to measure: length from top of hood to below the knee, chest circumference' -%}
