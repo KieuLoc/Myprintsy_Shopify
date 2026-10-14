@@ -27,6 +27,14 @@ SP socks có option "Type & Size" (Kid 6-10Y … Men US 12-15) ⇒ variant-picke
 **BMSM cho Socks:** thêm `socks,sock` vào `bmsm_types`; `check-cloak-bmsm.js` thêm SP socks. DEV PASS 10/10. Nhắc user: thêm collection Socks vào 3 discount BMSM.
 **Đã push LIVE** size guide Socks + BMSM Socks (diff LIVE = repo trước khi push). Check LIVE: size guide 14/14, BMSM 10/10.
 
+## 2026-10-14 — Fix: không scroll được sau khi popup chào mừng hiện
+**Triệu chứng (user):** load web, bấm vài nút, không scroll được — cả mobile và desktop.
+**Root cause:** `base.css` của Dawn có `div:empty { display: none }` ⇒ `<div class="cart-reminder-popup__overlay"></div>` (rỗng) bị ẩn, kích thước 0×0. Khi welcome popup tự bật (~10–15s) nó thêm `body.overflow-hidden`; wrapper trong suốt full-screen vẫn chặn click vào trang, không có backdrop để bấm đóng ⇒ trang "đơ", không scroll, bấm nút không ăn. Chỉ nút X mới đóng được.
+**Fix:** thêm `display: block` cho `__overlay` trong 4 file: `overlay-cart-reminder-popup(.css|-mobile.css)`, `overlay-success-opt-in(.css|-mobile.css)` (cart reminder, welcome, welcome step 2, success opt-in đều dùng 2 class này).
+**Check:** `scripts/check-popup-scroll-lock.js` (desktop + mobile × đóng bằng backdrop / nút X): backdrop phủ viewport, popup đóng, body hết overflow-hidden, scroll được >100px. LIVE trước fix: FAIL 4/4 (backdrop 0x0). DEV sau fix: PASS 4/4 (đóng 67–150ms, scroll 800px).
+**Ghi chú:** Playwright vào www.myprintsy.com / myprintsy-3.myshopify.com không có preview_theme_id bị redirect sang Google (bot protection từ app/Shopify, không phải theme) ⇒ check luôn dùng `?preview_theme_id=`.
+**Đã push LIVE** (diff LIVE = repo trước khi push). Check LIVE PASS 4/4 (đóng 33–150ms, scroll 800px).
+
 ## 2026-10-06 — Size guide: câu fit theo từng loại SP
 
 **User:** dòng "Our Cloaks are tight fitting…" bị dùng cho mọi loại (clone từ cloak) → đổi đúng loại, giống Lunafide nhưng brand Myprintsy.

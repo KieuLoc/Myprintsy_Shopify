@@ -41,6 +41,7 @@ cart-reminder-popup {
 }
 
 .cart-reminder-popup--desktop .cart-reminder-popup__overlay {
+  display: block; /* base.css hides div:empty */
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.55);
