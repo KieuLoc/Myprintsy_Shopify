@@ -1,5 +1,13 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-17 — Mô tả sản phẩm: dấu chấm list bị rơi dòng
+
+**User:** Description của Round Skirts hiện dấu `•` đứng một mình, chữ xuống dòng dưới. CSS `line-height: 1.4` không xử được.
+**Nguyên nhân:** Shopify bọc mỗi bullet bằng `<li><p>…</p></li>`. Dawn đặt `list-style-position: inside` nên dấu chấm nằm một dòng, đoạn `<p>` rơi xuống dưới.
+**Fix:** `assets/section-main-product.css` — `.product__description` dùng marker outside, `li > p` margin 0, ẩn `<li>` chỉ có `<br>` hoặc `<p>` rỗng.
+**SP mẫu:** https://www.myprintsy.com/products/ivory-merry-go-round-quilted-christmas-tree-skirt-ncu0hh1165
+**Check:** `scripts/check-description-bullets.js` trên DEV `#186878558524`. PASS: 4 bullet, chữ lệch 0px so với dấu chấm, lề 30px. Đã push LIVE `#183186358588`.
+
 ## 2026-10-17 — Gift box qty theo số lượng sản phẩm (một chiều)
 
 **User:** chỉnh số sản phẩm lên 3 trên PDP thì số gift box tăng theo. Chỉnh số ở box thì số sản phẩm không đổi.

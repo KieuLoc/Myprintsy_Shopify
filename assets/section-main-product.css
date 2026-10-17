@@ -318,6 +318,23 @@ a.product__text {
   padding: 0 1rem;
 }
 
+/* Shopify RTE wraps each bullet in <p>. Inside markers drop the dot onto its own line. */
+.product__description.rte ul,
+.product__description.rte ol {
+  list-style-position: outside;
+}
+
+.product__description.rte li > p {
+  margin: 0;
+}
+
+.product__description.rte li:empty,
+.product__description.rte li:has(> br:only-child),
+.product__description.rte li:has(> p:only-child > br:only-child),
+.product__description.rte li:has(> p:only-child:empty) {
+  display: none;
+}
+
 /* Compact PDP accordion rows (Description / Shipping / Personalization) */
 .product__info-container .product__accordion.accordion {
   margin-top: 1rem;
