@@ -363,6 +363,8 @@
     });
   }
 
+  let upsertQueue = Promise.resolve();
+
   function upsertGiftBoxInCart(units, forProductId) {
     const safeUnits = normalizeGiftQty(units);
     const targetLines = decomposeGiftBoxUnits(safeUnits);
@@ -371,21 +373,29 @@
       return Promise.reject(new Error('Gift box tier variant is not configured'));
     }
 
-    markGiftBoxUpsertInflight(true);
+    const job = upsertQueue.then(() => {
+      markGiftBoxUpsertInflight(true);
 
-    return fetch('/cart.js')
-      .then((response) => response.json())
-      .then((cart) => {
-        if (cartMatchesTarget(cart, safeUnits, forProductId)) return cart;
+      return fetch('/cart.js')
+        .then((response) => response.json())
+        .then((cart) => {
+          if (cartMatchesTarget(cart, safeUnits, forProductId)) return cart;
 
-        return removeGiftBoxItemsForParent(cart, forProductId).then(() =>
-          addGiftBoxLines(targetLines, forProductId)
-        );
-      })
-      .finally(() => {
-        markGiftBoxUpsertInflight(false);
-        notifyGiftBoxCartChange();
-      });
+          return removeGiftBoxItemsForParent(cart, forProductId).then(() =>
+            addGiftBoxLines(targetLines, forProductId)
+          );
+        })
+        .finally(() => {
+          markGiftBoxUpsertInflight(false);
+          notifyGiftBoxCartChange();
+        });
+    });
+
+    upsertQueue = job.then(
+      () => undefined,
+      () => undefined
+    );
+    return job;
   }
 
   function applyModeFromParentCart(cart, forProductId) {

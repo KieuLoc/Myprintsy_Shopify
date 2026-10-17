@@ -1,5 +1,14 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-17 — Gift box qty theo số lượng sản phẩm (một chiều)
+
+**User:** chỉnh số sản phẩm lên 3 trên PDP thì số gift box tăng theo. Chỉnh số ở box thì số sản phẩm không đổi.
+**Logic:** `snippets/addon-gift-box.liquid` — box = pack × số lượng SP. Đổi số lượng SP thì ép box theo. Bấm +/- box chỉ khóa số box, không ghi ngược vào ô số lượng SP. Lúc ATC thêm đúng số đang hiện trên box, không nhân thêm lần nữa.
+**Check:** `scripts/check-gift-box-qty-sync.js` trên DEV `#186878558524`. PASS: SP 1→3 thì box 1→3; bấm + box thì SP giữ 3, box thành 4; SP lên 4 thì box về 4.
+**Update:** chọn 5 mà giỏ ra mug 5 + box 2 ($35.98). Đó là 2 gói variant 5 box ($17.99 × 2), do add gift box chồng lần. `upsertGiftBoxInCart` xếp hàng để lần sau không add trùng.
+**Update giỏ:** 3 box là 1 dòng variant box 3, số lượng Shopify = 1, giá $11.99. Ô số lượng giỏ hiện lại `item.quantity` (1), không hiện 3 kẻo giống 3 gói box 3. Pack 2 × số lượng 2 = 4 box → 1 dòng variant box 4. Pack 4 × số lượng 1 cũng là 1 dòng box 4.
+**Update subtotal:** subtotal = `cart.total_price` nên khi app/giỏ không cộng tiền box, ô Subtotal chỉ còn giá ly. `cart-gift-box.js` cộng phần giá box đang hiện (tier) vào subtotal, trừ phần Shopify đã tính để không cộng hai lần. Check `scripts/check-gift-box-subtotal.js` DEV PASS: thiếu box thì subtotal `$80.72 USD` (68.73+11.99); Shopify đã gồm box thì vẫn `$80.72 USD`, không nhân đôi. Đã push LIVE `#183186358588`.
+
 ## 2026-10-06 — Size guide: Sweater + Legging (Robes chờ số đo)
 
 **User:** bổ sung size guide cho sweater, legging, robes.

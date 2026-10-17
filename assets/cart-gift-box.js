@@ -71,6 +71,72 @@
   function applyAllGiftBoxPrices(root) {
     if (!hasGiftBoxRows(root)) return;
     (root || document).querySelectorAll('[data-addon-gift-box="true"]').forEach(applyGiftBoxRowPrices);
+    syncSubtotalWithGiftBox();
+  }
+
+  let subtotalText = '';
+
+  function formatCartMoney(cents) {
+    const amount = Number(cents || 0) / 100;
+    const currency = window.Shopify?.currency?.active || 'USD';
+    let formatted = `$${amount.toFixed(2)}`;
+
+    try {
+      formatted = new Intl.NumberFormat(document.documentElement.lang || 'en', {
+        style: 'currency',
+        currency,
+      }).format(amount);
+    } catch (error) {
+      // keep fallback
+    }
+
+    if (currency === 'USD' && !/USD/i.test(formatted)) formatted = `${formatted} USD`;
+    return formatted;
+  }
+
+  function syncSubtotalWithGiftBox() {
+    fetch('/cart.js')
+      .then((response) => response.json())
+      .then((cart) => {
+        const giftItems = (cart.items || []).filter((item) => pricing.isGiftBoxCartItem(item));
+        if (!giftItems.length) return;
+
+        const shopifyGiftCents = giftItems.reduce((sum, item) => sum + (item.final_line_price || 0), 0);
+        const displayGiftCents = giftItems.reduce((sum, item) => {
+          const units = pricing.getDisplayUnitsFromCartItem(item);
+          const mode = pricing.getModeFromItem(item);
+          const cents =
+            typeof pricing.withMode === 'function'
+              ? pricing.withMode(mode, () => pricing.getTierPriceCents(units))
+              : pricing.getTierPriceCents(units);
+          return sum + cents;
+        }, 0);
+
+        const totalCents = (cart.total_price || 0) - shopifyGiftCents + displayGiftCents;
+        subtotalText = formatCartMoney(totalCents);
+
+        document.querySelectorAll('[data-hulkapps-cart-total]').forEach((element) => {
+          if (element.textContent.trim() === subtotalText) return;
+          element.textContent = subtotalText;
+        });
+      })
+      .catch(() => {});
+  }
+
+  function watchSubtotal() {
+    if (window.__myprintsyGiftBoxSubtotalWatch) return;
+    window.__myprintsyGiftBoxSubtotalWatch = true;
+
+    const observer = new MutationObserver(() => {
+      const drifted = Array.from(document.querySelectorAll('[data-hulkapps-cart-total]')).some(
+        (element) => subtotalText && element.textContent.trim() !== subtotalText
+      );
+      if (drifted) syncSubtotalWithGiftBox();
+    });
+
+    document.querySelectorAll('[data-hulkapps-cart-total]').forEach((element) => {
+      observer.observe(element, { childList: true, characterData: true, subtree: true });
+    });
   }
 
   function scheduleLinePriceRefresh() {
@@ -113,6 +179,8 @@
   }
 
   function init() {
+    syncSubtotalWithGiftBox();
+    watchSubtotal();
     if (!hasGiftBoxRows()) return;
 
     applyAllGiftBoxPrices();

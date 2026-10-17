@@ -60,6 +60,7 @@ class CartItems extends HTMLElement {
           const isPlus = button.getAttribute('name') === 'plus';
           const delta = isPlus ? 1 : -1;
 
+          // Non-bulk line is 1 of the tier variant (1 × box 3), not a qty of single boxes.
           CartItems.resetGiftBoxLineQuantityInput(line);
           this.cartChangeInFlight = true;
 

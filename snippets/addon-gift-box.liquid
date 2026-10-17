@@ -291,7 +291,6 @@
         var giftBoxPricingMode = '{{ gift_box_pricing_mode }}';
         var giftBoxMaxTier = {{ gift_box_max_tier }};
         var isAddingGiftBox = false;
-        var pendingQuantity = null;
         var giftQtyLockedByUser = false;
         var packSyncTimer = null;
 
@@ -455,7 +454,6 @@
           window.GiftBoxPricing.upsertGiftBoxInCart(quantity, parentKey)
             .then(function() {
               isAddingGiftBox = false;
-              pendingQuantity = null;
             })
             .catch(function(error) {
               console.error('Error adding gift box to cart:', error);
@@ -496,9 +494,23 @@
           updateGiftBoxDisplayedPrice(safeQty);
         }
 
+        function linkedGiftQuantity() {
+          return normalizeGiftQty(getPackCount() * getQuantityFromForm());
+        }
+
         function syncGiftQuantityWithPack(forceSync) {
           if (giftQtyLockedByUser && !forceSync) return;
-          setGiftUnitQuantity(getPackCount());
+          setGiftUnitQuantity(linkedGiftQuantity());
+        }
+
+        function onProductQuantityEdited(event) {
+          var target = event.target;
+          if (!target || target.name !== 'quantity') return;
+          if (target.closest && target.closest('.addon-gift-box')) return;
+          var isThisProduct =
+            target.id === 'Quantity-' + sectionId || target.getAttribute('form') === productFormId;
+          if (!isThisProduct) return;
+          syncGiftQuantityWithPack(true);
         }
 
         function schedulePackSync(forceSync) {
@@ -516,28 +528,13 @@
           return legend && isPackOptionName(legend.textContent);
         }
 
-        var productForm = document.getElementById(productFormId);
-        if (productForm) {
-          var submitButton = productForm.querySelector('button[type="submit"]');
-          if (submitButton) {
-            submitButton.addEventListener('click', function() {
-              if (checkbox.checked) pendingQuantity = getQuantityFromForm();
-            }, true);
-          }
-
-          productForm.addEventListener('submit', function() {
-            if (checkbox.checked) pendingQuantity = getQuantityFromForm();
-          });
-        }
-
         if (typeof subscribe !== 'undefined' && typeof PUB_SUB_EVENTS !== 'undefined') {
           subscribe(PUB_SUB_EVENTS.cartUpdate, function(event) {
             try {
               if (!event || event.source !== 'product-form' || !checkbox.checked || isAddingGiftBox) return;
 
-              var baseQuantity = pendingQuantity || getQuantityFromForm();
-              var giftUnitQuantity = getGiftUnitQuantity();
-              var quantity = baseQuantity * giftUnitQuantity;
+              // Box stepper already includes the product quantity. Do not multiply again.
+              var quantity = getGiftUnitQuantity();
 
               if (quantity > 0) addGiftBoxToCart(quantity);
             } catch (error) {
@@ -551,9 +548,8 @@
           });
         }
 
-        checkbox.addEventListener('change', function() {
-          if (this.checked) pendingQuantity = getQuantityFromForm();
-        });
+        document.addEventListener('change', onProductQuantityEdited, true);
+        document.addEventListener('input', onProductQuantityEdited, true);
 
         if (qtyMinusBtn) {
           qtyMinusBtn.addEventListener('click', function(event) {
