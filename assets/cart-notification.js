@@ -887,6 +887,7 @@ class CartNotification extends HTMLElement {
     if (Date.now() < this._ignoreBodyClickUntil) return;
 
     const target = evt.target;
+    if (target.closest('[data-myprintsy-expanding]')) return;
     if (
       target.closest(
         '#customily-cart-btn, .myprintsy-customily-preview-atc, product-form [type="submit"], product-form button[name="add"], button.add_to_cart'

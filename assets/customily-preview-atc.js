@@ -86,7 +86,13 @@
   /** Send the shopper to the option they still have to answer. */
   function focusRequiredOption(opt) {
     const trigger = opt.querySelector('label[role="button"]');
-    if (trigger && trigger.getAttribute('aria-expanded') === 'false') trigger.click();
+    if (trigger && trigger.getAttribute('aria-expanded') === 'false') {
+      // Lives only for this synchronous click. The cart popup ignores it so a
+      // collapsed option can open without counting as an outside click.
+      trigger.setAttribute('data-myprintsy-expanding', '');
+      trigger.click();
+      trigger.removeAttribute('data-myprintsy-expanding');
+    }
     try {
       opt.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } catch (_) {

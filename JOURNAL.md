@@ -1,5 +1,24 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-18 — Big Sis: bấm ATC nút quay, popup tự đóng
+
+**SP:** big-sis mug, điền đủ APR + MAR + 2 tên (có dấu). Trang không reload.
+**Số:** Customily `RequestFutureProductionFile` 458ms, Shopify `/cart/add` 200 trong 1038ms (tên + hoa đã vào giỏ). Popup mở "Loading… 5s" rồi đóng lúc ~3.2s.
+**Vì sao:** Customily bắn lại click ATC (`qe`). Lần đó option required đang trống (widget vừa dựng lại), `focusRequiredOption` click `label[role="button"]`. Click nổi lên `body` → `handleBodyClick` đóng popup.
+**Fix:** click mở option được đánh dấu `data-myprintsy-expanding` trong lúc click đồng bộ. `handleBodyClick` bỏ qua dấu đó. Đã push DEV `#186878558524`, rồi LIVE `#183186358588`.
+**Check:** `scripts/check-atc-popup-stay.js` trên DEV. PASS: thiếu hoa thì popup không mở, `/cart/add` = 0. Điền đủ thì popup mở 181ms, `/cart/add` 200 trong 3989ms, 2.5s sau popup vẫn mở.
+**Vì sao chỉ Big Sis:** popup chỉ đóng khi option bắt buộc đang gập (`label[role="button"][aria-expanded=false]`) và Customily dựng lại radio thành chưa chọn. Hoa tháng của Big Sis là ảnh trong khối gập; sau add radio hoa từ checked thành rỗng. Sản phẩm option đang mở (màu, tuổi, tên) không có click đó.
+
+## 2026-10-18 — Đo thời gian popup ATC
+
+**SP:** Who Makes The Rules mug, LIVE. Bấm `#customily-cart-btn` sau khi điền tên + chọn Color/Age.
+**Số:** popup hiện 158ms (theme). Customily chuẩn bị rồi mới submit: 2613ms (API `RequestFutureProductionFile` 369ms). Shopify `/cart/add` 1240ms. Theme mở khóa View Cart thêm ~64ms. Tổng click → nút bấm được: 3918ms. Gift box `/cart/add.js` thêm 998ms (chờ server 775ms) sau khi popup đã mở khóa.
+
+## 2026-10-18 — Big Sis mug không ATC khi thiếu option
+
+**SP:** big-sis-and-lil-sis-personalized-ceramic-white-mug-gift-for-sisters-ssthah4o14. Variant White/11 oz còn hàng (`available: true`).
+**Vì sao:** 4 ô Customily bắt buộc đang trống: Birth Month Flower #1, Name #1, Birth Month Flower #2, Name #2. Theme nuốt click ATC và không mở popup. Điền đủ 4 ô thì `/cart/add` 200, popup mở, nút View Cart.
+
 ## 2026-10-17 — Mô tả sản phẩm: dấu chấm list bị rơi dòng
 
 **User:** Description của Round Skirts hiện dấu `•` đứng một mình, chữ xuống dòng dưới. CSS `line-height: 1.4` không xử được.
