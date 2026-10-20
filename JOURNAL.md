@@ -1,5 +1,12 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-21 — BMSM box cho Sweatpant + Legging
+
+**User:** thêm banner Buy More, Save More (2 = 10%, 3 = 15%, 4+ = 20%) cho product type Sweatpant và Legging.
+**Fix:** `snippets/free-shipping-callout.liquid` — thêm `sweatpant,sweatpants,legging,leggings` vào `bmsm_types`. Box vẫn là UI; giảm giá thật phụ thuộc automatic discount trong Shopify admin.
+**Storefront:** type `Legging` có SP (ghost-oath-leggings, unlisted nhưng mở URL được). Quét catalog đang bán (~10k SP): chưa có type `Sweatpant` / `Sweatpants` — type đã thêm sẵn, SP mới thuộc type đó sẽ hiện box.
+**Check:** `scripts/check-cloak-bmsm.js` trên DEV `#186878558524` PASS 11/11. Đã push LIVE `#183186358588`. Check LIVE PASS 11/11 (Legging hiện "Buy More, Save More"; Mug và Wearable Blanket Hoodie vẫn Free Shipping).
+
 ## 2026-10-18 — Big Sis: bấm ATC nút quay, popup tự đóng
 
 **SP:** big-sis mug, điền đủ APR + MAR + 2 tên (có dấu). Trang không reload.
