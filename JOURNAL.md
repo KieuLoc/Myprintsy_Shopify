@@ -1,5 +1,14 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-21 — Size guide Sweatpant: thêm XS / 5XL
+
+**User:** nữ thiếu XS và 5XL, nam thiếu 5XL. SP Fishnet Sweatpants bán XS–5XL.
+**Ảnh gốc** chỉ có nữ S–4XL, nam XS–4XL. Size thêm là nội suy, chưa có bảng gốc:
+- Nữ XS = S trừ bước S→M → 36.0 / 26 / 37 in.
+- Nữ 5XL = 4XL cộng bước 3XL→4XL → 52.3 / 50 / 58 in.
+- Nam 5XL = 4XL + 4 cm mỗi cột (chuỗi nam đều +4 cm) → 132 / 108 / 148 cm = 51.97 / 42.52 / 58.27 in.
+**Check DEV:** Sweatpant PASS (nữ XS 36.0/26/37 in, nữ 5XL 52.3/50/58 in, nam 5XL 51.97/42.52/58.27 in; cm nam 5XL 132.0/108.0/148.0). Các loại khác pass. Socks vẫn fail vì tên size admin có ngoặc, không thuộc lần sửa này. Đã push DEV rồi LIVE `#183186358588`.
+
 ## 2026-10-21 — Size guide Sweatpant: Women + Men
 
 **User:** size guide sweatpant, đủ số đo Women và Men (ảnh: Length / Waist / Hips).

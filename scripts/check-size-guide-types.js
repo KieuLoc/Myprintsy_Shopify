@@ -20,6 +20,7 @@ const SHOW = {
   Legging: 'ghost-oath-leggings',
   'Hawaii Shirt': 'hawaii-hawaiian-shirt-parrot',
   Socks: 'i-have-always-been-enough-personalized-full-print-squad-socks-gfthah1o13',
+  Sweatpant: 'fishnet-tights-christmas-personalized-sweatpants',
 };
 const IMG = { 'Ugly Sweater': 'size-guide-sweater', Robes: 'size-guide-robe' };
 const FIT = {
@@ -34,6 +35,7 @@ const FIT = {
   Legging: 'Myprintsy Leggings are slim fit.',
   'Hawaii Shirt': 'Myprintsy Hawaiian Shirts fit true to size.',
   Socks: 'Myprintsy Socks',
+  Sweatpant: 'Myprintsy Sweatpants list a separate chart for women and a separate chart for men.',
 };
 const HIDE = {
   Mug: 'pickleball-lover-personalized-mug-pklaah2a03',
@@ -78,7 +80,7 @@ async function open(browser, handle) {
         const fit = (await modal.locator('.sgc__list li').first().innerText()).trim();
         assert.ok(fit.startsWith(FIT[type]), `${handle}: fit note "${fit}", want "${FIT[type]}…"`);
         assert.ok(!/lunafide/i.test(await modal.innerText()), `${handle}: modal mentions Lunafide`);
-        const table = await modal.locator('.sgc__table').evaluate((t) => ({
+        const table = await modal.locator('.sgc__table').first().evaluate((t) => ({
           head: [...t.querySelectorAll('thead th')].map((th) => th.textContent.trim()).join(','),
           sizes: [...t.querySelectorAll('tbody th')].map((th) => th.textContent.trim()).join(','),
           cm: [...t.querySelectorAll('tbody tr')].map((tr) => [...tr.querySelectorAll('.sgc__cm')].map((s) => s.textContent.trim()).join('/')).join(','),
@@ -137,19 +139,21 @@ async function open(browser, handle) {
             sizes: [...t.querySelectorAll('tbody th')].map((th) => th.textContent.trim()).join(','),
           })));
           assert.strictEqual(tables[0].head, 'SIZE,LENGTH,WAIST,HIPS', `women head: ${tables[0].head}`);
-          assert.strictEqual(tables[0].sizes, 'S,M,L,XL,2XL,3XL,4XL', `women sizes: ${tables[0].sizes}`);
+          assert.strictEqual(tables[0].sizes, 'XS,S,M,L,XL,2XL,3XL,4XL,5XL', `women sizes: ${tables[0].sizes}`);
           assert.strictEqual(tables[1].head, 'SIZE,LENGTH,WAIST,HIPS', `men head: ${tables[1].head}`);
-          assert.strictEqual(tables[1].sizes, 'XS,S,M,L,XL,2XL,3XL,4XL', `men sizes: ${tables[1].sizes}`);
+          assert.strictEqual(tables[1].sizes, 'XS,S,M,L,XL,2XL,3XL,4XL,5XL', `men sizes: ${tables[1].sizes}`);
           await modal.locator('.sgc__unit--in').click();
           const ins = await modal.locator('.sgc__table').evaluateAll((list) => list.map((t) => [...t.querySelectorAll('tbody tr')].map((tr) => [...tr.querySelectorAll('.sgc__in')].map((s) => s.textContent.trim()).join('/'))));
-          assert.strictEqual(ins[0][0], '37.8/29/39', `women S inches: ${ins[0][0]}`);
-          assert.strictEqual(ins[0][6], '49.8/47/55', `women 4XL inches: ${ins[0][6]}`);
+          assert.strictEqual(ins[0][0], '36.0/26/37', `women XS inches: ${ins[0][0]}`);
+          assert.strictEqual(ins[0][1], '37.8/29/39', `women S inches: ${ins[0][1]}`);
+          assert.strictEqual(ins[0][8], '52.3/50/58', `women 5XL inches: ${ins[0][8]}`);
           assert.strictEqual(ins[1][0], '39.37/29.92/45.67', `men XS inches: ${ins[1][0]}`);
-          assert.strictEqual(ins[1][7], '50.39/40.94/56.69', `men 4XL inches: ${ins[1][7]}`);
+          assert.strictEqual(ins[1][8], '51.97/42.52/58.27', `men 5XL inches: ${ins[1][8]}`);
           await modal.locator('.sgc__unit--cm').click();
           const cm = await modal.locator('.sgc__table').evaluateAll((list) => list.map((t) => [...t.querySelectorAll('tbody tr')].map((tr) => [...tr.querySelectorAll('.sgc__cm')].map((s) => s.textContent.trim()).join('/'))));
-          assert.strictEqual(cm[0][0], '96.0/73.7/99.1', `women S cm: ${cm[0][0]}`);
+          assert.strictEqual(cm[0][0], '91.4/66.0/94.0', `women XS cm: ${cm[0][0]}`);
           assert.strictEqual(cm[1][0], '100.0/76.0/116.0', `men XS cm: ${cm[1][0]}`);
+          assert.strictEqual(cm[1][8], '132.0/108.0/148.0', `men 5XL cm: ${cm[1][8]}`);
         } else if (type === 'Legging') {
           assert.strictEqual(table.head, 'SIZE,WAIST,HIP,INSEAM', `legging head: ${table.head}`);
           assert.strictEqual(table.sizes, 'XS,S,M,L,XL,2XL,3XL,4XL,5XL', `legging sizes: ${table.sizes}`);
