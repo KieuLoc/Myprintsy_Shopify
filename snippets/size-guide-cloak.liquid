@@ -3,6 +3,7 @@
   Rows: size|<one value per sgc_cols> (cm), a~b for a range. Inches are derived. Use - for unknown.
 {% endcomment %}
 {%- assign sgc_type = product.type | downcase -%}
+{%- assign sgc_block_count = 1 -%}
 {%- assign sgc_true_fit = ' fit true to size. We recommend Men who like a looser fit to order a size up, and Ladies to order a size down.' -%}
 {%- assign sgc_note = 'These are approximate size guidelines. Please take your body measurements to determine the best fit for you.' -%}
 {%- if sgc_type == 'zip hoodie' or sgc_type == 'zip hoodies' or sgc_type == 'hoodie 3d' -%}
@@ -48,6 +49,13 @@
   {%- assign sgc_cols = 'LENGTH|BUST|SHOULDER|SLEEVES' | split: '|' -%}
   {%- assign sgc_rows = 'XS|73.9|117.9|52.8|22.4,S|75.9|124|54.6|23.1,M|78|130|56.4|23.9,L|80|135.9|58.4|24.9,XL|82|142|60.5|25.9,2XL|84.1|148.1|62.5|26.9,3XL|86.1|153.9|64.5|27.9,4XL|87.9|160|66.5|29,5XL|89.9|166.1|68.6|30,6XL|91.9|172|70.6|31' | split: ',' -%}
   {%- assign sgc_fit = 'Myprintsy Hawaiian Shirts' | append: sgc_true_fit -%}
+{%- elsif sgc_type == 'sweatpant' or sgc_type == 'sweatpants' -%}
+  {%- assign sgc_src = 'in' -%}
+  {%- assign sgc_block_count = 2 -%}
+  {%- assign sgc_cols = 'LENGTH|WAIST|HIPS' | split: '|' -%}
+  {%- assign sgc_rows_w = 'S|37.8|29|39,M|39.6|32|41,L|41.4|35|44,XL|43.1|38|47,2XL|45.9|41|50,3XL|47.3|44|52,4XL|49.8|47|55' | split: ',' -%}
+  {%- assign sgc_rows_m = 'XS|39.37|29.92|45.67,S|40.94|31.50|47.24,M|42.52|33.07|48.82,L|44.09|34.65|50.39,XL|45.67|36.22|51.97,2XL|47.24|37.80|53.54,3XL|48.82|39.37|55.12,4XL|50.39|40.94|56.69' | split: ',' -%}
+  {%- assign sgc_fit = 'Myprintsy Sweatpants list a separate chart for women and a separate chart for men.' -%}
 {%- elsif sgc_type == 'socks' or sgc_type == 'sock' -%}
   {%- assign sgc_cols = 'LENGTH|WIDTH' | split: '|' -%}
   {%- assign sgc_rows = 'Kid 6-10Y|30|9.5,Kid 10-14Y|40|9.5,Women US 4-6|40|9.5,Women US 6-10|46|9.5,Women US 10-13|48|9.5,Men US 6-8|46|9.5,Men US 8-12|48|9.5,Men US 12-15|52|9.5' | split: ',' -%}
@@ -85,6 +93,8 @@
   {%- when 'socks', 'sock' -%}
     {%- assign sgc_img = 'size-guide-socks.jpg' -%}{%- assign sgc_img_w = 1024 -%}{%- assign sgc_img_h = 1024 -%}
     {%- assign sgc_img_alt = 'How to measure: sock length and width' -%}
+  {%- when 'sweatpant', 'sweatpants' -%}
+    {%- assign sgc_img = '' -%}
   {%- else -%}
     {%- assign sgc_img = 'size-guide-cloak.jpg' -%}{%- assign sgc_img_w = 600 -%}{%- assign sgc_img_h = 530 -%}
     {%- assign sgc_img_alt = 'How to measure: length from top of hood to below the knee, chest circumference' -%}
@@ -117,28 +127,45 @@
         <label for="sgc-in-{{ section.id }}" class="sgc__unit sgc__unit--in">INCHES</label>
       </div>
       <div class="sgc__scroll">
-        <table class="sgc__table">
-          <thead>
-            <tr><th>SIZE</th>{% for col in sgc_cols %}<th>{{ col }}</th>{% endfor %}</tr>
-          </thead>
-          <tbody>
-            {%- for row in sgc_rows -%}
-              {%- assign c = row | split: '|' -%}
-              <tr>
-                <th scope="row">{{ c[0] }}</th>
-                {%- for i in (1..sgc_cols.size) -%}
-                  {%- if c[i] == '-' -%}<td>–</td>{%- continue -%}{%- endif -%}
-                  {%- assign parts = c[i] | split: '~' -%}
-                  <td><span class="sgc__cm">{{ parts | join: ' - ' }}</span><span class="sgc__in">{% for v in parts %}{{ v | plus: 0 | divided_by: 2.54 | round: 1 }}{% unless forloop.last %} - {% endunless %}{% endfor %}</span></td>
-                {%- endfor -%}
-              </tr>
-            {%- endfor -%}
-          </tbody>
-        </table>
+        {%- for block_i in (1..sgc_block_count) -%}
+          {%- if sgc_block_count == 2 and block_i == 1 -%}
+            <p class="sgc__caption">Women's Sweatpants</p>
+            {%- assign rows = sgc_rows_w -%}
+          {%- elsif sgc_block_count == 2 -%}
+            <p class="sgc__caption">Men's Sweatpants</p>
+            {%- assign rows = sgc_rows_m -%}
+          {%- else -%}
+            {%- assign rows = sgc_rows -%}
+          {%- endif -%}
+          <table class="sgc__table">
+            <thead>
+              <tr><th>SIZE</th>{% for col in sgc_cols %}<th>{{ col }}</th>{% endfor %}</tr>
+            </thead>
+            <tbody>
+              {%- for row in rows -%}
+                {%- assign c = row | split: '|' -%}
+                <tr>
+                  <th scope="row">{{ c[0] }}</th>
+                  {%- for i in (1..sgc_cols.size) -%}
+                    {%- if c[i] == '-' -%}<td>–</td>{%- continue -%}{%- endif -%}
+                    {%- assign parts = c[i] | split: '~' -%}
+                    {%- if sgc_src == 'in' -%}
+                      <td><span class="sgc__in">{{ parts | join: ' - ' }}</span><span class="sgc__cm">{% for v in parts %}{{ v | plus: 0 | times: 2.54 | round: 1 }}{% unless forloop.last %} - {% endunless %}{% endfor %}</span></td>
+                    {%- else -%}
+                      <td><span class="sgc__cm">{{ parts | join: ' - ' }}</span><span class="sgc__in">{% for v in parts %}{{ v | plus: 0 | divided_by: 2.54 | round: 1 }}{% unless forloop.last %} - {% endunless %}{% endfor %}</span></td>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+        {%- endfor -%}
       </div>
+      {%- if sgc_img != blank -%}
       <div class="sgc__howto">
         <img src="{{ sgc_img | asset_url }}" alt="{{ sgc_img_alt }}" width="{{ sgc_img_w }}" height="{{ sgc_img_h }}" loading="lazy">
       </div>
+      {%- endif -%}
     </div>
   </div>
 </modal-dialog>
@@ -176,6 +203,7 @@
   .sgc__radio--in:checked ~ .sgc__scroll .sgc__cm,
   .sgc__radio--cm:checked ~ .sgc__scroll .sgc__in { display: none; }
   .sgc__scroll { overflow-x: auto; }
+  .sgc__scroll .sgc__table + .sgc__caption { margin-top: 1.6rem; }
   .size-guide-cloak .sgc__table { display: table; max-width: none; margin: 0; }
   .sgc__table { width: 100%; border-collapse: collapse; font-size: 1.4rem; text-align: center; }
   .sgc__table th, .sgc__table td { border: 1px solid rgba(var(--color-foreground), .15); padding: .5rem .8rem; white-space: nowrap; }

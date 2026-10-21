@@ -83,13 +83,17 @@ async function open(browser, handle) {
           sizes: [...t.querySelectorAll('tbody th')].map((th) => th.textContent.trim()).join(','),
           cm: [...t.querySelectorAll('tbody tr')].map((tr) => [...tr.querySelectorAll('.sgc__cm')].map((s) => s.textContent.trim()).join('/')).join(','),
         }));
-        const img = modal.locator('.sgc__howto img');
-        await img.scrollIntoViewIfNeeded();
-        await page.waitForFunction((m) => m.querySelector('.sgc__howto img')?.complete, await modal.elementHandle(), { timeout: 5000 });
-        const { src, nw } = await img.evaluate((i) => ({ src: i.currentSrc || i.src, nw: i.naturalWidth }));
-        const wantImg = IMG[type] || 'size-guide-' + type.toLowerCase().replace(/ /g, '-');
-        assert.ok(src.includes(wantImg), `${handle}: howto img ${src}, want ${wantImg}`);
-        assert.ok(nw > 0, `${handle}: howto img not loaded (naturalWidth ${nw})`);
+        const howto = modal.locator('.sgc__howto img');
+        if (await howto.count()) {
+          await howto.scrollIntoViewIfNeeded();
+          await page.waitForFunction((m) => m.querySelector('.sgc__howto img')?.complete, await modal.elementHandle(), { timeout: 5000 });
+          const { src, nw } = await howto.evaluate((i) => ({ src: i.currentSrc || i.src, nw: i.naturalWidth }));
+          const wantImg = IMG[type] || 'size-guide-' + type.toLowerCase().replace(/ /g, '-');
+          assert.ok(src.includes(wantImg), `${handle}: howto img ${src}, want ${wantImg}`);
+          assert.ok(nw > 0, `${handle}: howto img not loaded (naturalWidth ${nw})`);
+        } else {
+          assert.strictEqual(type, 'Sweatpant', `${handle}: missing howto image`);
+        }
         if (type === 'Socks') {
           const opts = await page.evaluate(async (h) => (await (await fetch(`/products/${h}.js`)).json()).options.find((o) => /size/i.test(o.name)).values.join(','), handle);
           assert.strictEqual(table.sizes, opts, `socks rows "${table.sizes}" != product sizes "${opts}"`);
@@ -123,6 +127,29 @@ async function open(browser, handle) {
           const ins = await modal.locator('.sgc__table tbody tr').evaluateAll((trs) => trs.map((tr) => [...tr.querySelectorAll('.sgc__in')].map((s) => s.textContent.trim()).join('/')));
           assert.strictEqual(ins[1], '29.9/48.8/21.5/9.1', `hawaii S inches: ${ins[1]}`);
           assert.strictEqual(ins[9], '36.2/67.7/27.8/12.2', `hawaii 6XL inches: ${ins[9]}`);
+        } else if (type === 'Sweatpant') {
+          const titles = (await modal.locator('.sgc__scroll .sgc__caption').allInnerTexts()).map((s) => s.trim());
+          assert.deepStrictEqual(titles, ["Women's Sweatpants", "Men's Sweatpants"], `sweatpant titles: ${titles.join(' | ')}`);
+          assert.strictEqual(await modal.locator('.sgc__table').count(), 2, 'sweatpant should have 2 tables');
+          assert.strictEqual(await modal.locator('.sgc__howto').count(), 0, 'sweatpant has no how-to image yet');
+          const tables = await modal.locator('.sgc__table').evaluateAll((list) => list.map((t) => ({
+            head: [...t.querySelectorAll('thead th')].map((th) => th.textContent.trim()).join(','),
+            sizes: [...t.querySelectorAll('tbody th')].map((th) => th.textContent.trim()).join(','),
+          })));
+          assert.strictEqual(tables[0].head, 'SIZE,LENGTH,WAIST,HIPS', `women head: ${tables[0].head}`);
+          assert.strictEqual(tables[0].sizes, 'S,M,L,XL,2XL,3XL,4XL', `women sizes: ${tables[0].sizes}`);
+          assert.strictEqual(tables[1].head, 'SIZE,LENGTH,WAIST,HIPS', `men head: ${tables[1].head}`);
+          assert.strictEqual(tables[1].sizes, 'XS,S,M,L,XL,2XL,3XL,4XL', `men sizes: ${tables[1].sizes}`);
+          await modal.locator('.sgc__unit--in').click();
+          const ins = await modal.locator('.sgc__table').evaluateAll((list) => list.map((t) => [...t.querySelectorAll('tbody tr')].map((tr) => [...tr.querySelectorAll('.sgc__in')].map((s) => s.textContent.trim()).join('/'))));
+          assert.strictEqual(ins[0][0], '37.8/29/39', `women S inches: ${ins[0][0]}`);
+          assert.strictEqual(ins[0][6], '49.8/47/55', `women 4XL inches: ${ins[0][6]}`);
+          assert.strictEqual(ins[1][0], '39.37/29.92/45.67', `men XS inches: ${ins[1][0]}`);
+          assert.strictEqual(ins[1][7], '50.39/40.94/56.69', `men 4XL inches: ${ins[1][7]}`);
+          await modal.locator('.sgc__unit--cm').click();
+          const cm = await modal.locator('.sgc__table').evaluateAll((list) => list.map((t) => [...t.querySelectorAll('tbody tr')].map((tr) => [...tr.querySelectorAll('.sgc__cm')].map((s) => s.textContent.trim()).join('/'))));
+          assert.strictEqual(cm[0][0], '96.0/73.7/99.1', `women S cm: ${cm[0][0]}`);
+          assert.strictEqual(cm[1][0], '100.0/76.0/116.0', `men XS cm: ${cm[1][0]}`);
         } else if (type === 'Legging') {
           assert.strictEqual(table.head, 'SIZE,WAIST,HIP,INSEAM', `legging head: ${table.head}`);
           assert.strictEqual(table.sizes, 'XS,S,M,L,XL,2XL,3XL,4XL,5XL', `legging sizes: ${table.sizes}`);

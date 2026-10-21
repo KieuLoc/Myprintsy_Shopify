@@ -1,5 +1,14 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-21 — Size guide Sweatpant: Women + Men
+
+**User:** size guide sweatpant, đủ số đo Women và Men (ảnh: Length / Waist / Hips).
+**Women (S–4XL):** inch đúng ảnh (S 37.8 / 29 / 39 … 4XL 49.8 / 47 / 55).
+**Men (XS–4XL):** inch đúng ảnh (XS 39.37 / 29.92 / 45.67 … 4XL 50.39 / 40.94 / 56.69). Số nam là cm chẵn đổi ra inch (100 cm = 39.37 in).
+**Fix:** `size-guide-cloak.liquid` thêm type `sweatpant` / `sweatpants`, hai bảng, nguồn số là inch (cm = inch × 2.54, 1 số lẻ). Chưa có ảnh how-to nên không hiện hình đo. `sgc_types` trong `main-product.liquid` + `product-variant-picker.liquid`.
+**Storefront:** catalog đang bán chưa có SP type Sweatpant. SP `fishnet-tights-christmas-personalized-sweatpants` có option Type = Sweatpants | Legging nhưng product type vẫn là `Legging`, nên popup của SP đó vẫn là bảng legging.
+**Check DEV:** các loại cũ pass (Cloak, Jogger, Legging, Hawaii…). Socks fail vì option size trên admin đã thêm ngoặc (`Kid (6-10Y)`), bảng size guide không đổi. Đã push LIVE `#183186358588`.
+
 ## 2026-10-21 — BMSM box cho Sweatpant + Legging
 
 **User:** thêm banner Buy More, Save More (2 = 10%, 3 = 15%, 4+ = 20%) cho product type Sweatpant và Legging.
