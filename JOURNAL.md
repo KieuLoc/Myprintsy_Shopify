@@ -1,5 +1,27 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-24 — Chữ nút ATC giữ nguyên hoa/thường khi đổi size
+
+**User:** mới vào là “Add to Cart”, chọn size thành “Add to cart”.
+**Fix:** `product-form.js` khi bật lại nút thì giữ đúng chữ đang hiện. Trang không phải gallery tĩnh mà nút đang “Sold out” thì trả về “Add to Cart”, cùng chữ lúc mới load. `customily-preview-atc.js` chỉ bỏ qua lần viết lại khi chữ khớp cả hoa/thường.
+**Đã push LIVE** `#183186358588`. Check DEV `#186878558524`: bedding Twin giữ “Add to Cart” 249ms (34 mẫu không đổi chữ), quay Single 159ms, cache miss 399ms vẫn “Add to Cart”. Legging S 209ms “Add to Cart”. Mug đổi Pack 504ms nút “Add to Cart”.
+
+## 2026-10-24 — Đổi size không dựng lại nút Add to cart
+
+**User:** bedding đổi size thì nút ATC chờ rồi hiện lại như bị load. Sửa, test kỹ, chưa push LIVE.
+**Vì sao nút bị khóa:** app Estimated Delivery (`SBdisableAddTOCart`) tắt nút khoảng 0.5s sau khi đổi variant. Trước đây section HTML về muộn nên theme bật lại nút được. Tải trước xong thì theme bật nút quá sớm, app tắt sau và nút kẹt disabled dù chữ vẫn "Add to cart".
+**Fix:**
+- `assets/product-info.js` — sau khi trang load xong + idle + 1.6s, tải HTML section của các size (tối đa 12, không tải ảnh). Bấm size đã có cache thì không disable nút trước. Giữ trạng thái nút đúng theo HTML trong 1.5s để app giao hàng không tắt nút của size còn hàng.
+- `assets/customily-preview-atc.js` — chữ và icon đã đúng thì không viết lại nút.
+**Check DEV** `#186878558524`, `scripts/check-size-atc-stable.js`:
+- Bedding prefetch 4 size. Request đầu lúc 5321ms, trang load xong lúc 3538ms.
+- Twin đã cache: 272ms, 0 request section, 35 mẫu nút không biến mất, giá `$109.95`. Quay lại Single: 165ms, 0 request.
+- Bấm khi cache bị chặn: 588ms, 1 request, nút về "Add to cart" và bấm được.
+- Legging đổi S: 232ms, nút vẫn bấm được.
+- Mug có Size + Pack: prefetch size = 3, đổi Pack 341ms, nút "Add to Cart" còn.
+- Bedding không có size sold out nên chưa đo nhánh hết hàng. Không bấm ATC (Playwright không giữ giỏ).
+**Đã push LIVE** `#183186358588`.
+
 ## 2026-10-21 — Size guide Sweatpant: thêm XS / 5XL
 
 **User:** nữ thiếu XS và 5XL, nam thiếu 5XL. SP Fishnet Sweatpants bán XS–5XL.

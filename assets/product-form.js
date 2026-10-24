@@ -1,3 +1,13 @@
+function enabledAtcLabel(currentText) {
+  const current = String(currentText || '').replace(/\s+/g, ' ').trim();
+  if (/^add to cart$/i.test(current)) return current;
+  const dawn = (window.variantStrings && window.variantStrings.addToCart) || 'Add to cart';
+  const staticGallery = !!document.querySelector(
+    'product-info.myprintsy-no-customily-preview, product-info[data-product-template-suffix="no-customily"]'
+  );
+  return staticGallery ? dawn : 'Add to Cart';
+}
+
 if (!customElements.get('product-form')) {
   customElements.define(
     'product-form',
@@ -191,7 +201,7 @@ if (!customElements.get('product-form')) {
           if (text && label) label.textContent = text;
         } else {
           this.submitButton.removeAttribute('disabled');
-          if (label) label.textContent = window.variantStrings.addToCart;
+          if (label) label.textContent = enabledAtcLabel(label.textContent);
         }
       }
 

@@ -309,6 +309,131 @@ function scheduleIdlePackSectionPrefetch(productInfo) {
   );
 }
 
+/**
+ * Idle-prefetch section HTML for the other Size values (current color/pack stay put).
+ * Starts only after window load + idle + 1.6s, same gate as Pack, so first paint is unchanged.
+ * HTML only — no image warm — so it does not pull the gallery twice.
+ * ponytail: caps at 12 sibling sizes; a product with more sizes still fetches the rest on click.
+ */
+function scheduleIdleSizeSectionPrefetch(productInfo) {
+  if (!productInfo || productInfo.dataset.sizePrefetchScheduled === '1') return;
+  productInfo.dataset.sizePrefetchScheduled = '1';
+
+  let started = false;
+  const start = () => {
+    if (started) return;
+    started = true;
+
+    const run = () => {
+      const variantSelects = productInfo.querySelector('variant-selects');
+      if (!variantSelects) {
+        window.__myprintsySizePrefetch = { queued: 0, done: 0 };
+        return;
+      }
+      const sizeFieldset = Array.from(variantSelects.querySelectorAll('fieldset')).find((fs) => {
+        const legend = (fs.querySelector('legend')?.textContent || '').toLowerCase();
+        if (legend.includes('pack') || legend.includes('buy more')) return false;
+        return legend.includes('size');
+      });
+      const sizeSelect = sizeFieldset
+        ? null
+        : Array.from(variantSelects.querySelectorAll('select')).find((sel) => {
+            const label = sel.id ? variantSelects.querySelector(`label[for="${CSS.escape(sel.id)}"]`) : null;
+            const text = (label?.textContent || sel.getAttribute('name') || '').toLowerCase();
+            return text.includes('size') && !text.includes('pack');
+          });
+      const candidates = sizeFieldset
+        ? Array.from(sizeFieldset.querySelectorAll('input[type="radio"][data-option-value-id]'))
+        : sizeSelect
+          ? Array.from(sizeSelect.querySelectorAll('option[data-option-value-id]'))
+          : [];
+      const productUrl = productInfo.dataset.url;
+      const sectionId = productInfo.dataset.originalSection || productInfo.dataset.section;
+      if (!productUrl || !sectionId || candidates.length < 1) {
+        window.__myprintsySizePrefetch = { queued: 0, done: 0 };
+        return;
+      }
+
+      const urls = [];
+      for (const candidate of candidates.slice(0, 12)) {
+        const optionValues = Array.from(
+          variantSelects.querySelectorAll('select option[selected], fieldset input:checked')
+        ).map((el) => {
+          if (sizeFieldset && el.closest('fieldset') === sizeFieldset) return candidate.dataset.optionValueId;
+          if (sizeSelect && el.closest('select') === sizeSelect) return candidate.dataset.optionValueId;
+          return el.dataset.optionValueId;
+        });
+        if (!optionValues.length || optionValues.some((id) => !id)) continue;
+        urls.push(`${productUrl}?section_id=${sectionId}&option_values=${optionValues.join(',')}`);
+      }
+      window.__myprintsySizePrefetch = { queued: urls.length, done: 0 };
+      if (!urls.length) return;
+
+      let i = 0;
+      const next = () => {
+        if (i >= urls.length) return;
+        const url = urls[i++];
+        const fetchOne = () => {
+          const finish = () => {
+            window.__myprintsySizePrefetch.done += 1;
+            if ('requestIdleCallback' in window) requestIdleCallback(next, { timeout: 2000 });
+            else setTimeout(next, 120);
+          };
+          if (PRODUCT_SECTION_HTML_CACHE.has(url)) {
+            finish();
+            return;
+          }
+          fetch(url)
+            .then((res) => res.text())
+            .then((text) => {
+              rememberSectionHtml(url, text);
+            })
+            .catch(() => {})
+            .finally(finish);
+        };
+        if ('requestIdleCallback' in window) requestIdleCallback(fetchOne, { timeout: 2000 });
+        else setTimeout(fetchOne, 80);
+      };
+      next();
+    };
+
+    window.setTimeout(run, 1600);
+  };
+
+  const afterLoad = () => {
+    if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 4500 });
+    else window.setTimeout(start, 2200);
+  };
+
+  if (document.readyState === 'complete') afterLoad();
+  else window.addEventListener('load', afterLoad, { once: true });
+}
+
+/**
+ * Estimated-delivery app disables Add to cart ~0.5s after a variant click, then only
+ * turns it back on if our section fetch finishes later. A cached size applies too fast,
+ * so the app's disable sticks. Hold the state from the section HTML for 1.5s.
+ * ponytail: stops after 1.5s — a later real sold-out from the app is left alone.
+ */
+function holdSubmitButtonState(productForm, disabled, text) {
+  if (!productForm?.toggleSubmitButton) return;
+  productForm.toggleSubmitButton(disabled, text);
+  const btn = productForm.submitButton;
+  if (!btn) return;
+  productForm.__submitHold?.disconnect();
+  const obs = new MutationObserver(() => {
+    if (btn.disabled !== disabled) productForm.toggleSubmitButton(disabled, text);
+  });
+  productForm.__submitHold = obs;
+  obs.observe(btn, { attributes: true, attributeFilter: ['disabled'] });
+  window.setTimeout(() => {
+    if (productForm.__submitHold === obs) {
+      obs.disconnect();
+      productForm.__submitHold = null;
+    }
+  }, 1500);
+}
+
 if (!customElements.get('product-info')) {
   customElements.define(
     'product-info',
@@ -350,6 +475,7 @@ if (!customElements.get('product-info')) {
         this.initQuantityHandlers();
         this.dispatchEvent(new CustomEvent('product-info:loaded', { bubbles: true }));
         scheduleIdlePackSectionPrefetch(this);
+        scheduleIdleSizeSectionPrefetch(this);
       }
 
       addPreProcessCallback(callback) {
@@ -390,16 +516,23 @@ if (!customElements.get('product-info')) {
       handleOptionValueChange({ data: { event, target, selectedOptionValues } }) {
         if (!this.contains(event.target)) return;
 
-        this.resetProductFormState();
         this.lastPackOptionChange = isPackOptionTarget(target);
 
         const productUrl = target.dataset.productUrl || this.pendingRequestUrl || this.dataset.url;
         this.pendingRequestUrl = productUrl;
         const shouldSwapProduct = this.dataset.url !== productUrl;
         const shouldFetchFullPage = this.dataset.updateUrl === 'true' && shouldSwapProduct;
+        const requestUrl = this.buildRequestUrlWithParams(productUrl, selectedOptionValues, shouldFetchFullPage);
+
+        // Cached size/pack HTML applies in this same turn, so disabling first only paints a blank button.
+        if (shouldSwapProduct || !PRODUCT_SECTION_HTML_CACHE.has(requestUrl)) {
+          this.resetProductFormState();
+        } else {
+          this.productForm?.handleErrorMessage();
+        }
 
         this.renderProductInfo({
-          requestUrl: this.buildRequestUrlWithParams(productUrl, selectedOptionValues, shouldFetchFullPage),
+          requestUrl,
           targetId: target.id,
           callback: shouldSwapProduct
             ? this.handleSwapProduct(productUrl, shouldFetchFullPage)
@@ -626,7 +759,8 @@ if (!customElements.get('product-info')) {
           this.querySelector(`#Quantity-Rules-${this.dataset.section}`)?.classList.remove('hidden');
           this.querySelector(`#Volume-Note-${this.dataset.section}`)?.classList.remove('hidden');
 
-          this.productForm?.toggleSubmitButton(
+          holdSubmitButtonState(
+            this.productForm,
             html.getElementById(`ProductSubmitButton-${this.sectionId}`)?.hasAttribute('disabled') ?? true,
             window.variantStrings.soldOut
           );
@@ -661,7 +795,7 @@ if (!customElements.get('product-info')) {
       }
 
       setUnavailable() {
-        this.productForm?.toggleSubmitButton(true, window.variantStrings.unavailable);
+        holdSubmitButtonState(this.productForm, true, window.variantStrings.unavailable);
 
         const selectors = ['price', 'Inventory', 'Sku', 'Price-Per-Item', 'Volume-Note', 'Volume', 'Quantity-Rules']
           .map((id) => `#${id}-${this.dataset.section}`)

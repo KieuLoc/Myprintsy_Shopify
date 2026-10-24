@@ -831,9 +831,15 @@
         const label = isStaticShopifyGalleryMode()
           ? window.variantStrings?.addToCart || 'Add to cart'
           : ATC_LABEL;
+        const iconOk = !!btn.querySelector('[' + ICON_ATTR + '="atc"]');
+        const textOk = (btn.textContent || '').replace(/\s+/g, ' ').trim() === label;
+        const caseOk = window.getComputedStyle(btn).textTransform !== 'uppercase';
+        // Size change rewrites the DOM around the button. If the label is already right, leave the node alone.
+        if (iconOk && textOk && caseOk && btn.getAttribute('data-myprintsy-atc-tuned') === '1') return;
         setLeafText(btn, label);
         ensureButtonIcon(btn, 'atc');
         unlockCase(btn);
+        btn.setAttribute('data-myprintsy-atc-tuned', '1');
       }
     });
   }
