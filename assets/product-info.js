@@ -434,6 +434,30 @@ function holdSubmitButtonState(productForm, disabled, text) {
   }, 1500);
 }
 
+function scrollOpenedAccordionIntoView(details) {
+  const summary = details.querySelector('summary');
+  const content = details.querySelector('.accordion__content');
+  if (!summary || !content) return;
+  const visible = window.innerHeight - content.getBoundingClientRect().top;
+  if (visible >= 120) return;
+  const header = document.querySelector('sticky-header, .header-wrapper');
+  const headerBottom = header ? header.getBoundingClientRect().bottom : 0;
+  const offset = Math.max(headerBottom, 0) + 8;
+  const top = window.scrollY + summary.getBoundingClientRect().top - offset;
+  window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+}
+
+function bindAccordionScroll(productInfo) {
+  if (!productInfo || productInfo.dataset.accordionScrollBound === '1') return;
+  productInfo.dataset.accordionScrollBound = '1';
+  productInfo.querySelectorAll('.product__accordion details').forEach((details) => {
+    details.addEventListener('toggle', () => {
+      if (!details.open) return;
+      requestAnimationFrame(() => scrollOpenedAccordionIntoView(details));
+    });
+  });
+}
+
 if (!customElements.get('product-info')) {
   customElements.define(
     'product-info',
@@ -476,6 +500,7 @@ if (!customElements.get('product-info')) {
         this.dispatchEvent(new CustomEvent('product-info:loaded', { bubbles: true }));
         scheduleIdlePackSectionPrefetch(this);
         scheduleIdleSizeSectionPrefetch(this);
+        bindAccordionScroll(this);
       }
 
       addPreProcessCallback(callback) {

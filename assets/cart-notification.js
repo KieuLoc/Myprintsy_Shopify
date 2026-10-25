@@ -43,6 +43,8 @@ class CartNotification extends HTMLElement {
 
   open() {
     this.mountModalToBody();
+    this.bindCartAnchor();
+    this.placeBesideCartIcon();
     if (this.wrapper) this.wrapper.classList.add('is-open');
     if (this.overlay) {
       this.overlay.hidden = false;
@@ -61,6 +63,8 @@ class CartNotification extends HTMLElement {
       { once: true }
     );
 
+    requestAnimationFrame(() => this.placeBesideCartIcon());
+
     this._ignoreBodyClickUntil = Date.now() + 500;
     document.body.removeEventListener('click', this.onBodyClick);
     if (this._bodyListenTimer) window.clearTimeout(this._bodyListenTimer);
@@ -68,6 +72,55 @@ class CartNotification extends HTMLElement {
       document.body.addEventListener('click', this.onBodyClick);
       this._bodyListenTimer = null;
     }, 0);
+  }
+
+  /**
+   * Drop the card just under the header cart icon, right edges lined up.
+   * Icon missing or off-screen: sit in the top-right corner instead.
+   */
+  placeBesideCartIcon() {
+    const card = this.notification;
+    if (!card) return;
+
+    const icon = document.getElementById('cart-icon-bubble');
+    const margin = 12;
+    const gap = 8;
+    const viewWidth = document.documentElement.clientWidth || window.innerWidth;
+    const width = Math.min(380, Math.max(220, viewWidth - margin * 2));
+    let top = margin;
+    let right = margin;
+
+    if (icon) {
+      const rect = icon.getBoundingClientRect();
+      const visible = rect.width > 0 && rect.bottom > 0 && rect.top < window.innerHeight;
+      if (visible) {
+        top = Math.round(rect.bottom + gap);
+        right = Math.max(margin, Math.round(viewWidth - rect.right));
+      }
+    }
+
+    const maxTop = Math.max(margin, window.innerHeight - 80);
+    card.style.top = `${Math.min(top, maxTop)}px`;
+    card.style.right = `${right}px`;
+    card.style.left = 'auto';
+    card.style.width = `${Math.round(width)}px`;
+  }
+
+  bindCartAnchor() {
+    if (this._onCartAnchor) return;
+    this._onCartAnchor = () => {
+      if (!this.wrapper?.classList.contains('is-open')) return;
+      this.placeBesideCartIcon();
+    };
+    window.addEventListener('resize', this._onCartAnchor, { passive: true });
+    window.addEventListener('scroll', this._onCartAnchor, { passive: true, capture: true });
+  }
+
+  unbindCartAnchor() {
+    if (!this._onCartAnchor) return;
+    window.removeEventListener('resize', this._onCartAnchor);
+    window.removeEventListener('scroll', this._onCartAnchor, { capture: true });
+    this._onCartAnchor = null;
   }
 
   /**
@@ -94,6 +147,7 @@ class CartNotification extends HTMLElement {
       this._suppressNextOpen = true;
     }
 
+    this.unbindCartAnchor();
     this._optimistic = false;
     this._lockedImageSrc = '';
     this._lockedPriceText = '';

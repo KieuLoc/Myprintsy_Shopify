@@ -1,5 +1,24 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-24 — Popup Add to cart nằm dưới icon giỏ
+
+**User:** popup sau Add to cart hiện ở icon giỏ trên thanh menu, phía dưới icon đó.
+**Fix:** `cart-notification.js` đo `#cart-icon-bubble` rồi đặt card ngay dưới, mép phải trùng icon. Icon khuất thì card về góc trên-phải. Bỏ lớp tối full màn, trang vẫn cuộn được. `component-cart-notification.css` đổi card từ giữa màn hình sang góc giỏ.
+**Check DEV** `#186878558524`, `scripts/check-atc-popup-at-cart.js`: desktop cách icon 7.8px, mép phải lệch 0px. Icon bị ẩn thì card cách đỉnh 12px, vẫn trong màn. Mobile 390px cách icon 8.5px, mép phải lệch 0px. **Đã push LIVE** `#183186358588`.
+
+## 2026-10-24 — Email xác nhận đơn hiện tên personalize
+
+**User:** Klaviyo báo email không có personalize name. Test, sửa, test lại.
+**Vì sao:** tên vẫn nằm trong đơn (`_Enter Name #1` và biến thể “For Tumbler”). Klaviyo nhận được, nhưng nằm trong `event.extra.line_items[].properties`, không phải property top-level. Template “Shopify Order Confirmation (Transactional)” `Rabd4K` chỉ in Quantity / Total.
+**Fix:** trong bảng sản phẩm desktop và mobile, dưới Quantity, in `Name:` khi property có chữ “Enter Name” và có value. Không in link Customily, không in checkbox gift box.
+**Check:** render `Rabd4K` với đơn tumbler peony (order 3147) + 1 dòng áo 2 tên. Hộp bảo vệ không có Name. Tumbler ra `Name: Maddie` (2 lần, desktop + mobile). Áo ra `Name: LURLEEN` và `Name: RENAE`, tên rỗng bị bỏ. Không có URL customily. User đã bật flow “Order Confirmation” `Vn42Gk` sang **live** (email action cũng live, template `Rabd4K`, `transactional: false`). Retest sau khi Live: render đơn 3147 ra `Name: Maddie` 2 lần (desktop + mobile), hộp không có Name, ảnh preview Customily còn, chữ URL không in ra. Không đụng theme, không push LIVE.
+
+## 2026-10-24 — Bấm Description thì kéo chữ vào màn hình
+
+**User:** tree skirt bấm Description, màn hình thấp thì chữ nằm dưới, trông như không cuộn được.
+**Fix:** `assets/product-info.js` — accordion Description / Shipping / Personalization vừa mở, nếu thấy dưới 120px chữ thì cuộn tiêu đề lên dưới header. Chữ đã hiện thì không cuộn.
+**Check DEV** `#186878558524`, `scripts/check-description-scroll.js`: màn 1280×720 thấy 314px sau 403ms (scrollY 367). Màn 1440×1200 thấy 427px, trang dịch 0px. **Đã push LIVE** `#183186358588`.
+
 ## 2026-10-24 — Chữ nút ATC giữ nguyên hoa/thường khi đổi size
 
 **User:** mới vào là “Add to Cart”, chọn size thành “Add to cart”.
