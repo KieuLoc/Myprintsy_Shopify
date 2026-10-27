@@ -1,5 +1,23 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-27 — Gỡ dòng Free Shipping $59, lên LIVE
+
+**User:** bỏ dòng freeship, push DEV + LIVE và git.
+**Fix:** `snippets/free-shipping-callout.liquid` bỏ khối "Free Shipping For Orders From $59". Type cloak / hoodie 3d / jogger / … vẫn render Buy More, Save More. Thanh announcement header vẫn còn chữ $59.
+**Push DEV** `#186878558524`, **LIVE** `#183186358588`.
+
+## 2026-10-27 — Trả lại dòng Free Shipping $59 để check
+
+**User:** revert dòng freeship để check lại.
+**Fix:** `snippets/free-shipping-callout.liquid` về lại chữ "Free Shipping For Orders From $59". Jogger và các type Buy More, Save More vẫn không hiện dòng này.
+**Push DEV** `#186878558524`. Chưa push LIVE.
+
+## 2026-10-27 — Gỡ dòng Free Shipping $59 trên trang sản phẩm
+
+**User:** xóa dòng "Free Shipping For Orders From $59", không hiện nữa, push DEV, gửi 1 sản phẩm để test.
+**Fix:** `snippets/free-shipping-callout.liquid` bỏ khối freeship. Type cloak / hoodie 3d / jogger / … vẫn render Buy More, Save More. Thanh announcement header vẫn còn chữ $59.
+**Push DEV** `#186878558524`. Chưa push LIVE.
+
 ## 2026-10-24 — Popup Add to cart nằm dưới icon giỏ
 
 **User:** popup sau Add to cart hiện ở icon giỏ trên thanh menu, phía dưới icon đó.
