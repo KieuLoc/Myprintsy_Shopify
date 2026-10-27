@@ -1,5 +1,12 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-27 — Write a review khóa scroll
+
+**User:** bấm Write a review thì trang không cuộn được.
+**Vì sao:** form Judge.me theme compact là modal cố định, khung `overflow: hidden`. Nút là `href="#"`. List review bị `overflow-x: hidden` nên trục dọc thành scroll riêng.
+**Fix:** `judgeme-stars.css` cho modal cuộn, form inline không cắt. `judgeme-stars.js` khi bấm thì bỏ khóa overflow/position trên html/body và dừng animation cuộn của Judge.me. List dùng `overflow-x: clip`.
+**Check DEV** `#186878558524`, `scripts/check-write-review-scroll.js`: body đang khóa, wheel đứng 0px; bấm Write a review rồi wheel tới 700px. Modal compact cuộn 0→600px. **Đã push LIVE** `#183186358588`.
+
 ## 2026-10-27 — Gỡ dòng Free Shipping $59, lên LIVE
 
 **User:** bỏ dòng freeship, push DEV + LIVE và git.

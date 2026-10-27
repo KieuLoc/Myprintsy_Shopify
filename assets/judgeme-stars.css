@@ -775,7 +775,7 @@
 #judgeme_product_reviews .jdgm-rev-widg__body,
 #judgeme_product_reviews .jm-review-widget__body,
 #judgeme_product_reviews .jdgm-rev-widg__reviews {
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
   width: 100% !important;
@@ -790,7 +790,7 @@
     box-sizing: border-box !important;
     width: 100% !important;
     max-width: 100% !important;
-    overflow-x: hidden !important;
+    overflow-x: clip !important;
   }
 
   #judgeme_product_reviews .jm-review-item,
@@ -815,4 +815,17 @@
     max-width: 100% !important;
     float: none !important;
   }
+}
+
+/* Compact write-review modal is position:fixed and overflow:hidden, so the page and the form both stop scrolling. */
+.jdgm-write-review-modal__content,
+.jdgm-write-review-modal--compact .jdgm-write-review-modal__content,
+.jdgm-write-review-modal__compact-body.is-active {
+  overflow-y: auto !important;
+  max-height: 100dvh !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+.jdgm-form-wrapper {
+  overflow: visible !important;
 }

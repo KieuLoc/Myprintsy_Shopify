@@ -257,7 +257,7 @@
 
     var list =
       root.querySelector('.jdgm-review-list, .jdgm-rev-widg__reviews, .jm-review-widget__body') || root;
-    list.style.setProperty('overflow-x', 'hidden', 'important');
+    list.style.setProperty('overflow-x', 'clip', 'important');
     list.style.setProperty('max-width', '100%', 'important');
     list.style.setProperty('box-sizing', 'border-box', 'important');
 
@@ -277,7 +277,7 @@
       el.style.setProperty('box-sizing', 'border-box', 'important');
       el.style.setProperty('float', 'none', 'important');
       el.style.setProperty('clear', 'both', 'important');
-      el.style.setProperty('overflow-x', 'hidden', 'important');
+      el.style.setProperty('overflow-x', 'clip', 'important');
 
       var media = el.querySelectorAll(
         '.jdgm-rev__pics, .jdgm-rev__pic-link, .jdgm-rev__pic-img, .jdgm-rev__vids, img'
@@ -699,6 +699,37 @@
     alignReviewItemsLeft();
     ensureReviewPaginationAtBottom();
   }
+
+  function releaseWriteReviewScroll() {
+    var root = document.documentElement;
+    var body = document.body;
+    if (!root || !body) return;
+    ['overflow', 'overflow-y', 'position', 'top', 'left', 'right', 'width', 'height'].forEach(function (prop) {
+      root.style.removeProperty(prop);
+      body.style.removeProperty(prop);
+    });
+    if (window.jdgm && window.jdgm.$) {
+      try {
+        window.jdgm.$('html, body').stop(true, false);
+      } catch (e) {}
+    }
+  }
+
+  document.addEventListener(
+    'click',
+    function (e) {
+      var t = e.target;
+      if (!t || !t.closest) return;
+      var hit = t.closest('a.jdgm-write-rev-link, .jdgm-write-rev-link, [data-testid="write-review-button"]');
+      if (!hit) return;
+      if (hit.getAttribute && hit.getAttribute('href') === '#') e.preventDefault();
+      releaseWriteReviewScroll();
+      window.setTimeout(releaseWriteReviewScroll, 50);
+      window.setTimeout(releaseWriteReviewScroll, 400);
+      window.setTimeout(releaseWriteReviewScroll, 1200);
+    },
+    true
+  );
 
   function run() {
     ensureStyle();
