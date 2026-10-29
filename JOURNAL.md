@@ -1,5 +1,13 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-29 — Rug đổi size thỉnh thoảng khóa scroll → guard gỡ khóa mồ côi
+
+**User:** `christmas-cabin-light-area-rug-ncu0dv8793` bấm đổi size, thỉnh thoảng khóa scroll.
+**Đo (Playwright, LIVE + DEV, desktop 1440 và mobile 390):** đổi size liên tục thì khoảng 12–13s sau khi load, `body` bị gắn `overflow-hidden`. Stack trace chỉ ra `CartReminderPopup.open` → popup Welcome "Extra 10% Off" tự bật theo hẹn giờ, popup hiện rõ trên màn. Bấm X thì gỡ khóa; sau đó đổi size 12 lần, lần nào wheel cũng cuộn 400px. Không tái hiện được ca khóa mà không thấy popup. Breakpoint 749/750 giữa CSS và JS khớp nhau.
+**User xác nhận:** iPhone, không thấy popup nào → chọn thêm lớp bảo vệ.
+**Fix:** cuối `assets/global.js` thêm guard: khi `wheel`/`touchstart`/`touchmove` mà `body.overflow-hidden` nhưng không có overlay nào (`.is-open`, `details-modal details[open]`, `modal-dialog[open]`, `product-modal[open]`, `pickup-availability-drawer[open]`, `cart-drawer.active`, `.drawer.active`) thật sự hiện trong viewport → gỡ class.
+**Check DEV** `#186878558524`, `scripts/check-scroll-lock-guard.js`, desktop + mobile đều PASS: đổi size 8 lần cuộn tới 1000px; khóa mồ côi tự gỡ (500px / 1000px); popup `is-open` nhưng bị ẩn tự gỡ (500px / 1000px); popup hiện thật vẫn khóa (y=0px). `check-popup-scroll-lock.js` cũ vẫn PASS. **Đã push LIVE** `#183186358588`.
+
 ## 2026-10-27 — Write a review khóa scroll
 
 **User:** bấm Write a review thì trang không cuộn được.

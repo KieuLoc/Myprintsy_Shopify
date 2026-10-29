@@ -1266,3 +1266,34 @@ class BulkAdd extends HTMLElement {
 if (!customElements.get('bulk-add')) {
   customElements.define('bulk-add', BulkAdd);
 }
+
+// Overlays lock the page with body.overflow-hidden. If the overlay that set it is gone or not
+// visible (iOS has left it behind), drop the lock as soon as the user tries to scroll.
+(() => {
+  const LOCK_HOLDERS =
+    '.is-open, details-modal details[open], modal-dialog[open], product-modal[open], pickup-availability-drawer[open], cart-drawer.active, .drawer.active';
+  let isChecking = false;
+
+  function isOnScreen(el) {
+    const rect = el.getBoundingClientRect();
+    if (!rect.width || !rect.height) return false;
+    if (rect.bottom <= 0 || rect.right <= 0 || rect.top >= window.innerHeight || rect.left >= window.innerWidth) return false;
+    const style = getComputedStyle(el);
+    return style.visibility !== 'hidden' && style.opacity !== '0';
+  }
+
+  function releaseOrphanScrollLock() {
+    if (isChecking || window.Shopify?.designMode) return;
+    if (!document.body.classList.contains('overflow-hidden')) return;
+    isChecking = true;
+    requestAnimationFrame(() => {
+      isChecking = false;
+      if ([...document.querySelectorAll(LOCK_HOLDERS)].some(isOnScreen)) return;
+      document.body.classList.remove('overflow-hidden');
+    });
+  }
+
+  ['wheel', 'touchmove', 'touchstart'].forEach((type) =>
+    window.addEventListener(type, releaseOrphanScrollLock, { passive: true, capture: true })
+  );
+})();
