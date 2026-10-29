@@ -1,5 +1,18 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-30 — ETA dự phòng khi app SetuBridge không vẽ được
+
+**User:** chọn thêm ETA dự phòng từ theme, push luôn.
+**Fix:** `edd-pdp-placement.js`: 8s tính từ lúc mở trang (`8000 - performance.now()`), nếu chưa có `.sb_ETA` thì chèn `.myprintsy-eta-fallback` "Get Estimated delivery: <hôm nay+7> - <hôm nay+13>" **ngay sau** slot (không đặt bên trong: app bỏ qua slot đã có nội dung, đặt trong thì app vẽ trễ sẽ không hiện). Khi app vẽ `.sb_ETA`, `placeEta` xóa ô dự phòng. CSS box giống ETA của app trong `section-main-product.css`. Ghi chú: jQuery của app về trễ (13.5s) thì app cũng không tự vẽ, nên ô dự phòng là thứ duy nhất khách thấy.
+**Check** `scripts/check-eta-fallback.js` DEV + LIVE PASS: app OK → chỉ ETA app, không có dự phòng sau 11s; chặn `edd_jquery` → dự phòng hiện lúc 8120–8273ms, cao 44px, "Get Estimated delivery: Nov 6th - Nov 12th" (ornament có BMSM và tumbler); app vẽ muộn → dự phòng 8120ms, app thay chỗ 8473ms. `check-stars-under-price.js` vẫn PASS. **Đã push LIVE** `#183186358588`.
+
+## 2026-10-30 — ETA (Delivered to…) lúc có lúc không trên trang Buy More Save More (điều tra)
+
+**User:** wine tumbler `kdthah1o17`, ornament `xmthth2o18`, khách báo không thấy ETA, thỉnh thoảng mất.
+**Cách app chạy (SetuBridge EDD):** snippet app gọi `eddGetJQuery`; jQuery theme (cdnjs, `defer`) chưa có lúc đó → app tải `edd_jquery.min.js` (~2s), dò quốc gia qua `/cdn-cgi/trace` (~3.9s), JSONP `products/*.json` (~4.4s), `.sb_ETA` vào DOM ~3.4–5.8s.
+**Đo trên LIVE:** wine tumbler 10/10 OK (3.3–5.5s); ornament đổi size 18 lượt OK; bấm size sớm từ 0.3s 12/12 OK; trình duyệt mới không cache 16/16 OK; giả lập quốc gia US/CA/GB/AU/DE/HK/VN: 1 lần MISS (lần đầu, US) trên ~60 lượt. Chặn `cdn-cgi/trace` hoặc JSONP vẫn hiện; chỉ khi `edd_jquery.min.js` không tải được thì ETA mất hẳn (app chỉ `console.error('ETA: unable to load jQuery')`, không thử lại).
+**Chưa sửa:** chờ user chọn hướng.
+
 ## 2026-10-29 — Sao review luôn nằm ngay dưới giá, trên ETA
 
 **User:** tumbler `who-makes-the-rules-...-kdthah1o19` có ETA chen giữa giá và sao; muốn mọi template: giá → sao → ETA (giống mug Quilting).

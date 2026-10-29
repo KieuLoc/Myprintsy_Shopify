@@ -285,9 +285,46 @@
     return slot;
   }
 
+  var FALLBACK_DELAY_MS = 8000;
+  var FALLBACK_DAYS = [7, 13];
+  var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  function ordinal(n) {
+    var tens = n % 100;
+    if (tens >= 11 && tens <= 13) return n + 'th';
+    return n + (['th', 'st', 'nd', 'rd'][n % 10] || 'th');
+  }
+
+  function formatEtaDate(daysAhead) {
+    var d = new Date();
+    d.setDate(d.getDate() + daysAhead);
+    return MONTHS[d.getMonth()] + ' ' + ordinal(d.getDate());
+  }
+
+  // ponytail: fixed today+7..+13 calendar days, mirrors the app's current default rule.
+  // If SetuBridge rules change (per country / product), these numbers will drift.
+  function showFallbackEta() {
+    document.querySelectorAll('.product__info-container').forEach(function (info) {
+      if (info.querySelector('.sb_ETA, .myprintsy-eta-fallback')) return;
+      var slot = placeSlot(info);
+      if (!slot) return;
+      var box = document.createElement('div');
+      box.className = 'myprintsy-eta-fallback';
+      box.innerHTML =
+        'Get Estimated delivery: <strong>' + formatEtaDate(FALLBACK_DAYS[0]) + '</strong> - <strong>' +
+        formatEtaDate(FALLBACK_DAYS[1]) + '</strong>';
+      // Sibling, not child: the app skips a slot that already has content.
+      slot.insertAdjacentElement('afterend', box);
+    });
+  }
+
   function placeEta(info, slot) {
     var eta = info.querySelector('.sb_ETA') || document.querySelector('.sb_ETA');
     if (!eta) return false;
+
+    info.querySelectorAll('.myprintsy-eta-fallback').forEach(function (node) {
+      node.remove();
+    });
 
     var variant = info.querySelector('variant-selects, variant-radios');
 
@@ -408,6 +445,7 @@
   }
 
   run();
+  window.setTimeout(showFallbackEta, Math.max(0, FALLBACK_DELAY_MS - performance.now()));
   document.addEventListener('DOMContentLoaded', run);
   window.addEventListener('load', run);
 

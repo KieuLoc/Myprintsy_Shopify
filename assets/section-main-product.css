@@ -531,6 +531,17 @@ a.product__text {
   color: #111 !important;
 }
 
+.product__info-container .myprintsy-eta-fallback {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: #111;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  box-sizing: border-box;
+}
+
 .product .price .badge {
   margin-bottom: 0.5rem;
 }
