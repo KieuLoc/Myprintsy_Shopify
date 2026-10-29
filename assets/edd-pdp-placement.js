@@ -226,18 +226,31 @@
     return true;
   }
 
+  function getStarsBlock(info) {
+    var badge = info.querySelector('.jdgm-preview-badge');
+    return badge ? badge.closest('.shopify-block') || badge : null;
+  }
+
+  // Review stars sit right under the price, above the ETA. Returns what the ETA may follow.
+  function placeStars(info, price) {
+    var stars = getStarsBlock(info);
+    if (!stars || !price || price.contains(stars)) return price;
+    if (price.nextElementSibling !== stars) price.insertAdjacentElement('afterend', stars);
+    return stars;
+  }
+
   function isSlotPlaced(slot, variant, price, bmsm) {
     if (!slot) return false;
     // Prefer right under Buy More Save More (avoids Size Chart gap between them).
     if (bmsm) return slot === bmsm.nextElementSibling;
     if (variant) return slot === variant.previousElementSibling;
-    if (price) return slot.previousElementSibling === price || slot === price.nextElementSibling;
+    if (price) return slot.previousElementSibling === price;
     return true;
   }
 
   function placeSlot(info) {
     var variant = info.querySelector('variant-selects, variant-radios');
-    var price = info.querySelector('[id^="price-"]');
+    var price = placeStars(info, info.querySelector('[id^="price-"]'));
     var bmsm = info.querySelector('.bmsm');
     var slots = info.querySelectorAll('.custom_delivery_estimation_widget');
     if (!slots.length) return null;
@@ -321,6 +334,9 @@
       info.querySelector('.custom_delivery_estimation_widget');
     var eta = info.querySelector('.sb_ETA');
     if (!slot || !eta || !eta.classList.contains('myprintsy-edd-wp')) return false;
+    var stars = getStarsBlock(info);
+    var price = info.querySelector('[id^="price-"]');
+    if (stars && price && price.nextElementSibling !== stars) return false;
     if (bmsm) {
       if (slot !== bmsm.nextElementSibling) return false;
     } else if (variant && slot !== variant.previousElementSibling) {

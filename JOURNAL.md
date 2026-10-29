@@ -1,5 +1,12 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-10-29 — Sao review luôn nằm ngay dưới giá, trên ETA
+
+**User:** tumbler `who-makes-the-rules-...-kdthah1o19` có ETA chen giữa giá và sao; muốn mọi template: giá → sao → ETA (giống mug Quilting).
+**Vì sao:** slot ETA nằm trong block price; `edd-pdp-placement.js` khi không có `.bmsm`/variant picker thì giữ ETA ngay sau giá, nên sao bị đẩy xuống dưới ETA. Template sweater và tshirt-hoodie-sweater thì đặt sao trên giá.
+**Fix:** `edd-pdp-placement.js` thêm `placeStars()`: chuyển block `.jdgm-preview-badge` ra ngay sau giá, ETA (nhánh giá) đứng sau sao; `isPlacementStable` coi sao lệch là chưa ổn định. `product.sweater.json` và `product.tshirt-hoodie-sweater.json`: đổi thứ tự block thành price → badge (đã so với bản LIVE, chỉ khác đúng dòng này).
+**Check DEV** `scripts/check-stars-under-price.js` PASS: tumbler giá đáy 224 → sao 239 → ETA 277px; mug có BMSM 224 → 239 → 445px; rug và sweater chưa có review (Judge.me ẩn sao, 0px) vẫn đúng thứ tự DOM; nhánh không có badge thì ETA vẫn ngay sau giá, không lỗi JS. `check-edd-placement-stable.js` cũ đã hỏng sẵn (áo cat-rainbow không còn hộp BMSM sau đợt gỡ freeship), không do thay đổi này. **Đã push LIVE** `#183186358588`; check trên LIVE PASS (tumbler 185 → 200 → 238px, mug 185 → 200 → 406px).
+
 ## 2026-10-29 — Rug đổi size thỉnh thoảng khóa scroll → guard gỡ khóa mồ côi
 
 **User:** `christmas-cabin-light-area-rug-ncu0dv8793` bấm đổi size, thỉnh thoảng khóa scroll.

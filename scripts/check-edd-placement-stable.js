@@ -7,7 +7,7 @@ const assert = require('assert');
 const { chromium } = require('playwright');
 
 const URL =
-  'https://www.myprintsy.com/products/cat-rainbow-personalized-shirt?preview_theme_id=186878558524&variant=52620429689148';
+  'https://myprintsy-3.myshopify.com/products/cat-rainbow-personalized-shirt?preview_theme_id=186878558524&variant=52620429689148';
 
 async function main() {
   const browser = await chromium.launch({ headless: true });
