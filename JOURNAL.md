@@ -5292,3 +5292,19 @@ Ch?a implement ? ch? user ch?n h??ng.
 - 2026-10-02: Gan remote origin https://github.com/KieuLoc/Myprintsy_Shopify.git (repo PUBLIC) cho D:\Shoppify\myprintsy_github_shopify, push main (7b3d20e). Tu gio lam viec trong repo nay.
 - 2026-10-03: Anh huong dan do rieng tung type (user cung cap): size-guide-zip-hoodie/hoodie-3d/ultra-cloak/bomber-jacket/jogger.jpg (resize <=800px JPG 37-80KB). size-guide-cloak.liquid: case sgc_type chon sgc_img/w/h/alt; Cloak cu giu size-guide-cloak.jpg. Sua trong repo D:\Shoppify\myprintsy_github_shopify (sync sang thu muc cu). Push DEV, check PASS (moi type dung anh, naturalWidth>0). LIVE chua push.
 - 2026-10-03: **Push LIVE** #183186358588: size-guide-cloak.liquid + 5 anh size guide. Truoc push: snippet LIVE == commit truoc. Check LIVE PASS (5 type dung anh, modal 96-157ms).
+
+
+## 2026-11-03 - Gift box: hop den Keepsake = gia phang (mode `flat`)
+
+**Bug:** SP co metafield `gift_boxs` -> `add-on-gift-box-service` (hop den "Add More, Save More on Keepsake Boxes", id 10271856034108, 1 variant 52620375261500 $4.99) hien hop den tren PDP nhung add to cart ra hop trang "Add-On Protective Carrying Box Service" (`vertical-gift-box-N`). Nguyen nhan: mode chi co v2 (id 10424613732668 = hop kem MyPrintsy) / legacy (moi thu khac) -> hop den roi vao legacy.
+**User chon:** hop den khong tier, chi variant x qty; hop trang/v2 giu nguyen.
+**Fix:** them mode `flat` = max tier 1 -> `decomposeGiftBoxUnits` tu ra 1 dong bulk (variant hop den x N), gia/subtotal = 499 x N, khong them logic gia moi.
+- `addon-gift-box-pricing.js`: normalizeMode/getMaxTierForMode/setModeConfigs nhan `flat`.
+- `gift-box-tier-variant-map.liquid`: seed `flat` tu `all_products['add-on-gift-box-service']`; PDP handle do -> active flat.
+- `addon-gift-box.liquid`: handle `add-on-gift-box-service` -> `gift_box_pricing_mode = 'flat'`.
+- `main-cart-items.liquid`, `cart-drawer.liquid`: truyen `data-gift-box-mode` = `flat`.
+**Truoc sua:** 5 file local == DEV == LIVE (pull hash).
+**Check:** `scripts/check-gift-box-flat.js` - FAIL tren code cu (mode legacy), PASS sau push DEV: 3 hop den PDP $14.97, /cart/add.js 1 dong id 52620375261500 qty 3 mode flat (209ms); 1 hop $4.99; subtotal flat 3=1497, 7=3493; legacy 3 van 1199; mat mang -> reject + xoa co inflight; thieu variant -> reject "not configured"; hop trang (mug Halloween) van tier-3 variant 52918353264956 qty 1, $11.99. Check cu: qty-sync PASS, subtotal PASS, pack flaky (lan 1 fail qty SP reset khi doi Pack, lan 2 PASS - timing cua check, khong lien quan).
+**Gioi han:** Playwright khong luu cart (Shopify chan) -> assert payload /cart/add.js, khong assert gio that. Shopify Function tier discount van khong active -> checkout = 4.99 x qty dung.
+**Push DEV** #186878558524 OK.
+**Push LIVE** #183186358588 (2026-11-04): truoc push pull LIVE 5 file == ban da pull (khong ai sua), repo == LIVE cu. Check LIVE (`THEME=183186358588 node scripts/check-gift-box-flat.js`) PASS: 3 hop den $14.97 id 52620375261500 qty 3 (380ms); hop trang 3 = $11.99 tier-3.

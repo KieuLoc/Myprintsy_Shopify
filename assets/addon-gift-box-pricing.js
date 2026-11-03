@@ -11,6 +11,7 @@
   const configsByMode = {
     legacy: null,
     v2: null,
+    flat: null,
   };
 
   function normalizeGiftQty(value) {
@@ -20,15 +21,18 @@
   }
 
   function normalizeMode(mode) {
-    return mode === 'v2' ? 'v2' : 'legacy';
+    return mode === 'v2' || mode === 'flat' ? mode : 'legacy';
   }
 
   function getModeFromItem(item) {
     return normalizeMode(item?.properties?._gift_box_mode);
   }
 
+  // flat = single $4.99 variant: max tier 1 makes every qty one bulk line (variant × qty).
   function getMaxTierForMode(mode) {
-    return normalizeMode(mode) === 'v2' ? 6 : 5;
+    const normalized = normalizeMode(mode);
+    if (normalized === 'flat') return 1;
+    return normalized === 'v2' ? 6 : 5;
   }
 
   function storeModeConfig(mode, config) {
@@ -239,6 +243,15 @@
         defaultVariantId: byMode.v2.defaultVariantId ?? null,
         byUnits: byMode.v2.byUnits || {},
         byPriceCents: byMode.v2.byPriceCents || {},
+      });
+    }
+
+    if (byMode.flat) {
+      storeModeConfig('flat', {
+        maxTierUnits: 1,
+        defaultVariantId: byMode.flat.defaultVariantId ?? null,
+        byUnits: byMode.flat.byUnits || {},
+        byPriceCents: {},
       });
     }
   }

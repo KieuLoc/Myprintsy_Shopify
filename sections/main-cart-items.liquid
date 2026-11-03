@@ -130,8 +130,8 @@
                     {%- assign _is_gift_box_bulk = true -%}
                   {%- endif -%}
                   {%- assign _gift_box_mode = 'legacy' -%}
-                  {%- if _is_addon_gift_box and item.properties._gift_box_mode == 'v2' -%}
-                    {%- assign _gift_box_mode = 'v2' -%}
+                  {%- if _is_addon_gift_box and item.properties._gift_box_mode == 'v2' or item.properties._gift_box_mode == 'flat' -%}
+                    {%- assign _gift_box_mode = item.properties._gift_box_mode -%}
                   {%- endif -%}
 
                   {%- capture _row -%}

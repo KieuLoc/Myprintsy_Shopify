@@ -5,15 +5,26 @@
   - legacy (max 5): vertical-gift-box-1..5
   - v2 (max 6): add-on-gift-box-service-copy-* map
 
-  PDP: gift_box_product.id == 10424613732668 → activate v2; else legacy.
-  Cart/drawer: seed both maps; mode comes from line property _gift_box_mode.
+  - flat (no tiers): add-on-gift-box-service (black keepsake box) — its own variant × qty
+
+  PDP: gift_box_product.id == 10424613732668 → v2; handle add-on-gift-box-service → flat; else legacy.
+  Cart/drawer: seed all maps; mode comes from line property _gift_box_mode.
 {% endcomment %}
 {%- liquid
   assign _gb_v2_product_id = 10424613732668
+  assign _gb_flat_handle = 'add-on-gift-box-service'
   assign _gb_active_mode = 'legacy'
 
   if gift_box_product != blank and gift_box_product.id == _gb_v2_product_id
     assign _gb_active_mode = 'v2'
+  elsif gift_box_product != blank and gift_box_product.handle == _gb_flat_handle
+    assign _gb_active_mode = 'flat'
+  endif
+
+  assign _gb_flat_variant_id = null
+  assign _gb_flat_product = all_products[_gb_flat_handle]
+  if _gb_flat_product != blank
+    assign _gb_flat_variant_id = _gb_flat_product.selected_or_first_available_variant.id
   endif
 
   assign _gb_legacy_default = all_products['vertical-gift-box-1']
@@ -52,6 +63,14 @@
       byPriceCents: {},
     };
 
+    var flat = {
+      mode: 'flat',
+      maxTierUnits: 1,
+      defaultVariantId: {% if _gb_flat_variant_id %}{{ _gb_flat_variant_id }}{% else %}null{% endif %},
+      byUnits: {% if _gb_flat_variant_id %}{ 1: {{ _gb_flat_variant_id }} }{% else %}{}{% endif %},
+      byPriceCents: {},
+    };
+
     {%- for tier_units in (1..5) -%}
       {%- assign tier_handle = 'vertical-gift-box-' | append: tier_units -%}
       {%- assign tier_product = all_products[tier_handle] -%}
@@ -79,16 +98,16 @@
       {%- for variant in linked_gift_product.variants -%}
         {%- if _gb_active_mode == 'v2' -%}
           v2.byPriceCents[{{ variant.price }}] = {{ variant.id }};
-        {%- else -%}
+        {%- elsif _gb_active_mode == 'legacy' -%}
           legacy.byPriceCents[{{ variant.price }}] = {{ variant.id }};
         {%- endif -%}
       {%- endfor -%}
     {%- endif -%}
 
-    window.GiftBoxTierVariantsByMode = { legacy: legacy, v2: v2 };
+    window.GiftBoxTierVariantsByMode = { legacy: legacy, v2: v2, flat: flat };
 
     var activeMode = '{{ _gb_active_mode }}';
-    var activeConfig = activeMode === 'v2' ? v2 : legacy;
+    var activeConfig = window.GiftBoxTierVariantsByMode[activeMode];
 
     if (window.GiftBoxPricing) {
       if (typeof window.GiftBoxPricing.setModeConfigs === 'function') {
