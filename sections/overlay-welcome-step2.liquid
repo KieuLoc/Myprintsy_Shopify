@@ -110,7 +110,7 @@
     </div>
   </div>
 
-  {% render 'welcome-teaser', device_target: 'desktop' %}
+  {% render 'welcome-teaser', device_target: 'desktop', teaser_icon: section.settings.teaser_icon %}
 </welcome-step2-popup>
 
 {% schema %}
@@ -299,6 +299,16 @@
       "id": "teaser_bar_text_color",
       "label": "Teaser bar text",
       "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "teaser_icon",
+      "label": "Teaser icon",
+      "options": [
+        { "value": "gift", "label": "Gift box" },
+        { "value": "christmas", "label": "Christmas gift box" }
+      ],
+      "default": "christmas"
     }
   ]
 }

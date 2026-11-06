@@ -5308,3 +5308,13 @@ Ch?a implement ? ch? user ch?n h??ng.
 **Gioi han:** Playwright khong luu cart (Shopify chan) -> assert payload /cart/add.js, khong assert gio that. Shopify Function tier discount van khong active -> checkout = 4.99 x qty dung.
 **Push DEV** #186878558524 OK.
 **Push LIVE** #183186358588 (2026-11-04): truoc push pull LIVE 5 file == ban da pull (khong ai sua), repo == LIVE cu. Check LIVE (`THEME=183186358588 node scripts/check-gift-box-flat.js`) PASS: 3 hop den $14.97 id 52620375261500 qty 3 (380ms); hop trang 3 = $11.99 tier-3.
+
+## 2026-11-06 - Teaser hop qua Noel (DEV) + dong bo anh overlay tu LIVE
+- `snippets/welcome-teaser.liquid`: them SVG hop qua Noel (do, no vang, la holly, tuyet); giu SVG cu trong nhanh `else`.
+- `overlay-welcome-step2(.liquid|-mobile.liquid)`: setting moi `teaser_icon` (gift | christmas, default christmas), truyen vao snippet. Het Noel doi ve 'Gift box' trong editor.
+- Da push DEV 186878558524, chua push LIVE.
+- User doi anh cart reminder/welcome/success tren LIVE -> da pull `sections/overlay-group.json` tu LIVE de ghi de local (chi khac field anh). KHONG push overlay-group.json len LIVE; khi push LIVE chi `--only` dung file code.
+
+- 2026-11-06 23:2x: Da push LIVE 183186358588 (chi 3 file teaser, --only). overlay-group.json tren LIVE khong doi (anh user con nguyen); HTML LIVE co icon Noel desktop+mobile.
+
+
