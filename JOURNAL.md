@@ -5330,3 +5330,13 @@ Ch?a implement ? ch? user ch?n h??ng.
 - 2026-11-08 08:5x: Da push LIVE 183186358588 (6 file, --only). check-cart-reminder-empty.js PASS tren LIVE (5 link goi y, gate Welcome OK). overlay-group.json tren LIVE khong doi.
 
 
+
+## 2026-11-09 - Banner Free Shipping From $139 cho Bedding Set (DEV)
+- `snippets/free-shipping-callout.liquid`: lay lai khoi freeship cu (git 83a9099~1), chi render khi `product.type` = 'Bedding Set' (downcase), chu 'Free Shipping For Orders From $139'. BMSM types giu nguyen; type khac khong hien gi.
+- `scripts/check-cloak-bmsm.js`: them nhanh FREESHIP (bedding set, assert $139) + NONE (mug, blanket). DEV PASS 12/12.
+- Banner chi la UI; freeship that phai cau hinh shipping rate trong Shopify admin.
+- Chua push LIVE.
+
+- 2026-11-09 00:5x: Da push LIVE 183186358588 (chi free-shipping-callout.liquid). check-cloak-bmsm.js LIVE PASS 12/12.
+
+
