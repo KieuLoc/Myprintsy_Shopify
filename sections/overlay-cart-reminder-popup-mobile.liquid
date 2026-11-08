@@ -84,15 +84,24 @@
 
       <div class="cart-reminder-popup__content{% if klaviyo_replaces_content %} cart-reminder-popup__content--klaviyo{% endif %}">
         {%- if section.settings.eyebrow != blank -%}
-          <p class="cart-reminder-popup__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          <p class="cart-reminder-popup__eyebrow" data-cart-filled-only{% if cart.item_count == 0 %} hidden{% endif %}>{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.empty_eyebrow != blank -%}
+          <p class="cart-reminder-popup__eyebrow" data-cart-empty-only{% if cart.item_count > 0 %} hidden{% endif %}>{{ section.settings.empty_eyebrow | escape }}</p>
         {%- endif -%}
 
         {%- if section.settings.heading != blank -%}
-          <h2 class="cart-reminder-popup__heading">{{ section.settings.heading | escape }}</h2>
+          <h2 class="cart-reminder-popup__heading" data-cart-filled-only{% if cart.item_count == 0 %} hidden{% endif %}>{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.empty_heading != blank -%}
+          <h2 class="cart-reminder-popup__heading" data-cart-empty-only{% if cart.item_count > 0 %} hidden{% endif %}>{{ section.settings.empty_heading | escape }}</h2>
         {%- endif -%}
 
         {%- if section.settings.subtext != blank -%}
-          <div class="cart-reminder-popup__subtext rte">{{ section.settings.subtext }}</div>
+          <div class="cart-reminder-popup__subtext rte" data-cart-filled-only{% if cart.item_count == 0 %} hidden{% endif %}>{{ section.settings.subtext }}</div>
+        {%- endif -%}
+        {%- if section.settings.empty_subtext != blank -%}
+          <div class="cart-reminder-popup__subtext rte" data-cart-empty-only{% if cart.item_count > 0 %} hidden{% endif %}>{{ section.settings.empty_subtext }}</div>
         {%- endif -%}
 
         <div class="cart-reminder-popup__countdown" aria-live="polite">
@@ -332,6 +341,29 @@
       "id": "timer_label",
       "label": "Countdown label",
       "default": "Offer expires in"
+    },
+    {
+      "type": "header",
+      "content": "Empty cart content",
+      "info": "Shown instead of the texts above when the cart is empty, with 3 Best Sellers + 2 Bedding Set products."
+    },
+    {
+      "type": "text",
+      "id": "empty_eyebrow",
+      "label": "Eyebrow text (empty cart)",
+      "default": "Our Best Sellers"
+    },
+    {
+      "type": "text",
+      "id": "empty_heading",
+      "label": "Heading (empty cart)",
+      "default": "Save An Extra 20% Off"
+    },
+    {
+      "type": "richtext",
+      "id": "empty_subtext",
+      "label": "Subtext (empty cart)",
+      "default": "<p>Shop our most-loved gifts - Priority shipping available</p>"
     },
     {
       "type": "header",

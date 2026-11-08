@@ -5318,3 +5318,15 @@ Ch?a implement ? ch? user ch?n h??ng.
 - 2026-11-06 23:2x: Da push LIVE 183186358588 (chi 3 file teaser, --only). overlay-group.json tren LIVE khong doi (anh user con nguyen); HTML LIVE co icon Noel desktop+mobile.
 
 
+
+## 2026-11-08 - Cart reminder hien ca khi gio trong + goi y Best Sellers/Bedding Set (DEV)
+- `assets/overlay-cart-reminder-popup.js`: bo cac gate `cartCount <= 0` (timer browse/inactivity, initTriggers, refreshCartCount). `canShow`: gio co hang -> van can da vao /cart (logic cu); gio trong -> cho Welcome hien truoc (`isWelcomePending` = Welcome con `canShowWelcome()`), sau do peer cooldown 2 phut nhu cu. `refreshCartItems` toggle `[data-cart-empty-only]` / `[data-cart-filled-only]`.
+- `snippets/cart-reminder-popup-items.liquid`: them list goi y 3 `best-sellers` + 2 `bedding-set` (bo qua het hang), link toi product.
+- 2 section cart reminder: setting moi `empty_eyebrow` / `empty_heading` / `empty_subtext` (default 'Our Best Sellers' / 'Save An Extra 20% Off' / ...). Khong dong vao overlay-group.json (giu anh user).
+- CSS desktop+mobile: `[hidden]` cho 2 data-attr + `.cart-reminder-popup__item--link`.
+- Check: `scripts/check-cart-reminder-empty.js` PASS tren DEV (gate Welcome, 5 link goi y, gio co hang giu nguyen, /cart.js fail giu state); `check-overlay-peer-cooldown.js` PASS.
+- Chua push LIVE.
+
+- 2026-11-08 08:5x: Da push LIVE 183186358588 (6 file, --only). check-cart-reminder-empty.js PASS tren LIVE (5 link goi y, gate Welcome OK). overlay-group.json tren LIVE khong doi.
+
+

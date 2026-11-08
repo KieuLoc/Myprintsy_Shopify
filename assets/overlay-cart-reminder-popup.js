@@ -394,7 +394,6 @@ if (!customElements.get('cart-reminder-popup')) {
         if (instance.isWelcomePopup()) return;
         if (instance.isBlockedPage()) return;
         if (instance.dataset.enabled !== 'true') return;
-        if (instance.cartCount <= 0) return;
 
         instance.armInactivityTimer();
       });
@@ -565,7 +564,6 @@ if (!customElements.get('cart-reminder-popup')) {
       }
 
       if (this.dataset.enabled !== 'true') return;
-      if (this.cartCount <= 0) return;
 
       if (this.isBlockedPage()) {
         CartReminderPopup.clearAfterCartAddDelay();
@@ -611,7 +609,6 @@ if (!customElements.get('cart-reminder-popup')) {
       const afterCartAdd = Boolean(options.afterCartAdd);
       const delayMs = this.getBrowseAutoShowMs({ afterCartAdd });
       if (!delayMs) return;
-      if (this.cartCount <= 0) return;
 
       CartReminderPopup.clearBrowseAutoShowTimer();
 
@@ -632,7 +629,6 @@ if (!customElements.get('cart-reminder-popup')) {
 
       const delayMs = this.getInactivityMs();
       if (!delayMs) return;
-      if (this.cartCount <= 0) return;
       if (this.isBlockedPage()) return;
 
       CartReminderPopup.clearInactivityTimer();
@@ -890,26 +886,24 @@ if (!customElements.get('cart-reminder-popup')) {
         });
 
         if (this.cartCount <= 0) {
-          CartReminderPopup.clearAutoShowTimers();
           CartReminderPopup.clearAfterCartAddDelay();
           CartReminderPopup.clearVisitedCart(this.storageKey);
-        } else {
-          if (options.fromCartUpdate) {
-            CartReminderPopup.markAfterCartAddDelay();
-          }
-
-          const afterCartAdd =
-            options.fromCartUpdate || CartReminderPopup.shouldUseAfterCartAddDelay();
-
-          CartReminderPopup.instances.forEach((instance) => {
-            if (instance.isWelcomePopup()) return;
-            if (instance.dataset.enabled !== 'true') return;
-            instance.armBrowseAutoShowTimer({ afterCartAdd });
-            if (!instance.isBlockedPage()) {
-              instance.armInactivityTimer();
-            }
-          });
+        } else if (options.fromCartUpdate) {
+          CartReminderPopup.markAfterCartAddDelay();
         }
+
+        const afterCartAdd =
+          this.cartCount > 0 &&
+          (options.fromCartUpdate || CartReminderPopup.shouldUseAfterCartAddDelay());
+
+        CartReminderPopup.instances.forEach((instance) => {
+          if (instance.isWelcomePopup()) return;
+          if (instance.dataset.enabled !== 'true') return;
+          instance.armBrowseAutoShowTimer({ afterCartAdd });
+          if (!instance.isBlockedPage()) {
+            instance.armInactivityTimer();
+          }
+        });
 
         return this.cartCount;
       } catch (error) {
@@ -999,6 +993,9 @@ if (!customElements.get('cart-reminder-popup')) {
         const sortedItems = CartReminderPopup.sortCartItemsForDisplay(allItems);
         const items = sortedItems.slice(0, maxItems);
         const remaining = allItems.length - items.length;
+
+        this.querySelectorAll('[data-cart-empty-only]').forEach((el) => (el.hidden = items.length > 0));
+        this.querySelectorAll('[data-cart-filled-only]').forEach((el) => (el.hidden = !items.length));
 
         if (!items.length) {
           container.innerHTML = '';
@@ -1115,6 +1112,13 @@ if (!customElements.get('cart-reminder-popup')) {
       return true;
     }
 
+    /** Empty cart: Welcome gets the first turn while it can still show. */
+    isWelcomePending() {
+      return [...CartReminderPopup.instances].some(
+        (instance) => instance.isWelcomePopup() && instance.canShowWelcome()
+      );
+    }
+
     canShow(options = {}) {
       if (this.isWelcomePopup()) {
         return this.canShowWelcome();
@@ -1122,12 +1126,11 @@ if (!customElements.get('cart-reminder-popup')) {
 
       if (this.dataset.enabled !== 'true') return false;
       if (!this.matchesDeviceTarget()) return false;
-      if (this.cartCount <= 0) return false;
       if (this.wasShownThisSession()) return false;
       if (this.hasRecentOrder()) return false;
       if (this.isFrequencyCapped()) return false;
       if (this.isPageExcluded()) return false;
-      if (!this.hasVisitedCart()) return false;
+      if (this.cartCount > 0 ? !this.hasVisitedCart() : this.isWelcomePending()) return false;
 
       if (this.isCheckoutPage()) return false;
       if (this.isCartPage() && !options.allowOnCart) return false;

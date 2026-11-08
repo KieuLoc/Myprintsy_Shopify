@@ -13,7 +13,14 @@
   assign items_shown = 0
 -%}
 
-<div class="cart-reminder-popup__items" data-cart-items>
+<div
+  class="cart-reminder-popup__items"
+  data-cart-items
+  data-cart-filled-only
+  {% if cart.item_count == 0 %}
+    hidden
+  {% endif %}
+>
   {%- if cart.item_count > 0 -%}
     {%- if sort_gift_box_last -%}
       {%- for item in cart.items -%}
@@ -62,4 +69,42 @@
       <p class="cart-reminder-popup__item-qty">QTY: 1</p>
     </div>
   {%- endif -%}
+</div>
+
+<div
+  class="cart-reminder-popup__items cart-reminder-popup__items--recommendations"
+  data-cart-empty-only
+  {% if cart.item_count > 0 %}
+    hidden
+  {% endif %}
+>
+  {%- assign recommendation_sources = 'best-sellers:3,bedding-set:2' | split: ',' -%}
+  {%- for source in recommendation_sources -%}
+    {%- assign source_parts = source | split: ':' -%}
+    {%- assign source_limit = source_parts[1] | plus: 0 -%}
+    {%- assign source_shown = 0 -%}
+    {%- for product in collections[source_parts[0]].products -%}
+      {%- if source_shown >= source_limit -%}{%- break -%}{%- endif -%}
+      {%- unless product.available -%}{%- continue -%}{%- endunless -%}
+      <a class="cart-reminder-popup__item cart-reminder-popup__item--link" href="{{ product.url }}">
+        <div class="cart-reminder-popup__item-media">
+          {%- if product.featured_image -%}
+            {{ product.featured_image | image_url: width: 120 | image_tag: loading: 'lazy', width: 60, height: 60, alt: product.title }}
+          {%- else -%}
+            <div class="cart-reminder-popup__item-media-placeholder"></div>
+          {%- endif -%}
+        </div>
+        <div class="cart-reminder-popup__item-details">
+          <p class="cart-reminder-popup__item-title">{{ product.title | escape }}</p>
+          <p class="cart-reminder-popup__item-price">
+            {%- if product.compare_at_price > product.price -%}
+              <s>{{ product.compare_at_price | money }}</s>
+            {% endif -%}
+            {{ product.price | money }}
+          </p>
+        </div>
+      </a>
+      {%- assign source_shown = source_shown | plus: 1 -%}
+    {%- endfor -%}
+  {%- endfor -%}
 </div>
