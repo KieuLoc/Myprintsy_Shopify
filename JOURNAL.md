@@ -11,7 +11,7 @@
 **User:** wine tumbler `kdthah1o17`, ornament `xmthth2o18`, khách báo không thấy ETA, thỉnh thoảng mất.
 **Cách app chạy (SetuBridge EDD):** snippet app gọi `eddGetJQuery`; jQuery theme (cdnjs, `defer`) chưa có lúc đó → app tải `edd_jquery.min.js` (~2s), dò quốc gia qua `/cdn-cgi/trace` (~3.9s), JSONP `products/*.json` (~4.4s), `.sb_ETA` vào DOM ~3.4–5.8s.
 **Đo trên LIVE:** wine tumbler 10/10 OK (3.3–5.5s); ornament đổi size 18 lượt OK; bấm size sớm từ 0.3s 12/12 OK; trình duyệt mới không cache 16/16 OK; giả lập quốc gia US/CA/GB/AU/DE/HK/VN: 1 lần MISS (lần đầu, US) trên ~60 lượt. Chặn `cdn-cgi/trace` hoặc JSONP vẫn hiện; chỉ khi `edd_jquery.min.js` không tải được thì ETA mất hẳn (app chỉ `console.error('ETA: unable to load jQuery')`, không thử lại).
-**Chưa sửa:** chờ user chọn hướng.
+**Hướng xử lý:** ETA dự phòng (entry trên).
 
 ## 2026-10-29 — Sao review luôn nằm ngay dưới giá, trên ETA
 
@@ -5293,7 +5293,6 @@ Ch?a implement ? ch? user ch?n h??ng.
 - 2026-10-03: Anh huong dan do rieng tung type (user cung cap): size-guide-zip-hoodie/hoodie-3d/ultra-cloak/bomber-jacket/jogger.jpg (resize <=800px JPG 37-80KB). size-guide-cloak.liquid: case sgc_type chon sgc_img/w/h/alt; Cloak cu giu size-guide-cloak.jpg. Sua trong repo D:\Shoppify\myprintsy_github_shopify (sync sang thu muc cu). Push DEV, check PASS (moi type dung anh, naturalWidth>0). LIVE chua push.
 - 2026-10-03: **Push LIVE** #183186358588: size-guide-cloak.liquid + 5 anh size guide. Truoc push: snippet LIVE == commit truoc. Check LIVE PASS (5 type dung anh, modal 96-157ms).
 
-
 ## 2026-11-03 - Gift box: hop den Keepsake = gia phang (mode `flat`)
 
 **Bug:** SP co metafield `gift_boxs` -> `add-on-gift-box-service` (hop den "Add More, Save More on Keepsake Boxes", id 10271856034108, 1 variant 52620375261500 $4.99) hien hop den tren PDP nhung add to cart ra hop trang "Add-On Protective Carrying Box Service" (`vertical-gift-box-N`). Nguyen nhan: mode chi co v2 (id 10424613732668 = hop kem MyPrintsy) / legacy (moi thu khac) -> hop den roi vao legacy.
@@ -5318,7 +5317,6 @@ Ch?a implement ? ch? user ch?n h??ng.
 - 2026-11-06 23:2x: Da push LIVE 183186358588 (chi 3 file teaser, --only). overlay-group.json tren LIVE khong doi (anh user con nguyen); HTML LIVE co icon Noel desktop+mobile.
 
 
-
 ## 2026-11-08 - Cart reminder hien ca khi gio trong + goi y Best Sellers/Bedding Set (DEV)
 - `assets/overlay-cart-reminder-popup.js`: bo cac gate `cartCount <= 0` (timer browse/inactivity, initTriggers, refreshCartCount). `canShow`: gio co hang -> van can da vao /cart (logic cu); gio trong -> cho Welcome hien truoc (`isWelcomePending` = Welcome con `canShowWelcome()`), sau do peer cooldown 2 phut nhu cu. `refreshCartItems` toggle `[data-cart-empty-only]` / `[data-cart-filled-only]`.
 - `snippets/cart-reminder-popup-items.liquid`: them list goi y 3 `best-sellers` + 2 `bedding-set` (bo qua het hang), link toi product.
@@ -5330,7 +5328,6 @@ Ch?a implement ? ch? user ch?n h??ng.
 - 2026-11-08 08:5x: Da push LIVE 183186358588 (6 file, --only). check-cart-reminder-empty.js PASS tren LIVE (5 link goi y, gate Welcome OK). overlay-group.json tren LIVE khong doi.
 
 
-
 ## 2026-11-09 - Banner Free Shipping From $139 cho Bedding Set (DEV)
 - `snippets/free-shipping-callout.liquid`: lay lai khoi freeship cu (git 83a9099~1), chi render khi `product.type` = 'Bedding Set' (downcase), chu 'Free Shipping For Orders From $139'. BMSM types giu nguyen; type khac khong hien gi.
 - `scripts/check-cloak-bmsm.js`: them nhanh FREESHIP (bedding set, assert $139) + NONE (mug, blanket). DEV PASS 12/12.
@@ -5339,4 +5336,12 @@ Ch?a implement ? ch? user ch?n h??ng.
 
 - 2026-11-09 00:5x: Da push LIVE 183186358588 (chi free-shipping-callout.liquid). check-cloak-bmsm.js LIVE PASS 12/12.
 
+## 2026-11-10 - Bedding Set: Free Shipping $139 -> Buy More, Save More (DEV)
+- **User:** banner mua 2 giam 10%, 3 giam 15%, 4 giam 20% cho tat ca bedding set; hoi co SP nao dang dung chua.
+- Da co san: `snippets/special-coupon.liquid` (BMSM 10/15/20). Dang dung: type Cloak, Ultra Cloak, Hoodie 3D, Jogger, Bomber Jacket, Zip Hoodie, Hawaii Shirt, Socks, Sweatpant, Legging + SP gan template `product.buy-more-save-more`. Bedding Set luc do hien Free Shipping $139.
+- User chon thay freeship bang BMSM. `snippets/free-shipping-callout.liquid`: them `bedding set` vao `bmsm_types`, xoa khoi freeship $139 (chi Bedding Set dung; lay lai tu git neu can).
+- `scripts/check-cloak-bmsm.js`: bedding chuyen sang nhanh BMSM, bo nhanh FREESHIP, assert them 3 muc "Buy 2 Get 10% / Buy 3 Get 15% / Buy 4+ Get 20%". DEV PASS 12/12.
+- Banner chi la UI: can them collection Bedding Set vao 3 automatic discount BMSM trong admin.
+- 2026-11-10 22:4x: Da push LIVE 183186358588 (chi free-shipping-callout.liquid). check-cloak-bmsm.js LIVE PASS 12/12.
+- Gotcha: shell co `PLAYWRIGHT_BROWSERS_PATH` tro vao cache sandbox -> set lai `$env:LOCALAPPDATA\ms-playwright` truoc khi chay check.
 
