@@ -30,24 +30,17 @@
             "custom_liquid": "{% render 'special-coupon' %}"
           }
         },
+        "custom_liquid_7kBdDh": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "<div class=\"custom_delivery_estimation_widget\"></div>"
+          }
+        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
             "picker_type": "button",
             "swatch_shape": "circle"
-          }
-        },
-        "complementary_RjcJaT": {
-          "type": "complementary",
-          "settings": {
-            "block_heading": "Pairs well with",
-            "make_collapsible_row": true,
-            "icon": "price_tag",
-            "product_list_limit": 10,
-            "products_per_page": 3,
-            "pagination_style": "counter",
-            "image_ratio": "square",
-            "enable_quick_add": false
           }
         },
         "custom_liquid_N7hJfh": {
@@ -60,12 +53,6 @@
         "quantity_selector": {
           "type": "quantity_selector",
           "settings": {}
-        },
-        "custom_liquid_7kBdDh": {
-          "type": "custom_liquid",
-          "settings": {
-            "custom_liquid": "<div class=\"custom_delivery_estimation_widget\"></div>"
-          }
         },
         "buy_buttons_cDRCUQ": {
           "type": "buy_buttons",
@@ -94,6 +81,19 @@
             "icon": "check_mark",
             "content": "<ul><li>Please complete fields required to customize options (Name/Characteristics) and recheck carefully all the customized options.</li><li>Text: Standard English excluding special characters, emojis to ensure the best looking.</li><li>Characteristics: Pick one-by-one options that match your description.</li><li>The last step, click \"Preview\" to get a glimpse of the wonderful creation you’ve made ❤️.<br/>Please be aware that the Preview may be slightly different from the physical item in terms of color due to our lighting at our product photoshoot or your device’s display.</li></ul>",
             "page": ""
+          }
+        },
+        "complementary_RjcJaT": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "Pairs well with",
+            "make_collapsible_row": true,
+            "icon": "price_tag",
+            "product_list_limit": 10,
+            "products_per_page": 3,
+            "pagination_style": "counter",
+            "image_ratio": "square",
+            "enable_quick_add": false
           }
         }
       },
@@ -145,7 +145,7 @@
             "review_data": "sample_data",
             "max_width": 1200,
             "show_shop_reviews": false,
-            "empty_state": "empty_widget"
+            "empty_state": "other_products_reviews"
           }
         }
       },

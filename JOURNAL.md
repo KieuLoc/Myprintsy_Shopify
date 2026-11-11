@@ -5345,3 +5345,9 @@ Ch?a implement ? ch? user ch?n h??ng.
 - 2026-11-10 22:4x: Da push LIVE 183186358588 (chi free-shipping-callout.liquid). check-cloak-bmsm.js LIVE PASS 12/12.
 - Gotcha: shell co `PLAYWRIGHT_BROWSERS_PATH` tro vao cache sandbox -> set lai `$env:LOCALAPPDATA\ms-playwright` truoc khi chay check.
 
+
+## 2026-11-12 - Tat store reviews, chi con product reviews
+- User: cac san pham chi con product review, bo store review. Push ca DEV + LIVE.
+- Pull moi nhat `templates/product*.json` ca 2 theme -> chi doi `"show_shop_reviews": false` trong block Judge.me Review Widget (giu `empty_state=other_products_reviews`).
+- DEV: push 8 template. LIVE: chi `product.buy-more-save-more.json` con true (7 file kia merchant da tat san) -> push --allow-live.
+- Verify storefront golden-boughs: `#judgeme_product_reviews[data-shop-reviews]` = false tren DEV va LIVE; ca 8 template LIVE deu false.
