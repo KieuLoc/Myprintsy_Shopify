@@ -5351,3 +5351,7 @@ Ch?a implement ? ch? user ch?n h??ng.
 - Pull moi nhat `templates/product*.json` ca 2 theme -> chi doi `"show_shop_reviews": false` trong block Judge.me Review Widget (giu `empty_state=other_products_reviews`).
 - DEV: push 8 template. LIVE: chi `product.buy-more-save-more.json` con true (7 file kia merchant da tat san) -> push --allow-live.
 - Verify storefront golden-boughs: `#judgeme_product_reviews[data-shop-reviews]` = false tren DEV va LIVE; ca 8 template LIVE deu false.
+
+## 2026-11-12 - Mobile: nut Write a review len goc tren phai
+- `assets/judgeme-stars.css`: voi `jdgm-review-widget--small` (mobile), `.jm-review-widget-sidebar-header__action-buttons` absolute top 0 right 0 trong sidebar. Desktop khong doi.
+- Check `scripts/check-review-write-btn-mobile.js` PASS DEV + LIVE: mobile nut ngang tieu de (0px), sat mep phai (0px), cach chu 24px; desktop nut van duoi dai anh (6px).

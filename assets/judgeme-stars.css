@@ -829,3 +829,19 @@
 .jdgm-form-wrapper {
   overflow: visible !important;
 }
+
+/* Mobile (Judge.me adds --small): Write a review sits top-right beside "Customer Reviews". */
+#judgeme_product_reviews.jdgm-review-widget--small .jm-review-widget-sidebar-header__sidebar {
+  position: relative !important;
+}
+#judgeme_product_reviews.jdgm-review-widget--small .jm-review-widget-sidebar-header__action-buttons {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  width: auto !important;
+  margin: 0 !important;
+  z-index: 1;
+}
+#judgeme_product_reviews.jdgm-review-widget--small .jm-review-widget-sidebar-header__action-buttons > .jm-stack {
+  width: auto !important;
+}
