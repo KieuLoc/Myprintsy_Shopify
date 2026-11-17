@@ -1,5 +1,18 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-11-17 — Banner Free Shipping cho Sofa Cover (DEV)
+
+**User:** thêm banner free ship cho tất cả SP type Sofa Cover; không giới hạn tiền; chữ kiểu "Freeship for all sofa cover".
+**Fix:** `snippets/free-shipping-callout.liquid` — `freeship_types = sofa cover`, banner "Free Shipping **For All Sofa Covers**" (phần sau đỏ). BMSM types giữ nguyên.
+**Check** `scripts/check-cloak-bmsm.js` DEV PASS 13/13: Sofa Cover → FREESHIP "Free Shipping For All Sofa Covers"; 10 BMSM OK; Mug/Blanket → nothing.
+**Preview:** https://myprintsy-3.myshopify.com/products/snow-friends-classic-quilted-sofa-cover-ncu0xd2078?preview_theme_id=186878558524
+**Lưu ý:** banner chỉ là UI; freeship thật cần shipping rate trong admin. Chưa push LIVE.
+
+## 2026-11-17 — Tìm SP product type Sofa Cover
+
+**User:** tìm 1 sản phẩm có product type Sofa Cover.
+**Kết quả:** type đúng là `Sofa Cover`. Ví dụ LIVE: [Snow Friends Classic Quilted Sofa Cover VTQ](https://www.myprintsy.com/products/snow-friends-classic-quilted-sofa-cover-ncu0xd2078) — handle `snow-friends-classic-quilted-sofa-cover-ncu0xd2078`, id `15416042160444`, giá từ $74.95.
+
 ## 2026-10-30 — ETA dự phòng khi app SetuBridge không vẽ được
 
 **User:** chọn thêm ETA dự phòng từ theme, push luôn.
@@ -5346,6 +5359,15 @@ Ch?a implement ? ch? user ch?n h??ng.
 - Gotcha: shell co `PLAYWRIGHT_BROWSERS_PATH` tro vao cache sandbox -> set lai `$env:LOCALAPPDATA\ms-playwright` truoc khi chay check.
 
 
+## 2026-11-11 - Judge.me chuyen widget moi (cau hinh, khong sua code)
+- User bat review widget moi trong Judge.me (revamp_enabled=true, media gallery + expanded) va trong Theme Editor LIVE block Review Widget: show_shop_reviews=true, empty_state=other_products_reviews. Da pull `templates/product.json` LIVE ve local (khac 21 dong, do merchant chinh).
+- IP user 42.116.246.229 bi app Blockify (Synctrack region-restrictions/megamind-fraud) chan 'Access Denied', nghi do chay Playwright nhieu -> huong dan unblock + whitelist. Storefront dang local_rate_limited.
+- Viec tiep: khi widget moi render tren storefront -> viet CSS layout 2 cot giong mau Etsy (push DEV truoc).
+
+- 2026-11-11 00:4x: Bat Judge.me Review Widget block cho ca 8 template product*.json: show_shop_reviews=true, empty_state=other_products_reviews. Sua tren ban pull moi nhat cua tung theme (chi doi 2 dong/file). DEV da push + verify 8/8. LIVE: da chuan bi san (`%TEMP%\tpl_live`), 6 file can doi (product.json + buy-more-save-more da bat san), cho user cho phep.
+- 2026-11-11 00:5x: User hoi "sao chua co" widget moi. Phat hien storefront DA la widget moi (revamp, `jdgm-widget-revamp`, header minimal) nhung `judgeme-stars.js` `styleHeaderLikeWP()` (08/2026, bat chuoc Wanderprints) doi header thanh "sao + diem + Based on N reviews + nut pill" nen trong nhu legacy; `judgeme-stars.css` ~L160-171 an histogram/bar chart. Tab Item/Store chua thay: nghi do header "minimal" -> de user doi header style trong Judge.me. Layout Etsy se phai go cac override nay (chua sua code).
+- 2026-11-11 01:1x: SUA LAI nhan dinh tren: probe Playwright DEV golden-boughs (da scroll + cho 10s) -> DOM van LEGACY (`jdgm-rev-widg__header`, khong co `jdgm-widget-revamp`). jdgmSettings: revamp_enabled=true, review_widget_header_theme="sidebar" (user da Save), `review_widget_revamp_dual_publish_end_date`=2026-11-24. Block truyen dung `data-shop-reviews=true data-shop-reviews-count=4 data-empty-state=other_products_reviews`. => Theme OK, Judge.me chua phuc vu HTML revamp (nghi dang dual publish). Khuyen user hoi Judge.me support. Script probe: `%TEMP%\jdgm-header-probe.js`.
+
 ## 2026-11-12 - Tat store reviews, chi con product reviews
 - User: cac san pham chi con product review, bo store review. Push ca DEV + LIVE.
 - Pull moi nhat `templates/product*.json` ca 2 theme -> chi doi `"show_shop_reviews": false` trong block Judge.me Review Widget (giu `empty_state=other_products_reviews`).
@@ -5353,5 +5375,10 @@ Ch?a implement ? ch? user ch?n h??ng.
 - Verify storefront golden-boughs: `#judgeme_product_reviews[data-shop-reviews]` = false tren DEV va LIVE; ca 8 template LIVE deu false.
 
 ## 2026-11-12 - Mobile: nut Write a review len goc tren phai
-- `assets/judgeme-stars.css`: voi `jdgm-review-widget--small` (mobile), `.jm-review-widget-sidebar-header__action-buttons` absolute top 0 right 0 trong sidebar. Desktop khong doi.
-- Check `scripts/check-review-write-btn-mobile.js` PASS DEV + LIVE: mobile nut ngang tieu de (0px), sat mep phai (0px), cach chu 24px; desktop nut van duoi dai anh (6px).
+- Widget moi (Sidebar header) da render tren storefront. Mobile Judge.me gan class `jdgm-review-widget--small`.
+- `assets/judgeme-stars.css` (cuoi file): voi `--small`, `.jm-review-widget-sidebar-header__sidebar` relative, `__action-buttons` absolute top 0 right 0. Desktop khong doi.
+- Truoc khi sua: hash local = DEV = LIVE (BB6894EC).
+- Check `scripts/check-review-write-btn-mobile.js` DEV PASS: mobile nut ngang tieu de (lech 0px), sat mep phai 0px, cach chu 24px; desktop nut van duoi dai anh (6px).
+- Gotcha: `$env:THEME` con sot trong shell -> check chay nham LIVE; `cd` vao repo -> push nham file repo len DEV (da push lai dung).
+- Push LIVE 183186358588 (LIVE hash van BB6894EC truoc push). Check LIVE PASS: mobile lech 0px / mep phai 0px / cach chu 24px; desktop duoi dai anh 6px.
+
