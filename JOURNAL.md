@@ -1,12 +1,29 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-11-19 — Review marquee: 10 review mới nhất từ Judge.me (DEV)
+
+**User:** một marquee đúng format Image marquee, sản phẩm lấy từ Judge.me, 10 cái đầu có review, caption là tên người review.
+**Fix:** section `review-marquee` (checkbox Show, mặc định bật) + `assets/review-marquee.js`. Feed `cdn.judge.me/reviews/all_reviews_js_based` (shop `shop.permanent_domain`), 10 review mới nhất, ảnh = featured image của sản phẩm, caption `@Tên`. Cùng CSS image marquee (2 hàng lệch, cao 180, rộng 260). Feed lỗi thì section giữ `hidden`. Homepage DEV: marquee tay `enabled: false`, review marquee đứng ngay chỗ đó.
+**Check** `scripts/check-review-marquee.js` DEV PASS: 10 card `@Thomas` … `@Yetunde`, 10 ảnh load, link `/products/…`; marquee tay = 0; chặn feed → review marquee vẫn hidden.
+**Preview:** https://myprintsy-3.myshopify.com/?preview_theme_id=186878558524
+- 2026-11-19 01:1x: User tắt marquee tay trên DEV, review marquee thay chỗ. Check DEV PASS, manual = 0.
+- 2026-11-19 01:2x: Push LIVE `#183186358588`. Homepage LIVE khác DEV (slideshow) nên chỉ vá `enabled: false` + section review vào index LIVE, không đè cả trang. Check LIVE PASS: 10 card `@Thomas` … `@Yetunde`, 10 ảnh, manual = 0; chặn feed thì hidden.
+
+## 2026-11-19 — Image marquee có nút tắt/bật (DEV)
+
+**User:** thêm option tắt/bật Image marquee. Tắt thì không hiện. Bật thì giữ logic cũ.
+**Fix:** `sections/image-marquee.liquid` checkbox `enabled` (default true, label "Show image marquee"). Tắt thì không render CSS/HTML/JS. `templates/index.json` `"enabled": true` — homepage vẫn hiện.
+**Check** `scripts/check-image-marquee-toggle.js` DEV: bật → 1 marquee, heading OUR HAPPY CUSTOMERS, 30 card; tắt → 0 marquee, 0 card; bật lại → 1 marquee, 30 card. Đã trả DEV về bật.
+**Chưa push LIVE.**
+
 ## 2026-11-17 — Banner Free Shipping cho Sofa Cover (DEV)
 
 **User:** thêm banner free ship cho tất cả SP type Sofa Cover; không giới hạn tiền; chữ kiểu "Freeship for all sofa cover".
 **Fix:** `snippets/free-shipping-callout.liquid` — `freeship_types = sofa cover`, banner "Free Shipping **For All Sofa Covers**" (phần sau đỏ). BMSM types giữ nguyên.
 **Check** `scripts/check-cloak-bmsm.js` DEV PASS 13/13: Sofa Cover → FREESHIP "Free Shipping For All Sofa Covers"; 10 BMSM OK; Mug/Blanket → nothing.
 **Preview:** https://myprintsy-3.myshopify.com/products/snow-friends-classic-quilted-sofa-cover-ncu0xd2078?preview_theme_id=186878558524
-**Lưu ý:** banner chỉ là UI; freeship thật cần shipping rate trong admin. Chưa push LIVE.
+**Lưu ý:** banner chỉ là UI; freeship thật cần shipping rate trong admin.
+- 2026-11-17 23:1x: User xác nhận ngữ pháp "Sofa Covers" (All + số nhiều) → push LIVE `#183186358588`. check-cloak-bmsm.js LIVE PASS 13/13. Git `0c2aee1` → origin/main.
 
 ## 2026-11-17 — Tìm SP product type Sofa Cover
 

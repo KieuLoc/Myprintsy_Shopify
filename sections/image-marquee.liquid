@@ -1,3 +1,4 @@
+{%- if section.settings.enabled -%}
 {{ 'section-image-marquee.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
@@ -109,6 +110,7 @@
 {%- endif -%}
 
 <script src="{{ 'image-marquee.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
 {% schema %}
 {
@@ -119,6 +121,12 @@
     "groups": ["header", "footer"]
   },
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Show image marquee",
+      "default": true
+    },
     {
       "type": "inline_richtext",
       "id": "title",
