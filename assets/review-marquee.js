@@ -17,24 +17,15 @@
       .catch(function () {});
   }
 
-  function productImage(href) {
-    const path = String(href || '').split('?')[0];
-    if (!path) return Promise.resolve('');
-    return fetch(path + '.js')
-      .then((response) => (response.ok ? response.json() : null))
-      .then((product) => {
-        const image = product && product.featured_image;
-        const url = typeof image === 'string' ? image : image && image.src;
-        if (!url) return '';
-        const absolute = url.startsWith('//') ? 'https:' + url : url;
-        return absolute.includes('width=') ? absolute : absolute + (absolute.includes('?') ? '&' : '?') + 'width=540';
-      })
-      .catch(function () {
-        return '';
-      });
+  function reviewPhoto(review) {
+    const pic = review.querySelector('.jdgm-rev__pic-link');
+    const href = pic?.getAttribute('href') || pic?.getAttribute('data-mfp-src') || '';
+    if (!href) return '';
+    const absolute = href.startsWith('//') ? 'https:' + href : href;
+    return absolute.replace(/&amp;/g, '&');
   }
 
-  function cardEl(item, src) {
+  function cardEl(item) {
     const card = document.createElement('div');
     card.className = 'image-marquee__card';
     const link = document.createElement('a');
@@ -43,7 +34,7 @@
     const img = document.createElement('img');
     img.loading = 'lazy';
     img.alt = item.title || item.author;
-    img.src = src;
+    img.src = item.photo;
     link.appendChild(img);
     const caption = document.createElement('p');
     caption.className = 'image-marquee__caption';
@@ -54,31 +45,32 @@
 
   function fill(root, html, limit) {
     const doc = new DOMParser().parseFromString(html, 'text/html');
-    const reviews = [...doc.querySelectorAll('.jdgm-rev')].slice(0, limit);
-    const items = reviews
-      .map((review) => {
-        const author = review.querySelector('.jdgm-rev__author')?.textContent.trim() || '';
-        const link = review.querySelector('.jdgm-rev__prod-link');
-        const href = link?.getAttribute('href') || '';
-        if (!author || !href) return null;
-        return { author, href, title: (link.textContent || '').trim() };
-      })
-      .filter(Boolean);
-
-    if (!items.length) return Promise.resolve();
-
-    return Promise.all(items.map((item) => productImage(item.href))).then((images) => {
-      const top = root.querySelector('.image-marquee__row--top');
-      const bottom = root.querySelector('.image-marquee__row--bottom');
-      if (!top || !bottom) return;
-      items.forEach((item, index) => {
-        if (!images[index]) return;
-        (index % 2 === 0 ? top : bottom).appendChild(cardEl(item, images[index]));
+    const items = [];
+    for (const review of doc.querySelectorAll('.jdgm-rev')) {
+      if (items.length >= limit) break;
+      const author = review.querySelector('.jdgm-rev__author')?.textContent.trim() || '';
+      const link = review.querySelector('.jdgm-rev__prod-link');
+      const href = link?.getAttribute('href') || '';
+      const photo = reviewPhoto(review);
+      if (!author || !href || !photo) continue;
+      items.push({
+        author,
+        href,
+        photo,
+        title: (link.textContent || '').trim(),
       });
-      if (!root.querySelector('.image-marquee__card')) return;
-      root.hidden = false;
-      document.dispatchEvent(new Event('shopify:section:load'));
+    }
+
+    if (!items.length) return;
+
+    const top = root.querySelector('.image-marquee__row--top');
+    const bottom = root.querySelector('.image-marquee__row--bottom');
+    if (!top || !bottom) return;
+    items.forEach((item, index) => {
+      (index % 2 === 0 ? top : bottom).appendChild(cardEl(item));
     });
+    root.hidden = false;
+    document.dispatchEvent(new Event('shopify:section:load'));
   }
 
   function init() {

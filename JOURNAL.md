@@ -1,5 +1,20 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-11-21 — Gợi ý sản phẩm Shark Tank PPT (A1 English)
+
+**User:** chọn sản phẩm dễ nói level A1 cho bài PowerPoint Shark Tank (kêu gọi vốn + ads ngắn thu hút Shark Chloe).
+**Gợi ý chính:** Smart Eco Bottle (bình nước thông minh / giữ nhiệt) — từ vựng đơn giản (water, healthy, save money), dễ pitch online, dễ viết ads 3–4 câu.
+- 2026-11-21: Script 3 người × ~1 phút (A1) cho pitch Smart Eco Bottle.
+- 2026-11-21: Bổ sung Q&A: doanh nghiệp 2 năm; đăng web + Instagram (3 post/tuần, photo+video, story, customer photos).
+- 2026-11-21: User muốn dài hơn → viết lại full script 3 người đã gộp 2 ý trên.
+- 2026-11-21: User xin prompt PopAi để gen slide Shark Tank Smart Eco Bottle.
+- 2026-11-21: PopAi blur slide 6–8 → đưa prompt regenerate 3 slide cuối.
+- 2026-11-21: PopAi hết credit (“No credits remaining”) → không regenerate được; hướng dẫn tải slide sẵn + tự thêm 6–8 / Canva.
+- 2026-11-21: Download PopAi cũng paywall → khuyên bỏ PopAi, dùng Canva/Google Slides free + đưa full nội dung 8 slide.
+- 2026-11-21: User đang Canva blank hỏi “zô đâu” → hướng dẫn chọn template xanh + dán text 8 slide.
+- 2026-11-21: Gen 3 slide cuối cùng theme Smart Eco Bottle → `slides-smart-eco/` (how-we-sell, business-plan, ad-ask).
+- 2026-11-21: Gen lại slide 7 Short Advertisement → `slides-smart-eco/smart-eco-slide-7-short-ad.jpg`.
+
 ## 2026-11-19 — Review marquee: 10 review mới nhất từ Judge.me (DEV)
 
 **User:** một marquee đúng format Image marquee, sản phẩm lấy từ Judge.me, 10 cái đầu có review, caption là tên người review.
@@ -8,6 +23,7 @@
 **Preview:** https://myprintsy-3.myshopify.com/?preview_theme_id=186878558524
 - 2026-11-19 01:1x: User tắt marquee tay trên DEV, review marquee thay chỗ. Check DEV PASS, manual = 0.
 - 2026-11-19 01:2x: Push LIVE `#183186358588`. Homepage LIVE khác DEV (slideshow) nên chỉ vá `enabled: false` + section review vào index LIVE, không đè cả trang. Check LIVE PASS: 10 card `@Thomas` … `@Yetunde`, 10 ảnh, manual = 0; chặn feed thì hidden.
+- 2026-11-21: User xác nhận đang hiện ảnh SP; muốn ảnh khách upload trong review, không có ảnh thì skip. `assets/review-marquee.js` lấy `.jdgm-rev__pic-link`, bỏ `product.js`. Check DEV PASS: 10 card `@Thomas` … `@Mildred`, mọi src `review-images.judgeme.com`. Push LIVE `#183186358588` — check LIVE PASS (10 ảnh review-images, caption `@Thomas`…`@Mildred`).
 
 ## 2026-11-19 — Image marquee có nút tắt/bật (DEV)
 

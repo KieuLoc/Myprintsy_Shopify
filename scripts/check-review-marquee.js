@@ -1,5 +1,6 @@
 /**
- * Homepage review marquee: 10 newest Judge.me reviews, product image, @reviewer.
+ * Homepage review marquee: up to 10 newest Judge.me reviews that include
+ * an uploaded photo; caption = @reviewer; image = review photo (not product shot).
  * A second load blocks the Judge.me feed and the section must stay hidden.
  *
  *   node scripts/check-review-marquee.js
@@ -12,15 +13,16 @@ const THEME = process.env.THEME || '186878558524';
 const URL = `${BASE}/?preview_theme_id=${THEME}`;
 const SHOP = 'sqj5k3-d1.myshopify.com';
 
-function namesFromHtml(html, limit) {
-  const names = [];
+function expectedFromHtml(html, limit) {
+  const items = [];
   for (const chunk of String(html).split("data-review-id=").slice(1)) {
+    if (!/jdgm-rev__pic-link/.test(chunk)) continue;
     const author = chunk.match(/class='jdgm-rev__author'>([^<]+)/);
     if (!author) continue;
-    names.push('@' + author[1].trim());
-    if (names.length >= limit) break;
+    items.push('@' + author[1].trim());
+    if (items.length >= limit) break;
   }
-  return names;
+  return items;
 }
 
 async function readCards(page) {
@@ -29,7 +31,13 @@ async function readCards(page) {
     if (!root) return null;
     const group = root.querySelector('.image-marquee__group:not([data-marquee-clone])');
     const rowCards = (row) =>
-      [...(group ? group.querySelectorAll('.image-marquee__row--' + row + ' .image-marquee__card:not(.image-marquee__card--pad)') : [])];
+      [
+        ...(group
+          ? group.querySelectorAll(
+              '.image-marquee__row--' + row + ' .image-marquee__card:not(.image-marquee__card--pad)'
+            )
+          : []),
+      ];
     const top = rowCards('top');
     const bottom = rowCards('bottom');
     const cards = [];
@@ -42,11 +50,13 @@ async function readCards(page) {
       count: cards.length,
       captions: cards.map((card) => card.querySelector('.image-marquee__caption')?.textContent.trim() || ''),
       links: cards.map((card) => card.querySelector('a')?.getAttribute('href') || ''),
+      images: cards.map((card) => card.querySelector('img')?.currentSrc || card.querySelector('img')?.src || ''),
       loaded: cards.filter((card) => {
         const img = card.querySelector('img');
         return img && img.complete && img.naturalWidth > 0;
       }).length,
-      manual: document.querySelectorAll('.image-marquee-section:not([data-review-marquee]) .image-marquee').length,
+      manual: document.querySelectorAll('.image-marquee-section:not([data-review-marquee]) .image-marquee')
+        .length,
     };
   });
 }
@@ -55,8 +65,8 @@ async function readCards(page) {
   const feed = await fetch(
     'https://cdn.judge.me/reviews/all_reviews_js_based?platform=shopify&shop_domain=' + SHOP
   );
-  const expected = namesFromHtml((await feed.json()).html, 10);
-  assert.strictEqual(expected.length, 10, `feed returned ${expected.length} names`);
+  const expected = expectedFromHtml((await feed.json()).html, 10);
+  assert.ok(expected.length >= 1, `feed returned ${expected.length} photo reviews`);
 
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
@@ -69,11 +79,13 @@ async function readCards(page) {
     { timeout: 20000 }
   );
   await page.locator('[data-review-marquee]').scrollIntoViewIfNeeded();
+  const minLoaded = Math.min(8, expected.length);
   await page.waitForFunction(
-    () =>
+    (need) =>
       [...document.querySelectorAll('[data-review-marquee] .image-marquee__group:not([data-marquee-clone]) img')].filter(
         (img) => img.complete && img.naturalWidth > 0
-      ).length >= 8,
+      ).length >= need,
+    minLoaded,
     { timeout: 15000 }
   );
   const shown = await readCards(page);
@@ -87,15 +99,25 @@ async function readCards(page) {
   console.log('blocked', hidden);
   await browser.close();
 
-  assert.strictEqual(shown.count, 10, `cards ${shown.count}`);
+  assert.strictEqual(shown.count, expected.length, `cards ${shown.count}, expected ${expected.length}`);
   assert.deepStrictEqual(shown.captions, expected, `captions ${shown.captions.join(', ')}`);
   assert.ok(shown.links.every((href) => href.includes('/products/')), `links ${shown.links.join(', ')}`);
-  assert.ok(shown.loaded >= 8, `images painted ${shown.loaded}/10`);
+  assert.ok(
+    shown.images.every((src) => /review-images\.judgeme\.com/i.test(src)),
+    `expected Judge.me review photos, got ${shown.images.join(' | ')}`
+  );
+  assert.ok(
+    shown.images.every((src) => !/cdn\.shopify\.com\/s\/files/i.test(src)),
+    `product CDN image still used: ${shown.images.join(' | ')}`
+  );
+  assert.ok(shown.loaded >= Math.min(8, expected.length), `images painted ${shown.loaded}/${shown.count}`);
   assert.strictEqual(shown.manual, 0, `manual marquee still visible (${shown.manual})`);
   assert.strictEqual(hidden.hidden, true, 'blocked feed still showed the review marquee');
   assert.strictEqual(hidden.count, 0, `blocked feed rendered ${hidden.count} cards`);
   assert.strictEqual(hidden.manual, 0, `manual marquee visible while reviews are blocked (${hidden.manual})`);
-  console.log(`PASS review marquee: 10 cards ${expected[0]} … ${expected[9]}, blocked feed stays hidden`);
+  console.log(
+    `PASS review marquee: ${shown.count} photo cards ${expected[0]} … ${expected[expected.length - 1]}, blocked feed stays hidden`
+  );
 })().catch((error) => {
   console.error('FAIL', error.message);
   process.exit(1);
