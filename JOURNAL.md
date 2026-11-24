@@ -1,5 +1,11 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-11-24 — Đổi code Welcome → MERRY10, Cart Reminder → MERRY15
+
+**User:** Welcome đổi code thành MERRY10, Cart Reminder thành MERRY15; push DEV + LIVE + git.
+**Fix:** `sections/overlay-group.json` — welcome-step2 desktop/mobile `promo_code` MP15→MERRY10; success-opt-in desktop/mobile `heading_prefix` CART20→MERRY15. Diff vs LIVE chỉ 4 dòng.
+**Verify:** DEV và LIVE `data-promo-code` = MERRY10,MERRY10,MERRY15,MERRY15 (không còn MP15/CART20). **Đã push LIVE** `#183186358588`.
+
 ## 2026-11-21 — Gợi ý sản phẩm Shark Tank PPT (A1 English)
 
 **User:** chọn sản phẩm dễ nói level A1 cho bài PowerPoint Shark Tank (kêu gọi vốn + ads ngắn thu hút Shark Chloe).
@@ -14,6 +20,7 @@
 - 2026-11-21: User đang Canva blank hỏi “zô đâu” → hướng dẫn chọn template xanh + dán text 8 slide.
 - 2026-11-21: Gen 3 slide cuối cùng theme Smart Eco Bottle → `slides-smart-eco/` (how-we-sell, business-plan, ad-ask).
 - 2026-11-21: Gen lại slide 7 Short Advertisement → `slides-smart-eco/smart-eco-slide-7-short-ad.jpg`.
+- 2026-11-22: Gen slide “wall of text” trêu cô (Shark Chloe / Smart Eco Bottle) → slides-smart-eco.
 
 ## 2026-11-19 — Review marquee: 10 review mới nhất từ Judge.me (DEV)
 
