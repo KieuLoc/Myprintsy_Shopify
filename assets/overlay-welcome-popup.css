@@ -35,10 +35,16 @@
 .overlay-section--welcome-desktop .welcome-popup .cart-reminder-popup__media {
   min-height: 100%;
   background: #f5efe3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Banner landscape: contain để giữ đủ UP TO 20% OFF + sản phẩm */
 .overlay-section--welcome-desktop .welcome-popup .cart-reminder-popup__media img {
-  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   object-position: center;
 }
 

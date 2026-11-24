@@ -50,10 +50,10 @@
         "eyebrow": "Finish Your Order",
         "heading": "And Save An Extra 15% Off",
         "subtext": "<p>Secure your cart now - <strong>Priority shipping</strong> available</p>",
+        "timer_label": "Offer expires in",
         "empty_eyebrow": "Finish Your Order",
         "empty_heading": "And Save An Extra 15% Off",
         "empty_subtext": "<p>Secure your cart now - <strong>Priority shipping</strong> available</p>",
-        "timer_label": "Offer expires in",
         "max_cart_items": 5,
         "klaviyo_replace_content": true,
         "email_placeholder": "Enter your email",
@@ -84,10 +84,10 @@
         "eyebrow": "Finish Your Order",
         "heading": "And Save An Extra 15% Off",
         "subtext": "<p>Secure your cart now - <strong>Priority shipping</strong> available</p>",
+        "timer_label": "Offer expires in",
         "empty_eyebrow": "Finish Your Order",
         "empty_heading": "And Save An Extra 15% Off",
         "empty_subtext": "<p>Secure your cart now - <strong>Priority shipping</strong> available</p>",
-        "timer_label": "Offer expires in",
         "max_cart_items": 5,
         "klaviyo_replace_content": true,
         "email_placeholder": "Enter your email",
@@ -175,7 +175,7 @@
       "type": "overlay-welcome-step2",
       "settings": {
         "layout_width": 940,
-        "image_desktop": "shopify://shop_images/1_4.png",
+        "image_desktop": "shopify://shop_images/P1_Welcome_Desktop_Man2_1_trai_anh.png",
         "heading": "Welcome to Myprintsy!",
         "color_heading": "#fff5e6",
         "promo_code": "MERRY10",
@@ -198,13 +198,14 @@
         "color_link": "#fff5e6",
         "teaser_label": "Extra 10% Off",
         "teaser_bar_color": "#600a12",
-        "teaser_bar_text_color": "#fff5e6"
+        "teaser_bar_text_color": "#fff5e6",
+        "teaser_icon": "christmas"
       }
     },
     "overlay_welcome_step2_mobile": {
       "type": "overlay-welcome-step2-mobile",
       "settings": {
-        "image": "shopify://shop_images/1_5.png",
+        "image": "shopify://shop_images/P1_Welcome_Mobile_Man2_1_tren_anh.png",
         "heading": "Welcome to Myprintsy!",
         "color_heading": "#fff5e6",
         "promo_code": "MERRY10",
@@ -230,7 +231,8 @@
         "color_button_3_text": "#600a12",
         "teaser_label": "Extra 10% Off",
         "teaser_bar_color": "#600a12",
-        "teaser_bar_text_color": "#fff5e6"
+        "teaser_bar_text_color": "#fff5e6",
+        "teaser_icon": "christmas"
       }
     },
     "overlay_success_opt_in": {
