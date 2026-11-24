@@ -1,7 +1,7 @@
 /**
  * Check: Cloak / Ultra Cloak / Hoodie 3D / Jogger / Bomber Jacket / Zip Hoodie / Hawaii Shirt / Socks / Legging / Bedding Set show the
  * Buy More, Save More box (like product.buy-more-save-more) with 10/15/20% tiers;
- * Sofa Cover shows Free Shipping For All Sofa Covers; other types show nothing.
+ * Sofa Cover + other types show nothing (freeship banner removed).
  */
 const { chromium } = require('playwright');
 const assert = require('assert');
@@ -20,8 +20,11 @@ const BMSM = [
   'ghost-oath-leggings',
   'golden-boughs-3-piece-quilted-bedding-set-ncu0dv8472',
 ];
-const FREESHIP = ['snow-friends-classic-quilted-sofa-cover-ncu0xd2078'];
-const NONE = ['cyber-hooded-blanket-limited-649', 'pickleball-lover-personalized-mug-pklaah2a03'];
+const NONE = [
+  'snow-friends-classic-quilted-sofa-cover-ncu0xd2078',
+  'cyber-hooded-blanket-limited-649',
+  'pickleball-lover-personalized-mug-pklaah2a03',
+];
 
 (async () => {
   const browser = await chromium.launch();
@@ -50,17 +53,13 @@ const NONE = ['cyber-hooded-blanket-limited-649', 'pickleball-lover-personalized
           /Buy 2 Get 10%.*Buy 3 Get 15%.*Buy 4\+ Get 20%/.test(s.tiers),
           `${handle}: tiers "${s.tiers}"`
         );
-      } else if (want === 'freeship') {
-        assert.ok(s.bmsm === 0 && s.freeship === 1, `${handle} (${s.type}): bmsm=${s.bmsm} freeship=${s.freeship}`);
-        assert.ok(/Free Shipping For All Sofa Covers/i.test(s.msg || ''), `${handle}: msg "${s.msg}"`);
       } else {
         assert.ok(
           s.bmsm === 0 && s.freeship === 0,
           `${handle} (${s.type}): expected nothing, bmsm=${s.bmsm} freeship=${s.freeship}`
         );
       }
-      const label =
-        want === 'bmsm' ? `BMSM "${s.tiers}"` : want === 'freeship' ? `FREESHIP "${s.msg}"` : 'nothing';
+      const label = want === 'bmsm' ? `BMSM "${s.tiers}"` : 'nothing';
       console.log(`PASS ${handle} (${s.type}) -> ${label}`);
     } catch (e) {
       failed++;
@@ -70,7 +69,6 @@ const NONE = ['cyber-hooded-blanket-limited-649', 'pickleball-lover-personalized
     }
   };
   for (const h of BMSM) await check(h, 'bmsm');
-  for (const h of FREESHIP) await check(h, 'freeship');
   for (const h of NONE) await check(h, 'none');
   await browser.close();
   process.exit(failed ? 1 : 0);

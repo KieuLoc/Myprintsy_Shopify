@@ -1,5 +1,11 @@
 ## 2026-11-24 — LIVE: Welcome/Step2 banner fit + anh Step2
 
+## 2026-11-24 — LIVE: go banner Free Shipping Sofa Cover
+
+**User:** push live go freeship Sofa Cover.
+**Push LIVE #183186358588:** snippets/free-shipping-callout.liquid
+**Verify LIVE:** sofa cover freeship=0; bedding BMSM=1.
+
 **User:** pull 2 anh banner Step2 tu DEV + push LIVE cung logic contain.
 **Anh:** desktop 980x1300, mobile 1360x684 (CDN P1_Welcome_*).
 **Push LIVE #183186358588:** 4 CSS contain + sections/overlay-group.json.
