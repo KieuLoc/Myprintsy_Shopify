@@ -1,7 +1,7 @@
 /**
- * Check: Cloak / Ultra Cloak / Hoodie 3D / Jogger / Bomber Jacket / Zip Hoodie / Hawaii Shirt / Socks / Legging / Bedding Set show the
- * Buy More, Save More box (like product.buy-more-save-more) with 10/15/20% tiers;
- * Sofa Cover + other types show nothing (freeship banner removed).
+ * Check: Cloak / Ultra Cloak / Hoodie 3D / Jogger / Bomber Jacket / Zip Hoodie / Hawaii Shirt / Socks / Legging show the
+ * Buy More, Save More box with 10/15/20% tiers;
+ * Bedding Set + Sofa Cover + other types show nothing.
  */
 const { chromium } = require('playwright');
 const assert = require('assert');
@@ -18,9 +18,9 @@ const BMSM = [
   'hawaii-hawaiian-shirt-parrot',
   'i-have-always-been-enough-personalized-full-print-squad-socks-gfthah1o13',
   'ghost-oath-leggings',
-  'golden-boughs-3-piece-quilted-bedding-set-ncu0dv8472',
 ];
 const NONE = [
+  'promise-of-grace-3-piece-quilted-bedding-set',
   'snow-friends-classic-quilted-sofa-cover-ncu0xd2078',
   'cyber-hooded-blanket-limited-649',
   'pickleball-lover-personalized-mug-pklaah2a03',

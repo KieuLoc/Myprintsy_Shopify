@@ -2,7 +2,7 @@
   Product types in bmsm_types show the Buy More, Save More box.
   Other types (incl. Sofa Cover) render nothing.
 {%- endcomment -%}
-{%- assign bmsm_types = 'cloak,ultra cloak,hoodie 3d,jogger,bomber jacket,zip hoodie,hawaii shirt,hawaiian shirt,socks,sock,sweatpant,sweatpants,legging,leggings,bedding set' | split: ',' -%}
+{%- assign bmsm_types = 'cloak,ultra cloak,hoodie 3d,jogger,bomber jacket,zip hoodie,hawaii shirt,hawaiian shirt,socks,sock,sweatpant,sweatpants,legging,leggings' | split: ',' -%}
 {%- assign fsc_type = product.type | strip | downcase -%}
 {%- if bmsm_types contains fsc_type -%}
   {%- render 'special-coupon' -%}

@@ -1,5 +1,11 @@
 ## 2026-11-24 — LIVE: Welcome/Step2 banner fit + anh Step2
 
+## 2026-11-24 — LIVE: go BMSM Bedding Set
+
+**User:** push live go BMSM Bedding Set.
+**Push LIVE #183186358588:** snippets/free-shipping-callout.liquid
+**Verify LIVE:** bedding bmsm=0; legging bmsm=1.
+
 ## 2026-11-24 — LIVE: go banner Free Shipping Sofa Cover
 
 **User:** push live go freeship Sofa Cover.
