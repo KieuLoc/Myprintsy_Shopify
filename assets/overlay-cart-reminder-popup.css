@@ -61,13 +61,15 @@ cart-reminder-popup {
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
 }
 
-/* Frame only on Cart Reminder — Welcome shares this component */
+/* Dialog: no outer frame — khung chỉ nửa phải (.content). Welcome untouched. */
 .cart-reminder-popup--desktop:not(.welcome-popup) .cart-reminder-popup__dialog {
-  border: 2px solid #7a1215;
-  box-shadow:
-    0 24px 48px rgba(0, 0, 0, 0.2),
-    inset 0 0 0 5px var(--cart-reminder-bg),
-    inset 0 0 0 7px #c59d46;
+  border: 0;
+  padding: 0;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+}
+
+.cart-reminder-popup--desktop:not(.welcome-popup) .cart-reminder-popup__dialog::after {
+  content: none;
 }
 
 .cart-reminder-popup--desktop .cart-reminder-popup__body {
@@ -150,11 +152,26 @@ cart-reminder-popup {
   background: var(--cart-reminder-bg);
 }
 
+/* Khung double-gold mỏng chỉ nửa phải — không bao ảnh trái / Welcome */
+.cart-reminder-popup--desktop:not(.welcome-popup) .cart-reminder-popup__content {
+  border: 1px solid #c59d46;
+  box-shadow: none;
+}
+
+.cart-reminder-popup--desktop:not(.welcome-popup) .cart-reminder-popup__content::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid #c59d46;
+  pointer-events: none;
+  z-index: 5;
+}
+
 .cart-reminder-popup--desktop .cart-reminder-popup__close {
   position: absolute;
   top: 1.2rem;
   right: 1.2rem;
-  z-index: 2;
+  z-index: 4;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -424,11 +441,11 @@ cart-reminder-popup {
   white-space: normal;
 }
 
-/* Klaviyo CTA rows — same full width as email / each other */
-.cart-reminder-popup--desktop
+/* Klaviyo CTA rows — inset ngang 20px giống form-component email → cùng width ô mail */
+.cart-reminder-popup--desktop:not(.welcome-popup)
   .cart-reminder-popup__klaviyo-embed--replaces-email
   [data-testid='form-row']:nth-child(2),
-.cart-reminder-popup--desktop
+.cart-reminder-popup--desktop:not(.welcome-popup)
   .cart-reminder-popup__klaviyo-embed--replaces-email
   [data-testid='form-row']:nth-child(3) {
   width: 100% !important;
@@ -440,24 +457,44 @@ cart-reminder-popup {
   box-sizing: border-box !important;
 }
 
-.cart-reminder-popup--desktop
+.cart-reminder-popup--desktop:not(.welcome-popup)
   .cart-reminder-popup__klaviyo-embed--replaces-email
   [data-testid='form-row']:nth-child(2)
   [data-testid='form-component'],
-.cart-reminder-popup--desktop
+.cart-reminder-popup--desktop:not(.welcome-popup)
   .cart-reminder-popup__klaviyo-embed--replaces-email
   [data-testid='form-row']:nth-child(3)
   [data-testid='form-component'] {
   width: 100% !important;
   max-width: 100% !important;
   flex: 1 1 100% !important;
-  padding: 0 !important;
+  padding: 0 20px !important;
   margin: 0 !important;
   box-sizing: border-box !important;
 }
 
-/* Klaviyo CTAs are type=button — row2 = Get It Now (gold), row3 = Maybe Later (outline) */
-.cart-reminder-popup--desktop
+/* Email: khớp LIVE Klaviyo — radius 15px, border 1px #b28a12; CTAs copy cùng */
+.cart-reminder-popup--desktop:not(.welcome-popup)
+  .cart-reminder-popup__klaviyo-embed--replaces-email
+  input[type='email'],
+.cart-reminder-popup--desktop:not(.welcome-popup)
+  .cart-reminder-popup__klaviyo-embed--replaces-email
+  input[type='text'],
+.cart-reminder-popup--desktop:not(.welcome-popup)
+  .cart-reminder-popup__klaviyo-embed--replaces-email
+  input[name='email'] {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  border: 1px solid #b28a12 !important;
+  border-radius: 15px !important;
+  background: #fff !important;
+  background-color: #fff !important;
+  box-shadow: none !important;
+}
+
+/* Klaviyo CTAs — cùng border/radius với ô email LIVE */
+.cart-reminder-popup--desktop:not(.welcome-popup)
   .cart-reminder-popup__klaviyo-embed--replaces-email
   [data-testid='form-row']:nth-child(2)
   button.klaviyo-form-button {
@@ -473,15 +510,16 @@ cart-reminder-popup {
   background: #c59d46 !important;
   background-color: #c59d46 !important;
   color: #111111 !important;
-  border: 0 !important;
-  border-radius: 0 !important;
+  border: 1px solid #b28a12 !important;
+  border-radius: 15px !important;
   font-weight: 700 !important;
   letter-spacing: 0.04em !important;
   text-transform: uppercase !important;
   box-shadow: none !important;
+  outline: none !important;
 }
 
-.cart-reminder-popup--desktop
+.cart-reminder-popup--desktop:not(.welcome-popup)
   .cart-reminder-popup__klaviyo-embed--replaces-email
   [data-testid='form-row']:nth-child(2)
   button.klaviyo-form-button
@@ -489,7 +527,7 @@ cart-reminder-popup {
   color: #111111 !important;
 }
 
-.cart-reminder-popup--desktop
+.cart-reminder-popup--desktop:not(.welcome-popup)
   .cart-reminder-popup__klaviyo-embed--replaces-email
   [data-testid='form-row']:nth-child(3)
   button.klaviyo-form-button {
@@ -505,13 +543,14 @@ cart-reminder-popup {
   background: #fdf9f0 !important;
   background-color: #fdf9f0 !important;
   color: #7a1215 !important;
-  border: 1.5px solid #7a1215 !important;
-  border-radius: 0 !important;
+  border: 1px solid #b28a12 !important;
+  border-radius: 15px !important;
   font-weight: 600 !important;
   letter-spacing: 0.04em !important;
   text-transform: uppercase !important;
   text-decoration: none !important;
   box-shadow: none !important;
+  outline: none !important;
 }
 
 .cart-reminder-popup--desktop
