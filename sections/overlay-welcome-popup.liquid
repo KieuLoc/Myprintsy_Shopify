@@ -158,10 +158,23 @@
               <h2 class="cart-reminder-popup__heading">
                 <span class="welcome-popup__heading-line">{{ welcome_heading_line1 | escape }}</span>
                 {%- if welcome_heading_line2 != blank -%}
-                  <span class="welcome-popup__heading-line">{{ welcome_heading_line2 | escape }}</span>
+                  <span class="welcome-popup__heading-line">
+                    {{- welcome_heading_line2
+                      | escape
+                      | replace: '10%', '<span class="welcome-popup__heading-accent">10%</span>'
+                      | replace: '15%', '<span class="welcome-popup__heading-accent">15%</span>'
+                      | replace: '20%', '<span class="welcome-popup__heading-accent">20%</span>'
+                    -}}
+                  </span>
                 {%- endif -%}
               </h2>
             {%- endif -%}
+
+            <div class="welcome-popup__star-divider" aria-hidden="true">
+              <span class="welcome-popup__star-line"></span>
+              <span class="welcome-popup__star">★</span>
+              <span class="welcome-popup__star-line"></span>
+            </div>
 
             {%- if section.settings.subtext != blank -%}
               {%- liquid

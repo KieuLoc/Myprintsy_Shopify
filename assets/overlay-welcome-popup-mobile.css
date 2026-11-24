@@ -133,7 +133,8 @@
 }
 
 .overlay-section--welcome-mobile .welcome-popup--mobile .cart-reminder-popup__heading,
-.overlay-section--welcome-mobile .welcome-popup--mobile .welcome-popup__heading-line {
+.overlay-section--welcome-mobile .welcome-popup--mobile .welcome-popup__heading-line,
+.overlay-section--welcome-mobile .welcome-popup--mobile .welcome-popup__heading-accent {
   font-family: "Playfair Display", Georgia, "Times New Roman", serif !important;
   font-style: normal !important;
   font-weight: 500 !important;
@@ -152,6 +153,40 @@
 .overlay-section--welcome-mobile .welcome-popup--mobile .welcome-popup__heading-line {
   display: block;
   white-space: nowrap;
+}
+
+.overlay-section--welcome-mobile .welcome-popup--mobile .welcome-popup__heading-accent {
+  color: #c5a059;
+  /* Numerals in Playfair read lighter than letters at the same weight */
+  font-weight: 700 !important;
+  font-size: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  text-transform: inherit;
+  font-variant-numeric: lining-nums;
+}
+
+.overlay-section--welcome-mobile .welcome-popup--mobile .welcome-popup__star-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  width: min(20rem, 100%);
+  margin: 0.1rem 0 0.3rem;
+}
+
+.overlay-section--welcome-mobile .welcome-popup--mobile .welcome-popup__star-line {
+  flex: 1 1 auto;
+  height: 0;
+  border-top: 1px solid #c5a059;
+  opacity: 0.85;
+}
+
+.overlay-section--welcome-mobile .welcome-popup--mobile .welcome-popup__star {
+  flex: 0 0 auto;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: #c5a059;
 }
 
 .overlay-section--welcome-mobile .welcome-popup--mobile .cart-reminder-popup__subtext {

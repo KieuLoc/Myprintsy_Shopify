@@ -152,7 +152,16 @@
 }
 
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__code-box {
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: 4.6rem;
+  padding: 1rem 1.2rem;
+  border: 1.5px dashed var(--welcome-step2-box-border, #7a1215);
+  background: var(--welcome-step2-box-bg, #fff);
+  box-sizing: border-box;
 }
 
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__capture {
@@ -228,14 +237,23 @@
   box-sizing: border-box;
 }
 
-.overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__code,
+.overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__code {
+  font-family: Poppins, var(--font-body-family), sans-serif;
+  font-size: clamp(1.6rem, 4.5vw, 2rem);
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: 0.16em;
+  color: var(--welcome-step2-heading-color, #7a1215);
+  font-variant-numeric: tabular-nums;
+}
+
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__timer {
   font-family: Poppins, var(--font-body-family), sans-serif;
   font-size: clamp(1.6rem, 4.5vw, 2rem);
   font-weight: 600;
   font-style: normal;
   letter-spacing: 0.04em;
-  color: var(--welcome-step2-heading-color, #1a3a5c);
+  color: var(--welcome-step2-heading-color, #7a1215);
   font-variant-numeric: tabular-nums;
 }
 
@@ -306,29 +324,56 @@
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__actions {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  gap: 0.9rem;
+  align-items: center;
+  gap: 1rem;
   width: 100%;
   max-width: 30rem;
+}
+
+.overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__actions-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0.8rem;
+  width: 100%;
 }
 
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.8rem;
-  width: 100%;
-  min-height: 4.6rem;
-  padding: 1.1rem 1.6rem;
+  gap: 0.4rem;
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto;
+  min-height: 4.4rem;
+  padding: 1rem 0.8rem;
   border-radius: 999px;
   font-family: Poppins, var(--font-body-family), sans-serif;
-  font-size: 1.35rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   text-decoration: none;
+  white-space: nowrap;
   box-shadow: none;
   cursor: pointer;
+}
+
+.overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__link {
+  margin-top: 0.1rem;
+  font-family: Poppins, var(--font-body-family), sans-serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--welcome-step2-heading-color, #7a1215);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__link:hover {
+  opacity: 0.85;
 }
 
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__btn-icon {
@@ -338,8 +383,8 @@
 
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__button--primary {
   border: 0;
-  background: var(--welcome-step2-button-bg, #1a3a5c);
-  color: var(--welcome-step2-button-text, #fff);
+  background: var(--welcome-step2-button-bg, #7a1215);
+  color: var(--welcome-step2-button-text, #f5e6c8);
 }
 
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__button--secondary {

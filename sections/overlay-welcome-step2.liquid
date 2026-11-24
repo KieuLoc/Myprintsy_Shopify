@@ -78,6 +78,23 @@
               <h2 class="welcome-step2__heading">{{ section.settings.heading | escape }}</h2>
             {%- endif -%}
 
+            {%- if promo_code != blank -%}
+              <div class="welcome-step2__code-box">
+                <span class="welcome-step2__code" data-welcome-step2-code>{{ promo_code | escape }}</span>
+                <button
+                  type="button"
+                  class="welcome-step2__copy-btn"
+                  data-success-opt-in-copy
+                  data-copy-code="{{ promo_code | escape }}"
+                  aria-label="Copy promo code {{ promo_code | escape }}"
+                >
+                  <span class="svg-wrapper">
+                    {{- 'icon-copy.svg' | inline_asset_content -}}
+                  </span>
+                </button>
+              </div>
+            {%- endif -%}
+
             {%- if section.settings.info_text != blank -%}
               <div class="welcome-step2__info rte">{{ section.settings.info_text }}</div>
             {%- endif -%}
@@ -96,9 +113,29 @@
           </div>
 
           <div class="welcome-step2__actions">
+            <div class="welcome-step2__actions-row">
+              {%- if section.settings.button_label != blank -%}
+                <a
+                  class="welcome-step2__button"
+                  href="{{ section.settings.button_link | default: '/collections/all' }}"
+                >
+                  {{ section.settings.button_label | escape }}
+                </a>
+              {%- endif -%}
+
+              {%- if section.settings.button_2_label != blank -%}
+                <a
+                  class="welcome-step2__button"
+                  href="{{ section.settings.button_2_link | default: '/collections/all' }}"
+                >
+                  {{ section.settings.button_2_label | escape }}
+                </a>
+              {%- endif -%}
+            </div>
+
             {%- if section.settings.dismiss_label != blank -%}
               <a
-                class="welcome-step2__button"
+                class="welcome-step2__link"
                 href="{{ section.settings.dismiss_link | default: '/collections/all' }}"
               >
                 {{ section.settings.dismiss_label | escape }}

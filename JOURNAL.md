@@ -1,5 +1,42 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-11-24 — Welcome bundle push LIVE + git
+
+**User:** push LIVE phần sửa Welcome rồi chuyển sang Cart Reminder.
+**Files LIVE:** overlay-group.json + welcome/welcome-step2 liquid+css (desktop/mobile). Gồm burgundy palette, 10% gold+star, Step2 MERRY10/code-box/2 nút pill chữ kem, heading gần star; overlay-group cũng kèm Cart Reminder 15% Off.
+**Verify LIVE:** Welcome `#7a1215`, accent 10% fw700 + star; Step2 MERRY10 + 2 nút cream/pill. **Push LIVE** `#183186358588`.
+
+## 2026-11-24 — Welcome: kéo Congratulations/heading xuống gần star (DEV)
+
+**User:** bộ chữ Congratulations + YOU'VE GOT… dịch xuống gần ngôi sao một chút.
+**Fix:** `overlay-welcome-popup.css` — eyebrow/heading `translateY(-1.6rem)`→`-0.4rem`; star margin-top gọn lại. **Push DEV** `#186878558524`.
+
+## 2026-11-24 — Step2 buttons pill + chữ kem; Welcome 10% font weight (DEV)
+
+**User:** 2 nút 1 dòng như hình, màu chữ kem, border tròn; push kèm fix font `10%`.
+**Fix:** Step2 CSS desktop+mobile — `flex-wrap:nowrap`, `border-radius:999px`, chữ `#f5e6c8` (overlay-group). Welcome accent `10%` — cùng Playfair + `font-weight:700` (số Playfair nhìn mỏng hơn chữ).
+**Verify:** PASS — 2 nút cùng top, radius 999px, color rgb(245,230,200); accent fw 700. **Push DEV** `#186878558524`.
+
+## 2026-11-24 — Welcome Step2 mockup + Welcome 10% gold + star (DEV)
+
+**User:** Step2 chưa lên DEV; Welcome `10%` vàng + ngôi sao divider được không.
+**Fix GUI:**
+- Step2 desktop/mobile: bật lại code-box `MERRY10`+copy; 2 nút `SHOP BESTSELLER` / `SHOP TOP TRENDING` cạnh nhau (vuông, burgundy); `Browse All Deals` thành link; màu `#7a1215` / `#4a4a4a`.
+- Welcome desktop/mobile: wrap `10%` → `.welcome-popup__heading-accent` `#c5a059`; thêm `.welcome-popup__star-divider` (line–★–line).
+**Verify:** check PASS — accent `10%` rgb(197,160,89), star hiện; Step2 code MERRY10 + 2 nút + link. **Push DEV** `#186878558524` — LIVE chưa.
+
+## 2026-11-24 — Cart Reminder: 20% → 15%
+
+**User:** Cart Reminder đổi chữ 20% về 15% thôi; push DEV.
+**Fix:** `overlay-group.json` desktop+mobile heading `Save An Extra 20% Off`→`15% Off`; schema default liquid desktop+mobile cùng vậy. Không đụng logic.
+**Verify DEV:** HTML có `Save An Extra 15% Off`, không còn `20% Off`. **Push DEV** `#186878558524` — LIVE chưa.
+
+## 2026-11-24 — Welcome đổi palette burgundy/cream (DEV)
+
+**User:** đổi màu Welcome theo mockup (burgundy + gold/cream); màu thôi; email + logic giữ nguyên; push DEV.
+**Fix:** `sections/overlay-group.json` Welcome desktop + mobile — `color_eyebrow/heading/button_bg/button_border/dismiss` `#1a3a5c`→`#7a1215`; `color_subtext`→`#4a4a4a`; `color_button_text` giữ `#ffffff`. Không đụng liquid email/Klaviyo/JS.
+**Verify DEV:** CSS vars + computed = `#7a1215` / `#4a4a4a` / button white. Screenshot `_shots/welcome-burgundy-dev.png`. **Push DEV** `#186878558524` — LIVE chưa. Ghi chú: `10%` cùng màu heading (chưa tách gold).
+
 ## 2026-11-24 — Đổi code Welcome → MERRY10, Cart Reminder → MERRY15
 
 **User:** Welcome đổi code thành MERRY10, Cart Reminder thành MERRY15; push DEV + LIVE + git.

@@ -114,7 +114,16 @@
 }
 
 .overlay-section--welcome-step2-desktop .welcome-step2 .welcome-step2__code-box {
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  width: 100%;
+  min-height: 5.2rem;
+  padding: 1.1rem 1.6rem;
+  border: 1.5px dashed var(--welcome-step2-box-border, #7a1215);
+  background: var(--welcome-step2-box-bg, #fff);
+  box-sizing: border-box;
 }
 
 .overlay-section--welcome-step2-desktop .welcome-step2 .welcome-step2__capture {
@@ -191,11 +200,11 @@
 }
 
 .overlay-section--welcome-step2-desktop .welcome-step2 .welcome-step2__code {
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-  font-size: clamp(1.8rem, 2.2vw, 2.2rem);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--welcome-step2-heading-color, #1a3a5c);
+  font-family: Poppins, var(--font-body-family), sans-serif;
+  font-size: clamp(1.8rem, 2.2vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--welcome-step2-heading-color, #7a1215);
   font-variant-numeric: tabular-nums;
 }
 
@@ -267,44 +276,56 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 1.2rem;
+  width: 100%;
+  max-width: min(42rem, 100%);
+}
+
+.overlay-section--welcome-step2-desktop .welcome-step2 .welcome-step2__actions-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: center;
   gap: 1rem;
   width: 100%;
-  max-width: min(34rem, 100%);
 }
 
 .overlay-section--welcome-step2-desktop .welcome-step2 .welcome-step2__button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  flex: 1 1 0;
+  min-width: 0;
   min-height: 4.8rem;
-  padding: 1.2rem 2rem;
+  padding: 1.2rem 1.4rem;
   border: 0;
   outline: none;
   border-radius: 999px;
-  background: var(--welcome-step2-button-bg, #c4a35a);
-  color: var(--welcome-step2-button-text, #fff);
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-  font-size: clamp(1.4rem, 1.6vw, 1.6rem);
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  background: var(--welcome-step2-button-bg, #7a1215);
+  color: var(--welcome-step2-button-text, #f5e6c8);
+  font-family: Poppins, var(--font-body-family), sans-serif;
+  font-size: clamp(1.15rem, 1.3vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   text-decoration: none;
+  white-space: nowrap;
   box-shadow: none;
   cursor: pointer;
 }
 
 .overlay-section--welcome-step2-desktop .welcome-step2 .welcome-step2__button:hover {
   filter: brightness(1.08);
-  color: var(--welcome-step2-button-text, #fff);
+  color: var(--welcome-step2-button-text, #f5e6c8);
 }
 
 .overlay-section--welcome-step2-desktop .welcome-step2 .welcome-step2__link {
   margin-top: 0.2rem;
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-family: Poppins, var(--font-body-family), sans-serif;
   font-size: 1.4rem;
+  font-weight: 500;
   line-height: 1.4;
-  color: var(--welcome-step2-link-color, #4a7ab0);
+  color: var(--welcome-step2-link-color, #7a1215);
   text-decoration: underline;
   text-underline-offset: 0.25em;
 }
