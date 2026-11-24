@@ -1,5 +1,11 @@
 ## 2026-11-24 — LIVE: Welcome/Step2 banner fit + anh Step2
 
+## 2026-11-25 — LIVE: EDD spacing ETA/Carefully
+
+**User:** spacing Delivered/ETA/Carefully push live chua?
+**Push LIVE #183186358588:** assets/section-main-product.css
+**Verify LIVE:** gap Delivered→ETA 2px; ETA→Carefully 12px.
+
 ## 2026-11-24 — LIVE: go BMSM Bedding Set
 
 **User:** push live go BMSM Bedding Set.

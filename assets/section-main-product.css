@@ -474,8 +474,14 @@ a.product__text {
 
 .product__info-container .sb_ETA.myprintsy-edd-wp .myprintsy-edd-delivery-to {
   display: block !important;
-  margin-bottom: 6px;
+  /* Gần Get Estimated hơn; khoảng với Carefully nằm ở sibling kế tiếp */
+  margin-bottom: 2px !important;
   cursor: pointer;
+}
+
+/* Get Estimated → cách Carefully thêm xíu */
+.product__info-container .sb_ETA.myprintsy-edd-wp .delivery_msg > .myprintsy-edd-delivery-to + div {
+  margin-bottom: 12px !important;
 }
 
 .product__info-container .sb_ETA.myprintsy-edd-wp .myprintsy-edd-delivery-to > span,
