@@ -82,7 +82,8 @@
   min-height: 0;
   padding: 1.8rem 1.8rem 2.2rem;
   text-align: center;
-  background-color: #fff9ee;
+  background-color: #600a12;
+  background-image: none;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -90,7 +91,8 @@
 }
 
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__content--has-bg {
-  background-color: transparent;
+  background-color: #600a12;
+  background-image: none;
 }
 
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__copy {
@@ -116,7 +118,8 @@
   font-weight: 600;
   font-size: clamp(2.2rem, 6.2vw, 2.8rem);
   line-height: 1.2;
-  color: var(--welcome-step2-heading-color, #1a3a5c);
+  color: var(--welcome-step2-heading-color, #fff5e6);
+  white-space: nowrap;
 }
 
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__flourish {
@@ -227,14 +230,51 @@
 
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__timer-box {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  gap: 0.25rem;
   min-width: 14rem;
-  min-height: 3.8rem;
-  padding: 0.7rem 1.4rem;
-  border: 1.5px solid var(--welcome-step2-box-border, #c4a35a);
-  background: var(--welcome-step2-box-bg, #fff8e8);
+  padding: 0.2rem 0;
+  border: 0;
+  background: transparent;
   box-sizing: border-box;
+}
+
+.overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__timer-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  min-width: 4.2rem;
+}
+
+.overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__timer-value {
+  font-family: Poppins, var(--font-body-family), sans-serif;
+  font-size: clamp(2rem, 6vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: #fff5e6;
+  font-variant-numeric: tabular-nums;
+}
+
+.overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__timer-unit-label {
+  font-family: Poppins, var(--font-body-family), sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #fff5e6;
+  opacity: 0.9;
+  text-transform: lowercase;
+}
+
+.overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__timer-sep {
+  font-family: Poppins, var(--font-body-family), sans-serif;
+  font-size: clamp(2rem, 6vw, 2.6rem);
+  font-weight: 600;
+  line-height: 1;
+  color: #fff5e6;
+  padding-top: 0.05em;
 }
 
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__code {
@@ -243,7 +283,7 @@
   font-weight: 700;
   font-style: normal;
   letter-spacing: 0.16em;
-  color: var(--welcome-step2-heading-color, #7a1215);
+  color: #600a12;
   font-variant-numeric: tabular-nums;
 }
 
@@ -266,7 +306,7 @@
   padding: 0;
   border: 0;
   background: transparent;
-  color: var(--welcome-step2-heading-color, #1a3a5c);
+  color: #600a12;
   cursor: pointer;
 }
 
@@ -280,6 +320,8 @@
 }
 
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__info,
+.overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__info p,
+.overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__info span,
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__timer-label,
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__help {
   margin: 0;
@@ -289,7 +331,7 @@
   font-style: normal;
   font-weight: 400;
   line-height: 1.4;
-  color: var(--welcome-step2-text-color, #1a3a5c);
+  color: #fff5e6;
   text-align: center;
 }
 
@@ -367,7 +409,7 @@
   font-size: 1.3rem;
   font-weight: 500;
   line-height: 1.4;
-  color: var(--welcome-step2-heading-color, #7a1215);
+  color: var(--welcome-step2-heading-color, #fff5e6);
   text-decoration: underline;
   text-underline-offset: 0.25em;
 }
@@ -383,8 +425,8 @@
 
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__button--primary {
   border: 0;
-  background: var(--welcome-step2-button-bg, #7a1215);
-  color: var(--welcome-step2-button-text, #f5e6c8);
+  background: var(--welcome-step2-button-bg, #fdf2e3);
+  color: var(--welcome-step2-button-text, #600a12);
 }
 
 .overlay-section--welcome-step2-mobile .welcome-step2--mobile .welcome-step2__button--secondary {
