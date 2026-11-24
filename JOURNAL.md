@@ -1,5 +1,74 @@
 # Journal — Myprintsy Shopify Theme
 
+## 2026-11-24 — Cart Reminder mobile: palette burgundy (DEV)
+
+**User:** mobile CR đổi màu như mockup đỏ; desktop không đụng. Rồi: xấu, không giống mẫu.
+**Fix:** panel `#600a12`; ẩn timer (mẫu không có); Maybe Later transparent + viền kem (đè nền cream Klaviyo); bỏ max-height list; hero thấp hơn. Desktop nguyên.
+**Verify:** timer `none`, Maybe Later transparent+border, width=Get It Now. **Push DEV** `#186878558524`.
+
+## 2026-11-24 — Welcome: gỡ CSS leak từ Cart Reminder (DEV)
+
+**User:** Welcome hỏng sau khi sửa Cart Reminder; revert Welcome, không đụng logic CR.
+**Cause:** Welcome dùng chung `cart-reminder-popup` class — CSS khung/dismiss/heading CR đè Welcome (Maybe Later style trên “Remind me later”).
+**Fix:** scope CR visual `:not(.welcome-popup)` — dialog frame, eyebrow/heading/subtext, dismiss, media radius. Welcome CSS tự thắng lại.
+**Verify:** Welcome dismiss `0px` + underline + Great Vibes PASS desk+mobile; CR check frame/buttons vẫn PASS. **Push DEV** `#186878558524`.
+
+## 2026-11-24 — Cart Reminder: Maybe Later = width Get It Now (DEV)
+
+**User:** chiều dài Maybe Later bằng Get It Now.
+**Fix:** ép form-row 2+3 + form-component + button `width/max-width:100%`. Verify 438px = 438px. **Push DEV** `#186878558524`.
+
+## 2026-11-24 — Cart Reminder: fix Get It Now Klaviyo type=button (DEV)
+
+**User:** DEV không thấy update, vẫn xấu — đúng cart reminder.
+**Cause:** Klaviyo `GET IT NOW` + `MAYBE LATER` đều `type=button`; CSS cũ `button:not([type=submit])` đè cả 2 thành viền đỏ.
+**Fix:** style theo `[data-testid=form-row]:nth-child(2|3) button.klaviyo-form-button` — row2 gold+#111, row3 outline burgundy; khung đôi đậm hơn.
+**Verify:** check chờ Klaviyo thật — PASS desk+mobile. **Push DEV** `#186878558524`.
+
+## 2026-11-24 — Cart Reminder: khung viền mẫu (ngoài đỏ + trong vàng) (DEV)
+
+**User:** khung trước xấu; mẫu là viền đôi ngoài burgundy trong gold.
+**Fix:** dialog desktop+mobile — `border 1.5px #7a1215` + inset cream 6px + inset gold `#c59d46`; mobile bỏ radius cho khớp khung vuông. Check PASS. **Push DEV** `#186878558524`.
+
+## 2026-11-24 — Cart Reminder: khung đôi + Get It Now chữ đen + Maybe Later viền (DEV)
+
+**User:** thêm khung quanh popup; đổi màu chữ Get It Now; thêm khung Maybe Later.
+**Fix:** desktop+mobile CSS — dialog double gold frame (`#c59d46` + inset); Get It Now bg gold chữ `#111` (!important đè `.button--primary`); Maybe Later / Klaviyo non-submit viền+chữ burgundy `#7a1215`.
+**Verify:** `check-cart-reminder-frame-buttons.js` PASS desk+mobile. **Push DEV** `#186878558524`.
+
+## 2026-11-24 — Cart Reminder: heading mockup Finish Your Order + 15% gold (DEV)
+
+**User:** đổi Our Best Sellers → Finish Your Order / And Save An Extra 15% Off; màu + font như ảnh; subtext Secure… Priority shipping; desktop+mobile; không đụng logic.
+**Fix:** overlay-group + schema empty/filled copy; snippet `cart-reminder-heading` tách `15%` vàng; CSS Playfair eyebrow đen + heading burgundy + accent gold `#c59d46`; subtext Poppins xám + strong đen.
+**Verify:** `check-cart-reminder-heading-gui.js` PASS desktop+mobile (copy/màu/font). **Push DEV** `#186878558524` — LIVE chưa.
+
+## 2026-11-24 — Welcome Step2: timer hours/min/sec + heading 1 dòng (DEV)
+
+**User:** countdown kiểu labels dưới số; Welcome to Myprintsy 1 dòng.
+**Fix:** liquid desktop/mobile — 3 unit hours/minutes/seconds; JS `countdownParts` + paint từng ô; CSS heading `nowrap`; timer labels kem. Check `scripts/check-welcome-step2-timer.js` PASS (live + expired 00:00:00). **Push DEV** `#186878558524`.
+
+## 2026-11-24 — Welcome Step2: bỏ lattice + chữ info kem (DEV)
+
+**User:** Step2 bỏ gạch gạch; chữ Applies… vẫn đen.
+**Fix:** desktop+mobile CSS — `background-image:none`; ép `__info`/`p`/`timer-label`/`help` `color:#fff5e6`. **Push DEV** `#186878558524`.
+
+## 2026-11-24 — Welcome mobile: nút GET MY DISCOUNT kem + chữ đỏ (DEV)
+
+**User:** nút chữ đỏ nền kem nhưng như bị đỏ đè.
+**Cause:** `.is-disabled` `opacity:0.45` → nền burgundy lộ xuyên nút kem.
+**Fix:** disabled giữ `opacity:1`; ép `background #fdf2e3` + `color #600a12` (!important, cả label). **Push DEV** `#186878558524`.
+
+## 2026-11-24 — Welcome mobile Step1: bỏ lattice + subtext kem (DEV)
+
+**User:** bỏ gạch gạch nền; đừng đụng size chữ; Unlock updates… vẫn đen → sửa màu kem.
+**Fix:** `overlay-welcome-popup-mobile.css` — `background-image: none` (nền đỏ trơn); ép `.subtext` + `p/span` `color:#fff5e6` (tránh `.rte`/cart-reminder đè). Không đổi font-size. **Push DEV** `#186878558524`.
+
+## 2026-11-24 — Welcome mobile Step1: nền đỏ + chữ cream/gold (DEV)
+
+**User:** Welcome Step1 mobile nền đỏ như mockup, màu chữ theo ảnh; còn lại giữ nguyên.
+**Fix:** overlay-group mobile — eyebrow gold `#c5a059`, heading/sub/dismiss cream `#fff5e6`, button cream `#fdf2e3` + chữ burgundy `#600a12`; bỏ `image_content_bg` cream. CSS panel `#600a12` + diamond lattice; email input chữ tối giữ nguyên. Desktop không đụng.
+**Verify:** PASS mobile 390 — bg/chữ/nút khớp. **Push DEV** `#186878558524` — LIVE chưa.
+
 ## 2026-11-24 — Welcome bundle push LIVE + git
 
 **User:** push LIVE phần sửa Welcome rồi chuyển sang Cart Reminder.

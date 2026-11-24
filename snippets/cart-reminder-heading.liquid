@@ -1,0 +1,16 @@
+{%- comment -%}
+  Renders cart-reminder heading with gold "15%" accent + line break before it.
+  Usage: {% render 'cart-reminder-heading', text: section.settings.heading %}
+{%- endcomment -%}
+{%- liquid
+  assign heading_plain = text | strip | strip_html | strip
+-%}
+{%- if heading_plain contains '15%' -%}
+  {%- assign heading_parts = heading_plain | split: '15%' -%}
+  <span class="cart-reminder-popup__heading-line">{{ heading_parts.first | strip | escape }}</span>
+  <span class="cart-reminder-popup__heading-line">
+    <span class="cart-reminder-popup__heading-accent">15%</span>{{- heading_parts.last | escape -}}
+  </span>
+{%- else -%}
+  {{ heading_plain | escape }}
+{%- endif -%}

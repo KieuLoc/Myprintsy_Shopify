@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap");
+
 cart-reminder-popup {
   display: block;
 }
@@ -57,6 +59,15 @@ cart-reminder-popup {
   background: var(--cart-reminder-bg);
   overflow: hidden;
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+}
+
+/* Frame only on Cart Reminder — Welcome shares this component */
+.cart-reminder-popup--desktop:not(.welcome-popup) .cart-reminder-popup__dialog {
+  border: 2px solid #7a1215;
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.2),
+    inset 0 0 0 5px var(--cart-reminder-bg),
+    inset 0 0 0 7px #c59d46;
 }
 
 .cart-reminder-popup--desktop .cart-reminder-popup__body {
@@ -170,33 +181,53 @@ cart-reminder-popup {
   height: 1.6rem;
 }
 
-.cart-reminder-popup--desktop .cart-reminder-popup__eyebrow {
-  margin: 0 0 1rem;
-  font-size: clamp(1.6rem, 2.2vw, 2rem);
+.cart-reminder-popup--desktop:not(.welcome-popup) .cart-reminder-popup__eyebrow {
+  margin: 0 0 0.6rem;
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif !important;
+  font-size: clamp(2.2rem, 2.8vw, 2.8rem);
   font-weight: 600;
-  line-height: 1.35;
-  color: var(--cart-reminder-text);
+  font-style: normal;
+  line-height: 1.2;
+  color: #111111;
 }
 
-.cart-reminder-popup--desktop .cart-reminder-popup__heading {
+.cart-reminder-popup--desktop:not(.welcome-popup) .cart-reminder-popup__heading {
   margin: 0 0 1.2rem;
-  font-family: var(--font-heading-family);
-  font-style: var(--font-heading-style);
-  font-weight: var(--font-heading-weight);
-  font-size: clamp(2.2rem, 3vw, 3.2rem);
-  line-height: 1.12;
-  color: var(--cart-reminder-text);
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  font-size: clamp(2.4rem, 3.2vw, 3.4rem);
+  line-height: 1.15;
+  color: #7a1215;
 }
 
-.cart-reminder-popup--desktop .cart-reminder-popup__subtext {
+.cart-reminder-popup--desktop:not(.welcome-popup) .cart-reminder-popup__heading-line {
+  display: block;
+}
+
+.cart-reminder-popup--desktop:not(.welcome-popup) .cart-reminder-popup__heading-accent {
+  color: #c59d46;
+  font-weight: 700 !important;
+  font-variant-numeric: lining-nums;
+}
+
+.cart-reminder-popup--desktop:not(.welcome-popup) .cart-reminder-popup__subtext {
   margin: 0;
+  font-family: Poppins, var(--font-body-family), sans-serif;
   font-size: 1.5rem;
   line-height: 1.55;
-  color: var(--cart-reminder-gold);
+  font-weight: 400;
+  color: #6b6560;
 }
 
-.cart-reminder-popup--desktop .cart-reminder-popup__subtext p {
+.cart-reminder-popup--desktop:not(.welcome-popup) .cart-reminder-popup__subtext p {
   margin: 0;
+  color: #6b6560;
+}
+
+.cart-reminder-popup--desktop:not(.welcome-popup) .cart-reminder-popup__subtext strong {
+  color: #111111;
+  font-weight: 700;
 }
 
 .cart-reminder-popup--desktop .cart-reminder-popup__countdown {
@@ -393,6 +424,104 @@ cart-reminder-popup {
   white-space: normal;
 }
 
+/* Klaviyo CTA rows — same full width as email / each other */
+.cart-reminder-popup--desktop
+  .cart-reminder-popup__klaviyo-embed--replaces-email
+  [data-testid='form-row']:nth-child(2),
+.cart-reminder-popup--desktop
+  .cart-reminder-popup__klaviyo-embed--replaces-email
+  [data-testid='form-row']:nth-child(3) {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.cart-reminder-popup--desktop
+  .cart-reminder-popup__klaviyo-embed--replaces-email
+  [data-testid='form-row']:nth-child(2)
+  [data-testid='form-component'],
+.cart-reminder-popup--desktop
+  .cart-reminder-popup__klaviyo-embed--replaces-email
+  [data-testid='form-row']:nth-child(3)
+  [data-testid='form-component'] {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 1 1 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Klaviyo CTAs are type=button — row2 = Get It Now (gold), row3 = Maybe Later (outline) */
+.cart-reminder-popup--desktop
+  .cart-reminder-popup__klaviyo-embed--replaces-email
+  [data-testid='form-row']:nth-child(2)
+  button.klaviyo-form-button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 4.8rem !important;
+  margin: 0 !important;
+  padding: 1.2rem 2.4rem !important;
+  box-sizing: border-box !important;
+  background: #c59d46 !important;
+  background-color: #c59d46 !important;
+  color: #111111 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  box-shadow: none !important;
+}
+
+.cart-reminder-popup--desktop
+  .cart-reminder-popup__klaviyo-embed--replaces-email
+  [data-testid='form-row']:nth-child(2)
+  button.klaviyo-form-button
+  * {
+  color: #111111 !important;
+}
+
+.cart-reminder-popup--desktop
+  .cart-reminder-popup__klaviyo-embed--replaces-email
+  [data-testid='form-row']:nth-child(3)
+  button.klaviyo-form-button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 4.8rem !important;
+  margin: 0.8rem 0 0 !important;
+  padding: 1.2rem 2.4rem !important;
+  box-sizing: border-box !important;
+  background: #fdf9f0 !important;
+  background-color: #fdf9f0 !important;
+  color: #7a1215 !important;
+  border: 1.5px solid #7a1215 !important;
+  border-radius: 0 !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+.cart-reminder-popup--desktop
+  .cart-reminder-popup__klaviyo-embed--replaces-email
+  [data-testid='form-row']:nth-child(3)
+  button.klaviyo-form-button
+  * {
+  color: #7a1215 !important;
+}
+
 .cart-reminder-popup--desktop .cart-reminder-popup__klaviyo-fallback {
   display: none;
   flex-direction: column;
@@ -466,20 +595,23 @@ cart-reminder-popup {
   text-align: left;
 }
 
-.cart-reminder-popup--desktop .cart-reminder-popup__klaviyo-fallback .cart-reminder-popup__button {
+.cart-reminder-popup--desktop .cart-reminder-popup__klaviyo-fallback .cart-reminder-popup__button,
+.cart-reminder-popup--desktop .cart-reminder-popup__klaviyo-fallback .cart-reminder-popup__button.button,
+.cart-reminder-popup--desktop .cart-reminder-popup__klaviyo-fallback .cart-reminder-popup__button.button--primary {
   align-self: stretch;
   width: 100%;
   margin-top: 0;
   min-width: 0;
   min-height: 4.8rem;
   padding: 1.2rem 2.4rem;
-  border: 0;
-  border-radius: 0;
-  background: var(--cart-reminder-gold);
-  color: #fff;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #c59d46 !important;
+  background-color: #c59d46 !important;
+  color: #111111 !important;
   font: inherit;
   font-size: 1.4rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor: pointer;
@@ -492,8 +624,13 @@ cart-reminder-popup {
 }
 
 .cart-reminder-popup--desktop .cart-reminder-popup__klaviyo-fallback .cart-reminder-popup__button:hover {
-  background: #9a7428;
-  color: #fff;
+  background: #b8892e !important;
+  background-color: #b8892e !important;
+  color: #111111 !important;
+}
+
+.cart-reminder-popup--desktop .cart-reminder-popup__klaviyo-fallback .cart-reminder-popup__button-label {
+  color: #111111 !important;
 }
 
 .cart-reminder-popup--desktop .cart-reminder-popup__klaviyo-fallback .cart-reminder-popup__button.is-loading {
@@ -505,44 +642,56 @@ cart-reminder-popup {
   margin-left: 0.6rem;
 }
 
-.cart-reminder-popup--desktop
+.cart-reminder-popup--desktop:not(.welcome-popup)
   .cart-reminder-popup__content:not(.cart-reminder-popup__content--klaviyo)
-  .cart-reminder-popup__button {
+  .cart-reminder-popup__button,
+.cart-reminder-popup--desktop:not(.welcome-popup)
+  .cart-reminder-popup__content:not(.cart-reminder-popup__content--klaviyo)
+  .cart-reminder-popup__button.button--primary {
   align-self: center;
   margin-top: 1.6rem;
   min-width: 18rem;
   min-height: 4.8rem;
   padding: 1.2rem 2.4rem;
-  border: 1px solid var(--cart-reminder-gold);
-  border-radius: 999px;
-  background: var(--cart-reminder-gold);
-  color: #fff;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #c59d46 !important;
+  background-color: #c59d46 !important;
+  color: #111111 !important;
   font: inherit;
   font-size: 1.4rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-.cart-reminder-popup--desktop .cart-reminder-popup__dismiss {
-  align-self: center;
+.cart-reminder-popup--desktop:not(.welcome-popup) .cart-reminder-popup__dismiss {
+  align-self: stretch;
+  width: 100%;
   margin-top: 1.2rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
+  min-height: 4.8rem;
+  padding: 1.2rem 2.4rem;
+  border: 1.5px solid #7a1215 !important;
+  border-radius: 0 !important;
+  background: var(--cart-reminder-bg) !important;
+  background-color: var(--cart-reminder-bg) !important;
   font: inherit;
-  font-size: 1.25rem;
-  line-height: 1.45;
-  color: var(--cart-reminder-gold);
-  text-decoration: underline;
-  text-underline-offset: 0.18em;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  color: #7a1215 !important;
+  text-transform: uppercase;
+  text-decoration: none !important;
   cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-.cart-reminder-popup--desktop .cart-reminder-popup__dismiss:hover {
-  color: var(--cart-reminder-text);
+.cart-reminder-popup--desktop:not(.welcome-popup) .cart-reminder-popup__dismiss:hover {
+  background: #faf5ea;
+  color: #7a1215;
 }
 
 cart-reminder-popup [data-cart-empty-only][hidden],

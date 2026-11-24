@@ -110,10 +110,14 @@
           {%- endif -%}
 
           {%- if section.settings.heading != blank -%}
-            <h2 class="cart-reminder-popup__heading" data-cart-filled-only{% if cart.item_count == 0 %} hidden{% endif %}>{{ section.settings.heading | escape }}</h2>
+            <h2 class="cart-reminder-popup__heading" data-cart-filled-only{% if cart.item_count == 0 %} hidden{% endif %}>
+              {% render 'cart-reminder-heading', text: section.settings.heading %}
+            </h2>
           {%- endif -%}
           {%- if section.settings.empty_heading != blank -%}
-            <h2 class="cart-reminder-popup__heading" data-cart-empty-only{% if cart.item_count > 0 %} hidden{% endif %}>{{ section.settings.empty_heading | escape }}</h2>
+            <h2 class="cart-reminder-popup__heading" data-cart-empty-only{% if cart.item_count > 0 %} hidden{% endif %}>
+              {% render 'cart-reminder-heading', text: section.settings.empty_heading %}
+            </h2>
           {%- endif -%}
 
           {%- if section.settings.subtext != blank -%}
@@ -358,19 +362,19 @@
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow text",
-      "default": "Finish your order"
+      "default": "Finish Your Order"
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Save An Extra 5% Off"
+      "default": "And Save An Extra 15% Off"
     },
     {
       "type": "richtext",
       "id": "subtext",
       "label": "Subtext",
-      "default": "<p>Secure your cart now - Priority shipping available</p>"
+      "default": "<p>Secure your cart now - <strong>Priority shipping</strong> available</p>"
     },
     {
       "type": "text",
@@ -387,19 +391,19 @@
       "type": "text",
       "id": "empty_eyebrow",
       "label": "Eyebrow text (empty cart)",
-      "default": "Our Best Sellers"
+      "default": "Finish Your Order"
     },
     {
       "type": "text",
       "id": "empty_heading",
       "label": "Heading (empty cart)",
-      "default": "Save An Extra 20% Off"
+      "default": "And Save An Extra 15% Off"
     },
     {
       "type": "richtext",
       "id": "empty_subtext",
       "label": "Subtext (empty cart)",
-      "default": "<p>Shop our most-loved gifts - Priority shipping available</p>"
+      "default": "<p>Secure your cart now - <strong>Priority shipping</strong> available</p>"
     },
     {
       "type": "header",
