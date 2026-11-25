@@ -107,8 +107,21 @@
             <p class="welcome-step2__timer-label">{{ section.settings.timer_label | escape }}</p>
           {%- endif -%}
 
-          <div class="welcome-step2__timer-box" aria-live="polite">
-            <span class="welcome-step2__timer" data-welcome-step2-countdown>02:00:00</span>
+          <div class="welcome-step2__timer-box" aria-live="polite" data-welcome-step2-countdown>
+            <div class="welcome-step2__timer-unit">
+              <span class="welcome-step2__timer-value" data-welcome-step2-hours>02</span>
+              <span class="welcome-step2__timer-unit-label">hours</span>
+            </div>
+            <span class="welcome-step2__timer-sep" aria-hidden="true">:</span>
+            <div class="welcome-step2__timer-unit">
+              <span class="welcome-step2__timer-value" data-welcome-step2-minutes>00</span>
+              <span class="welcome-step2__timer-unit-label">minutes</span>
+            </div>
+            <span class="welcome-step2__timer-sep" aria-hidden="true">:</span>
+            <div class="welcome-step2__timer-unit">
+              <span class="welcome-step2__timer-value" data-welcome-step2-seconds>00</span>
+              <span class="welcome-step2__timer-unit-label">seconds</span>
+            </div>
           </div>
 
           {%- if section.settings.help_text != blank -%}
@@ -194,7 +207,7 @@
       "type": "text",
       "id": "promo_code",
       "label": "Promo code (box 1)",
-      "default": "MP15"
+      "default": "MERRY15"
     },
     {
       "type": "text",

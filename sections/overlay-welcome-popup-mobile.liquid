@@ -6,6 +6,7 @@
   assign excluded_product_codes_list = section.settings.excluded_product_codes | newline_to_br | split: '<br />'
   assign excluded_product_codes_json = excluded_product_codes_list | json
   assign klaviyo_form_id = section.settings.klaviyo_form_id | default: 'R96Af3' | strip
+  assign promo_code = section.settings.promo_code | default: 'MERRY15' | strip
   assign welcome_product_handle = ''
   if template.name == 'product'
     assign welcome_product_handle = product.handle
@@ -173,6 +174,12 @@
             <span class="welcome-popup__star">★</span>
             <span class="welcome-popup__star-line"></span>
           </div>
+
+          {%- if promo_code != blank -%}
+            <div class="welcome-popup__code-box" data-welcome-promo-code="{{ promo_code | escape }}">
+              <span class="welcome-popup__code">{{ promo_code | escape }}</span>
+            </div>
+          {%- endif -%}
 
           {%- if section.settings.subtext != blank -%}
             <div class="cart-reminder-popup__subtext rte">{{ section.settings.subtext }}</div>
@@ -370,13 +377,20 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "YOU'VE GOT AN\nEXTRA 10% OFF"
+      "default": "YOU'VE GOT AN\nEXTRA 15% OFF"
     },
     {
       "type": "color",
       "id": "color_heading",
       "label": "Heading color",
       "default": "#1a3a5c"
+    },
+    {
+      "type": "text",
+      "id": "promo_code",
+      "label": "Promo code",
+      "default": "MERRY15",
+      "info": "Shown under the heading on Welcome step 1. Does not change Cart reminder / Success opt-in codes."
     },
     {
       "type": "richtext",

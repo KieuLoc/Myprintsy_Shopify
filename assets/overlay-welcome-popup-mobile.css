@@ -197,6 +197,28 @@
   color: #c5a059;
 }
 
+.overlay-section--welcome-mobile .welcome-popup--mobile .welcome-popup__code-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(24rem, 100%);
+  min-height: 4rem;
+  margin: 0.2rem 0 0.5rem;
+  padding: 0.7rem 1.2rem;
+  border: 1.5px dashed #c5a059;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.overlay-section--welcome-mobile .welcome-popup--mobile .welcome-popup__code {
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-size: clamp(1.8rem, 5vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  color: #1a1a1a;
+}
+
 .overlay-section--welcome-mobile .welcome-popup--mobile .cart-reminder-popup__subtext {
   margin: 0;
   font-family: Poppins, var(--font-body-family), sans-serif;

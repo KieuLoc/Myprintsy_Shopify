@@ -112,6 +112,28 @@ if (!customElements.get('success-opt-in-popup')) {
       return (this.copyButton?.dataset.copyCode || '').trim();
     }
 
+    applyPromoCode(code) {
+      const next = String(code || '').trim();
+      if (!next) return;
+
+      this.dataset.promoCode = next;
+
+      const prefix = this.querySelector('.success-opt-in-popup__heading-prefix');
+      const highlight = this.querySelector('.success-opt-in-popup__heading-highlight');
+      const suffix = this.querySelector('.success-opt-in-popup__heading-suffix');
+      if (prefix) prefix.textContent = next;
+      if (highlight) highlight.textContent = '';
+      if (suffix) suffix.textContent = '';
+
+      if (this.copyButton) {
+        this.copyButton.dataset.copyCode = next;
+        this.copyButton.setAttribute('aria-label', `Copy promo code ${next}`);
+      }
+
+      const dialog = this.modal?.querySelector('[role="dialog"]');
+      if (dialog) dialog.setAttribute('aria-label', next);
+    }
+
     buildCtaDestination() {
       const destination =
         this.pendingDestination || (this.dataset.defaultLink || '/checkout').trim() || '/checkout';
@@ -199,6 +221,10 @@ if (!customElements.get('success-opt-in-popup')) {
 
       if (options.destination) {
         this.pendingDestination = String(options.destination).trim() || this.pendingDestination;
+      }
+
+      if (options.promoCode) {
+        this.applyPromoCode(options.promoCode);
       }
 
       this.modal.classList.add('is-open');

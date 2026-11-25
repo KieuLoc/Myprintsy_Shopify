@@ -41,6 +41,8 @@
   data-once-per-session="{% if section.settings.once_per_session %}true{% else %}false{% endif %}"
   data-max-cart-items="{{ section.settings.max_cart_items }}"
   data-countdown-hours="1"
+  data-promo-code-filled="{{ section.settings.promo_code_filled | default: 'MERRY25' | escape }}"
+  data-promo-code-empty="{{ section.settings.promo_code_empty | default: 'XMAS25' | escape }}"
 >
   <div
     class="cart-reminder-popup cart-reminder-popup--desktop{% if request.design_mode %} is-open{% endif %}"
@@ -368,7 +370,7 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "And Save An Extra 15% Off"
+      "default": "And Save An Extra 25% Off"
     },
     {
       "type": "richtext",
@@ -397,7 +399,7 @@
       "type": "text",
       "id": "empty_heading",
       "label": "Heading (empty cart)",
-      "default": "And Save An Extra 15% Off"
+      "default": "And Save An Extra 25% Off"
     },
     {
       "type": "richtext",
@@ -460,6 +462,24 @@
       "id": "klaviyo_company_id",
       "label": "Klaviyo company ID (optional)",
       "info": "Leave blank to auto-detect from the Klaviyo app embed."
+    },
+    {
+      "type": "header",
+      "content": "Success opt-in codes"
+    },
+    {
+      "type": "text",
+      "id": "promo_code_filled",
+      "label": "Promo code (cart has items)",
+      "default": "MERRY25",
+      "info": "Shown on Success opt-in after email submit when the cart is not empty."
+    },
+    {
+      "type": "text",
+      "id": "promo_code_empty",
+      "label": "Promo code (empty cart)",
+      "default": "XMAS25",
+      "info": "Shown on Success opt-in after email submit when the cart is empty."
     },
     {
       "type": "header",

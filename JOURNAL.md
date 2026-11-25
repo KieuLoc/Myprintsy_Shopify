@@ -1,3 +1,9 @@
+## 2026-11-26 — LIVE: promo codes + Welcome MERRY15
+
+**User:** check ATC/checkout impact roi push live.
+**Verify:** khong doi /cart/add; chi overlay promo + Welcome GUI.
+**Push LIVE #183186358588:** cart reminder MERRY25/XMAS25 (admin config); Welcome step1+2 MERRY15; desktop spacing.
+**Checks:** check-cart-reminder-promo-codes.js + check-welcome-promo-merry15.js pass.
 ## 2026-11-25 — LIVE: Preview modal bo 2 trust ticks
 
 **User:** ok push live.

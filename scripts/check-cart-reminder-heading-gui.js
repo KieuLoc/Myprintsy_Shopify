@@ -76,9 +76,9 @@ async function checkViewport(browser, name, viewport) {
   const data = await openEmptyReminder(page);
   assert.strictEqual(data.eyebrow, 'Finish Your Order', `${name} eyebrow`);
   assert.ok(data.headingText.includes('And Save An Extra'), `${name} heading prefix: ${data.headingText}`);
-  assert.ok(data.headingText.includes('15%'), `${name} heading 15%: ${data.headingText}`);
+  assert.ok(data.headingText.includes('25%'), `${name} heading 25%: ${data.headingText}`);
   assert.ok(data.headingText.includes('Off'), `${name} heading Off: ${data.headingText}`);
-  assert.strictEqual(data.accent, '15%', `${name} accent`);
+  assert.strictEqual(data.accent, '25%', `${name} accent`);
   assert.ok(data.subtext.includes('Secure your cart now'), `${name} subtext: ${data.subtext}`);
   assert.strictEqual(data.strong, 'Priority shipping', `${name} strong`);
   rgbClose(data.eyebrowColor, 17, 17, 17);

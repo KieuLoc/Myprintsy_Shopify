@@ -1881,7 +1881,7 @@ if (!customElements.get('cart-reminder-popup')) {
       );
     }
 
-    completeKlaviyoSubmit(formId, reason) {
+    async completeKlaviyoSubmit(formId, reason) {
       CartReminderPopup.debugLog('V', 'completeKlaviyoSubmit', 'submit completed', {
         formId,
         reason,
@@ -1903,8 +1903,7 @@ if (!customElements.get('cart-reminder-popup')) {
         this.close(true);
       }
 
-      const SuccessOptIn = window.SuccessOptInPopup || customElements.get('success-opt-in-popup');
-      SuccessOptIn?.open?.();
+      await this.openSuccessOptIn();
     }
 
     async handleKlaviyoSubmitTimeout(formId, options = {}) {
@@ -2365,8 +2364,7 @@ if (!customElements.get('cart-reminder-popup')) {
 
         this.close(true);
 
-        const SuccessOptIn = window.SuccessOptInPopup || customElements.get('success-opt-in-popup');
-        SuccessOptIn?.open?.();
+        await this.openSuccessOptIn();
         return;
       }
 
@@ -2389,8 +2387,20 @@ if (!customElements.get('cart-reminder-popup')) {
 
       this.close(true);
 
+      await this.openSuccessOptIn();
+    }
+
+    /** Theme settings: promo_code_filled / promo_code_empty (Success opt-in). */
+    getCartReminderPromoCode() {
+      const filled = (this.dataset.promoCodeFilled || 'MERRY25').trim() || 'MERRY25';
+      const empty = (this.dataset.promoCodeEmpty || 'XMAS25').trim() || 'XMAS25';
+      return Number(this.cartCount || 0) > 0 ? filled : empty;
+    }
+
+    async openSuccessOptIn() {
+      await this.refreshCartCount();
       const SuccessOptIn = window.SuccessOptInPopup || customElements.get('success-opt-in-popup');
-      SuccessOptIn?.open?.();
+      SuccessOptIn?.open?.({ promoCode: this.getCartReminderPromoCode() });
     }
   }
 
