@@ -1,3 +1,8 @@
+## 2026-11-25 — LIVE: Preview modal bo 2 trust ticks
+
+**User:** ok push live.
+**Push LIVE #183186358588:** assets/customily-preview-atc.js
+**Verify:** modal Preview khong con Full refund / In demand; PDP giu nguyen.
 ## 2026-11-24 — LIVE: Welcome/Step2 banner fit + anh Step2
 
 ## 2026-11-25 — LIVE: EDD spacing ETA/Carefully

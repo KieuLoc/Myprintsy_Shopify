@@ -3,7 +3,6 @@
   const CLOSE_ATTR = 'data-myprintsy-preview-close';
   const CORNER_X_ATTR = 'data-myprintsy-preview-x';
   const HEADER_ATTR = 'data-myprintsy-preview-header';
-  const TRUST_ATTR = 'data-myprintsy-preview-trust';
   const ACTIONS_ATTR = 'data-myprintsy-preview-actions';
   const TRIGGER_EVENT = 'customily-trigger-add-to-cart';
   const SHOW_EVENT = 'customily-preview-modal-show';
@@ -209,31 +208,6 @@
 
     cachedBuyersCount = Math.floor(Math.random() * (200 - 20 + 1)) + 20;
     return cachedBuyersCount;
-  }
-
-  function buildTrust() {
-    const buyers = getBuyersCount();
-    const trust = document.createElement('div');
-    trust.className = 'myprintsy-customily-preview-trust';
-    trust.setAttribute(TRUST_ATTR, '');
-    trust.innerHTML =
-      '<p class="myprintsy-customily-preview-trust__line">' +
-      '<span class="myprintsy-customily-preview-trust__check" aria-hidden="true">' +
-      '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">' +
-      '<circle cx="12" cy="12" r="10" fill="#2f6fed"/>' +
-      '<path d="M7.5 12.2 10.4 15l6.1-6.2" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>' +
-      '</svg></span>' +
-      '<span>Full refund for faulty production. No question asked</span></p>' +
-      '<p class="myprintsy-customily-preview-trust__line">' +
-      '<span class="myprintsy-customily-preview-trust__check" aria-hidden="true">' +
-      '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">' +
-      '<circle cx="12" cy="12" r="10" fill="#2f6fed"/>' +
-      '<path d="M7.5 12.2 10.4 15l6.1-6.2" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>' +
-      '</svg></span>' +
-      '<span>In demand. ' +
-      buyers +
-      ' people bought this in the last 24 hours.</span></p>';
-    return trust;
   }
 
   function fillPdpTrustBuyers() {
@@ -491,17 +465,7 @@
     if (!host.querySelector('[' + HEADER_ATTR + ']')) {
       insertBeforePreview(host, buildHeader());
     }
-    if (!host.querySelector('[' + TRUST_ATTR + ']')) {
-      insertAfterPreview(host, buildTrust());
-    }
-    const trust = host.querySelector('[' + TRUST_ATTR + ']');
-    const actions = buildActions(modal);
-    if (trust && trust.parentNode) {
-      if (trust.nextSibling) trust.parentNode.insertBefore(actions, trust.nextSibling);
-      else trust.parentNode.appendChild(actions);
-    } else {
-      insertAfterPreview(host, actions);
-    }
+    insertAfterPreview(host, buildActions(modal));
     upgradeModalPreviewImage(host);
   }
 
