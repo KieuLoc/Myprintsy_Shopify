@@ -9,6 +9,7 @@
   id="SuccessOptIn-{{ section.id }}"
   data-section-id="{{ section.id }}"
   data-device-target="desktop"
+  data-variant="1"
   data-default-link="{{ section.settings.button_link | default: '/checkout' }}"
   {% if success_opt_in_promo_code != blank %}
     data-promo-code="{{ success_opt_in_promo_code | escape }}"
@@ -50,21 +51,7 @@
 
       <div class="success-opt-in-popup__body">
         <div class="success-opt-in-popup__media">
-          {%- if section.settings.image != blank -%}
-            {{
-              section.settings.image
-              | image_url: width: 900
-              | image_tag:
-                loading: 'lazy',
-                widths: '400, 550, 700, 900',
-                sizes: '(min-width: 750px) 42vw, 100vw',
-                alt: section.settings.image.alt | default: shop.name
-            }}
-          {%- else -%}
-            <div class="success-opt-in-popup__media-placeholder">
-              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
-            </div>
-          {%- endif -%}
+          {% render 'success-opt-in-hero', sizes: '(min-width: 750px) 42vw, 100vw', alt: shop.name, fallback_asset: 'success-opt-in-reindeer-bedding.jpg' %}
         </div>
 
         <div class="success-opt-in-popup__content">
@@ -135,7 +122,8 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Product image"
+      "label": "Product image",
+      "info": "Optional. Leave blank to use the theme default reindeer bedding hero."
     },
     {
       "type": "header",

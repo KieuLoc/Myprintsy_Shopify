@@ -1,84 +1,83 @@
 {{ 'overlay-success-opt-in-mobile.css' | asset_url | stylesheet_tag }}
+{{ 'overlay-success-opt-in-2.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'overlay-success-opt-in.js' | asset_url }}" defer="defer"></script>
 
 {%- liquid
   assign success_opt_in_promo_code = section.settings.heading_prefix | append: section.settings.heading_highlight | append: section.settings.heading_suffix | strip
+  assign countdown_minutes = section.settings.countdown_minutes | default: 5
 -%}
 
 <success-opt-in-popup
   id="SuccessOptInMobile-{{ section.id }}"
   data-section-id="{{ section.id }}"
   data-device-target="mobile"
+  data-variant="1"
+  data-countdown-minutes="{{ countdown_minutes }}"
   data-default-link="{{ section.settings.button_link | default: '/checkout' }}"
   {% if success_opt_in_promo_code != blank %}
     data-promo-code="{{ success_opt_in_promo_code | escape }}"
   {% endif %}
 >
   <div
-    class="success-opt-in-popup success-opt-in-popup--mobile{% if request.design_mode %} is-open{% endif %}"
+    class="success-opt-in-popup success-opt-in-popup--xmas success-opt-in-popup--mobile{% if request.design_mode %} is-open{% endif %}"
     aria-hidden="{% if request.design_mode %}false{% else %}true{% endif %}"
   >
     <div class="success-opt-in-popup__overlay"></div>
 
     <div
-      class="success-opt-in-popup__dialog color-{{ section.settings.color_scheme }}"
+      class="success-opt-in-popup__dialog"
       role="dialog"
       aria-modal="true"
-      aria-label="{{ section.settings.heading_prefix | escape }}{{ section.settings.heading_highlight | escape }}{{ section.settings.heading_suffix | escape }}"
+      aria-label="{{ section.settings.eyebrow | default: success_opt_in_promo_code | escape }}"
     >
       <div class="success-opt-in-popup__media">
-        {%- if section.settings.image != blank -%}
-          {{
-            section.settings.image
-            | image_url: width: 900
-            | image_tag:
-              loading: 'lazy',
-              widths: '375, 550, 750, 900',
-              sizes: '100vw',
-              alt: section.settings.image.alt | default: shop.name
-          }}
-        {%- else -%}
-          <div class="success-opt-in-popup__media-placeholder">
-            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
-          </div>
-        {%- endif -%}
+        {% render 'success-opt-in-hero', sizes: '100vw', alt: shop.name %}
+        <button
+          type="button"
+          class="success-opt-in-popup__close"
+          aria-label="{{ 'accessibility.close' | t }}"
+        >
+          <span class="svg-wrapper" aria-hidden="true">
+            {{- 'icon-close.svg' | inline_asset_content -}}
+          </span>
+        </button>
       </div>
 
       <div class="success-opt-in-popup__panel">
-        <div class="success-opt-in-popup__decor" aria-hidden="true">
-          <span class="success-opt-in-popup__spark success-opt-in-popup__spark--1">✦</span>
-          <span class="success-opt-in-popup__spark success-opt-in-popup__spark--2">✦</span>
-          <span class="success-opt-in-popup__spark success-opt-in-popup__spark--3">✦</span>
-          <span class="success-opt-in-popup__leaf success-opt-in-popup__leaf--left">❧</span>
-          <span class="success-opt-in-popup__leaf success-opt-in-popup__leaf--right">❧</span>
-        </div>
-
-        <header class="success-opt-in-popup__brand">
-          {%- if settings.logo != blank -%}
-            {{
-              settings.logo
-              | image_url: width: 200
-              | image_tag:
-                class: 'success-opt-in-popup__logo',
-                alt: shop.name,
-                widths: '120, 160, 200',
-                loading: 'lazy'
-            }}
-          {%- endif -%}
-        </header>
-
         {%- if section.settings.eyebrow != blank -%}
           <p class="success-opt-in-popup__eyebrow">{{ section.settings.eyebrow | escape }}</p>
         {%- endif -%}
 
         {% render 'success-opt-in-promo-code' %}
 
-        {%- if section.settings.subtext != blank -%}
-          <div class="success-opt-in-popup__subtext rte">{{ section.settings.subtext }}</div>
+        {%- if section.settings.disclaimer != blank -%}
+          <p class="success-opt-in-popup__disclaimer">{{ section.settings.disclaimer | escape }}</p>
         {%- endif -%}
 
+        <div class="success-opt-in-popup__timer">
+          {%- if section.settings.hurry_label != blank -%}
+            <p class="success-opt-in-popup__hurry">{{ section.settings.hurry_label | escape }}</p>
+          {%- endif -%}
+          <div class="success-opt-in-popup__countdown" data-success-opt-in-countdown aria-live="polite">
+            <div class="success-opt-in-popup__cd-unit">
+              <span class="success-opt-in-popup__cd-num" data-cd-h>00</span>
+              <span class="success-opt-in-popup__cd-label">hours</span>
+            </div>
+            <span class="success-opt-in-popup__cd-sep" aria-hidden="true">:</span>
+            <div class="success-opt-in-popup__cd-unit">
+              <span class="success-opt-in-popup__cd-num" data-cd-m>05</span>
+              <span class="success-opt-in-popup__cd-label">minutes</span>
+            </div>
+            <span class="success-opt-in-popup__cd-sep" aria-hidden="true">:</span>
+            <div class="success-opt-in-popup__cd-unit">
+              <span class="success-opt-in-popup__cd-num" data-cd-s>00</span>
+              <span class="success-opt-in-popup__cd-label">seconds</span>
+            </div>
+          </div>
+        </div>
+
         {%- if section.settings.button_label != blank -%}
-          <button type="button" class="success-opt-in-popup__button button button--primary" data-success-opt-in-cta>
+          <button type="button" class="success-opt-in-popup__button" data-success-opt-in-cta>
             {{ section.settings.button_label | escape }}
           </button>
         {%- endif -%}
@@ -101,19 +100,14 @@
   "limit": 1,
   "settings": [
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
-    },
-    {
       "type": "header",
       "content": "Image"
     },
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Hero image"
+      "label": "Hero image",
+      "info": "Optional. Leave blank to use the theme default gnome sofa hero."
     },
     {
       "type": "header",
@@ -122,53 +116,67 @@
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow text",
-      "default": "Before you go"
+      "label": "Title",
+      "default": "That's it. You're in!"
     },
     {
       "type": "text",
       "id": "heading_prefix",
-      "label": "Heading (start)",
-      "default": "Here's Extra "
+      "label": "Promo code",
+      "default": "MERRY25"
     },
     {
       "type": "text",
       "id": "heading_highlight",
-      "label": "Heading (middle)",
-      "default": "15% Off"
+      "label": "Promo code (middle)"
     },
     {
       "type": "text",
       "id": "heading_suffix",
-      "label": "Heading (end)",
-      "default": " Just for You!"
+      "label": "Promo code (end)"
     },
     {
-      "type": "richtext",
-      "id": "subtext",
-      "label": "Subtext",
-      "default": "<p>Join our email list and get an exclusive discount on your next purchase</p>"
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "(*): This code can be combined with the current sale."
+    },
+    {
+      "type": "text",
+      "id": "hurry_label",
+      "label": "Countdown intro",
+      "default": "Hurry! Special offer ends in"
+    },
+    {
+      "type": "range",
+      "id": "countdown_minutes",
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "min",
+      "label": "Countdown length",
+      "default": 5
     },
     {
       "type": "header",
-      "content": "Button"
+      "content": "Buttons"
     },
     {
       "type": "text",
       "id": "button_label",
-      "label": "Button label",
-      "default": "Unlock My Benefits"
+      "label": "Primary button",
+      "default": "CHECKOUT NOW"
     },
     {
       "type": "url",
       "id": "button_link",
-      "label": "Button link"
+      "label": "Primary button link"
     },
     {
       "type": "text",
       "id": "dismiss_label",
-      "label": "Dismiss link label",
-      "default": "I'll miss the deal this time, remind me later."
+      "label": "Secondary button",
+      "default": "Back to Homepage"
     }
   ]
 }

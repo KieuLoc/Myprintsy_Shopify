@@ -318,7 +318,6 @@
       "settings": {
         "layout_width": 980,
         "color_scheme": "scheme-1",
-        "image": "shopify://shop_images/1_6.png",
         "eyebrow": "That's it. You're in!",
         "heading_prefix": "MERRY25",
         "heading_highlight": "",
@@ -332,14 +331,15 @@
     "overlay_success_opt_in_mobile": {
       "type": "overlay-success-opt-in-mobile",
       "settings": {
-        "color_scheme": "scheme-1",
         "image": "shopify://shop_images/1_7.png",
         "eyebrow": "That's it. You're in!",
         "heading_prefix": "MERRY25",
         "heading_highlight": "",
         "heading_suffix": "",
-        "subtext": "<p>(*) This code can be combined with the current sale.</p><p>Hurry! Special offer ends in 2 hours.</p>",
-        "button_label": "Checkout now",
+        "disclaimer": "(*): This code can be combined with the current sale.",
+        "hurry_label": "Hurry! Special offer ends in",
+        "countdown_minutes": 5,
+        "button_label": "CHECKOUT NOW",
         "button_link": "/checkout",
         "dismiss_label": "Back to Homepage"
       }

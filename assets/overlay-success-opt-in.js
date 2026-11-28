@@ -11,6 +11,8 @@ if (!customElements.get('success-opt-in-popup')) {
       this.dismissButton = this.querySelector('[data-success-opt-in-dismiss]');
       this.copyButton = this.querySelector('[data-success-opt-in-copy]');
       this.copyResetTimer = null;
+      this.countdownTimer = null;
+      this._countdownExpiresAt = 0;
       this.pendingDestination = (this.dataset.defaultLink || '/checkout').trim() || '/checkout';
       this.boundHandlers = {};
     }
@@ -30,6 +32,55 @@ if (!customElements.get('success-opt-in-popup')) {
     disconnectedCallback() {
       SuccessOptInPopup.instances.delete(this);
       this.unbindDesignModeEvents();
+      this.stopCountdown();
+    }
+
+    static formatCountdownParts(ms) {
+      const totalSeconds = Math.max(0, Math.floor(Number(ms) / 1000));
+      return {
+        h: String(Math.floor(totalSeconds / 3600)).padStart(2, '0'),
+        m: String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0'),
+        s: String(totalSeconds % 60).padStart(2, '0'),
+      };
+    }
+
+    getCountdownDurationMs() {
+      const minutes = Number(this.dataset.countdownMinutes);
+      if (Number.isFinite(minutes) && minutes > 0) return minutes * 60 * 1000;
+      return 5 * 60 * 1000;
+    }
+
+    paintCountdown() {
+      const root = this.querySelector('[data-success-opt-in-countdown]');
+      if (!root) return false;
+
+      const remaining = Math.max(0, this._countdownExpiresAt - Date.now());
+      const parts = SuccessOptInPopup.formatCountdownParts(remaining);
+      const h = root.querySelector('[data-cd-h]');
+      const m = root.querySelector('[data-cd-m]');
+      const s = root.querySelector('[data-cd-s]');
+      if (h) h.textContent = parts.h;
+      if (m) m.textContent = parts.m;
+      if (s) s.textContent = parts.s;
+      return remaining > 0;
+    }
+
+    startCountdown() {
+      if (!this.querySelector('[data-success-opt-in-countdown]')) return;
+      this.stopCountdown();
+      this._countdownExpiresAt = Date.now() + this.getCountdownDurationMs();
+      const tick = () => {
+        if (!this.paintCountdown()) this.stopCountdown();
+      };
+      tick();
+      this.countdownTimer = window.setInterval(tick, 1000);
+    }
+
+    stopCountdown() {
+      if (this.countdownTimer) {
+        window.clearInterval(this.countdownTimer);
+        this.countdownTimer = null;
+      }
     }
 
     static open(options = {}) {
@@ -240,6 +291,7 @@ if (!customElements.get('success-opt-in-popup')) {
       this.modal.classList.add('is-open');
       this.modal.setAttribute('aria-hidden', 'false');
       document.body.classList.add('overflow-hidden');
+      this.startCountdown();
 
       const dialog = this.modal.querySelector('[role="dialog"]');
       if (typeof trapFocus === 'function' && dialog) trapFocus(dialog);
@@ -248,6 +300,7 @@ if (!customElements.get('success-opt-in-popup')) {
     close() {
       if (!this.modal.classList.contains('is-open')) return;
 
+      this.stopCountdown();
       this.modal.classList.remove('is-open');
       this.modal.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('overflow-hidden');

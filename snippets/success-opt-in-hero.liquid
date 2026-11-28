@@ -1,10 +1,11 @@
 {%- comment -%}
   Shared Success opt-in / opt-in 2 hero.
-  Theme editor image_picker wins; otherwise fallback theme asset (gnome sofa).
+  Theme editor image_picker wins; otherwise fallback_asset (desktop reindeer / mobile gnome).
 {%- endcomment -%}
 {%- liquid
   assign hero_alt = alt | default: shop.name
   assign hero_sizes = sizes | default: '100vw'
+  assign hero_fallback = fallback_asset | default: 'success-opt-in-gnome-sofa.jpg'
 -%}
 {%- if section.settings.image != blank -%}
   {{
@@ -20,7 +21,7 @@
 {%- else -%}
   <img
     class="success-opt-in-popup__hero"
-    src="{{ 'success-opt-in-gnome-sofa.jpg' | asset_url }}"
+    src="{{ hero_fallback | asset_url }}"
     alt="{{ hero_alt | escape }}"
     loading="lazy"
     width="900"

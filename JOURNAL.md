@@ -1,4 +1,24 @@
-﻿## 2026-11-28 18:47 — CR2 copy: 25% off (LIVE+DEV)
+﻿## 2026-11-28 23:43 — LIVE: SOI xmas + SOI2 CR2 size (#183186358588)
+
+- SOI1 mobile Christmas center; SOI2 mobile ~2/3 width bottom-left like CR2
+- Desktop SOI1/2 hero reindeer bedding; code centered
+- Files: overlay-success-opt-in*.liquid/css/js, hero snippet, reindeer asset, overlay-group
+
+## 2026-11-28 23:30 — SOI2 mobile ~CR2 2/3 width (DEV)
+
+- SOI2 mobile width = `min((100vw-2rem)*2/3, 28rem)` giống Cart Reminder 2; typography/padding thu nhỏ
+
+## 2026-11-28 23:26 — SOI1 xmas center / SOI2 CR2 corner (DEV)
+
+- Format burgundy Christmas → SOI1 mobile (giữa màn); mã căn giữa
+- SOI2 mobile: cùng size, vị trí bottom-left như Cart Reminder 2 (overlay trong suốt)
+
+## 2026-11-28 23:17 — SOI2 card size + desktop reindeer hero (DEV)
+
+- SOI2 mobile: card nhỏ như SOI1 (không full màn)
+- Desktop SOI1+SOI2 fallback hero: `success-opt-in-reindeer-bedding.jpg`; clear SOI1 image_picker override
+
+## 2026-11-28 18:47 — CR2 copy: 25% off (LIVE+DEV)
 
 - `timer_label`: Extra 10% → `25% off for your cart` (desktop+mobile)
 - Push DEV #186878558524 + LIVE #183186358588
@@ -25,5 +45,9 @@
 - Check SOI2 + CR2 GUI pass
 
 ## 2026-11-28 00:34 — Success opt-in gnome + opt-in 2 (DEV)
+
+
+
+
 
 
