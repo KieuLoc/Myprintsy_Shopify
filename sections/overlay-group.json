@@ -121,7 +121,7 @@
         "color_scheme": "scheme-1",
         "heading": "Your cart is waiting for you.",
         "heading_sub": "Time is ticking!",
-        "timer_label": "Extra 10% off for your cart",
+        "timer_label": "25% off for your cart",
         "expires_label": "Expires in",
         "countdown_minutes": 5,
         "empty_heading": "Your cart is waiting for you.",
@@ -157,7 +157,7 @@
         "color_scheme": "scheme-1",
         "heading": "Your cart is waiting for you.",
         "heading_sub": "Time is ticking!",
-        "timer_label": "Extra 10% off for your cart",
+        "timer_label": "25% off for your cart",
         "expires_label": "Expires in",
         "countdown_minutes": 5,
         "empty_heading": "Your cart is waiting for you.",
@@ -362,15 +362,15 @@
     },
     "overlay_success_opt_in_2_mobile": {
       "type": "overlay-success-opt-in-2-mobile",
-      "disabled": true,
       "settings": {
-        "color_scheme": "scheme-1",
         "eyebrow": "That's it. You're in!",
         "heading_prefix": "MERRY25",
         "heading_highlight": "",
         "heading_suffix": "",
-        "subtext": "<p>(*) This code can be combined with the current sale.</p><p>Hurry! Special offer ends in 5 minutes.</p>",
-        "button_label": "Checkout now",
+        "disclaimer": "(*): This code can be combined with the current sale.",
+        "hurry_label": "Hurry! Special offer ends in",
+        "countdown_minutes": 5,
+        "button_label": "CHECKOUT NOW",
         "button_link": "/checkout",
         "dismiss_label": "Back to Homepage"
       }
