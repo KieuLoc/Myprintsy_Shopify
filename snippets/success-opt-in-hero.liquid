@@ -1,0 +1,30 @@
+{%- comment -%}
+  Shared Success opt-in / opt-in 2 hero.
+  Theme editor image_picker wins; otherwise fallback theme asset (gnome sofa).
+{%- endcomment -%}
+{%- liquid
+  assign hero_alt = alt | default: shop.name
+  assign hero_sizes = sizes | default: '100vw'
+-%}
+{%- if section.settings.image != blank -%}
+  {{
+    section.settings.image
+    | image_url: width: 900
+    | image_tag:
+      class: 'success-opt-in-popup__hero',
+      loading: 'lazy',
+      widths: '375, 550, 750, 900',
+      sizes: hero_sizes,
+      alt: section.settings.image.alt | default: hero_alt
+  }}
+{%- else -%}
+  <img
+    class="success-opt-in-popup__hero"
+    src="{{ 'success-opt-in-gnome-sofa.jpg' | asset_url }}"
+    alt="{{ hero_alt | escape }}"
+    loading="lazy"
+    width="900"
+    height="900"
+    sizes="{{ hero_sizes }}"
+  >
+{%- endif -%}

@@ -33,7 +33,7 @@
     "overlay_cart_reminder_popup": {
       "type": "overlay-cart-reminder-popup",
       "settings": {
-        "enabled": true,
+        "enabled": false,
         "return_delay": 15,
         "inactivity_time": 20,
         "browse_auto_show_time": 60,
@@ -70,7 +70,7 @@
     "overlay_cart_reminder_popup_mobile": {
       "type": "overlay-cart-reminder-popup-mobile",
       "settings": {
-        "enabled": true,
+        "enabled": false,
         "return_delay": 15,
         "inactivity_time": 20,
         "browse_auto_show_time": 60,
@@ -101,6 +101,78 @@
         "promo_code_empty": "XMAS25",
         "button_label": "Get It Now",
         "dismiss_label": ""
+      }
+    },
+    "overlay_cart_reminder_2_popup": {
+      "type": "overlay-cart-reminder-2-popup",
+      "settings": {
+        "enabled": true,
+        "force_show": false,
+        "return_delay": 15,
+        "inactivity_time": 20,
+        "browse_auto_show_time": 60,
+        "browse_auto_show_after_cart_time": 60,
+        "frequency_cap": 12,
+        "frequency_cap_seconds": 0,
+        "once_per_session": true,
+        "order_suppression_days": 7,
+        "disable_homepage": false,
+        "excluded_pages": "/pages/trade-program-register\n/pages/business-opportunities",
+        "color_scheme": "scheme-1",
+        "heading": "Your cart is waiting for you.",
+        "heading_sub": "Time is ticking!",
+        "timer_label": "Extra 10% off for your cart",
+        "expires_label": "Expires in",
+        "countdown_minutes": 5,
+        "empty_heading": "Your cart is waiting for you.",
+        "empty_heading_sub": "Time is ticking!",
+        "max_cart_items": 5,
+        "klaviyo_replace_content": true,
+        "email_placeholder": "Enter your email",
+        "klaviyo_form_id": "XumJWa",
+        "klaviyo_list_id_desktop": "XDYfDR",
+        "klaviyo_list_id": "",
+        "klaviyo_company_id": "",
+        "promo_code_filled": "MERRY25",
+        "promo_code_empty": "XMAS25",
+        "button_label": "SECURE MY CART",
+        "dismiss_label": "Maybe Later"
+      }
+    },
+    "overlay_cart_reminder_2_popup_mobile": {
+      "type": "overlay-cart-reminder-2-popup-mobile",
+      "settings": {
+        "enabled": true,
+        "force_show": false,
+        "return_delay": 15,
+        "inactivity_time": 20,
+        "browse_auto_show_time": 60,
+        "browse_auto_show_after_cart_time": 60,
+        "frequency_cap": 12,
+        "frequency_cap_seconds": 0,
+        "once_per_session": true,
+        "order_suppression_days": 7,
+        "disable_homepage": false,
+        "excluded_pages": "/pages/trade-program-register\n/pages/business-opportunities",
+        "color_scheme": "scheme-1",
+        "heading": "Your cart is waiting for you.",
+        "heading_sub": "Time is ticking!",
+        "timer_label": "Extra 10% off for your cart",
+        "expires_label": "Expires in",
+        "countdown_minutes": 5,
+        "empty_heading": "Your cart is waiting for you.",
+        "empty_heading_sub": "Time is ticking!",
+        "max_cart_items": 5,
+        "klaviyo_replace_content": true,
+        "email_placeholder": "Enter your email",
+        "klaviyo_form_id": "YaAhN2",
+        "klaviyo_list_id_mobile": "XDYfDR",
+        "klaviyo_list_id": "",
+        "klaviyo_company_id": "",
+        "promo_code_filled": "MERRY25",
+        "promo_code_empty": "XMAS25",
+        "button_label": "SECURE MY CART",
+        "dismiss_label": "Maybe Later"
       }
     },
     "overlay_welcome_popup": {
@@ -272,6 +344,37 @@
         "dismiss_label": "Back to Homepage"
       }
     },
+    "overlay_success_opt_in_2": {
+      "type": "overlay-success-opt-in-2",
+      "disabled": true,
+      "settings": {
+        "layout_width": 980,
+        "color_scheme": "scheme-1",
+        "eyebrow": "That's it. You're in!",
+        "heading_prefix": "MERRY25",
+        "heading_highlight": "",
+        "heading_suffix": "",
+        "subtext": "<p>(*) This code can be combined with the current sale.</p><p>Hurry! Special offer ends in 5 minutes.</p>",
+        "button_label": "Checkout now",
+        "button_link": "/checkout",
+        "dismiss_label": "Back to Homepage"
+      }
+    },
+    "overlay_success_opt_in_2_mobile": {
+      "type": "overlay-success-opt-in-2-mobile",
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "That's it. You're in!",
+        "heading_prefix": "MERRY25",
+        "heading_highlight": "",
+        "heading_suffix": "",
+        "subtext": "<p>(*) This code can be combined with the current sale.</p><p>Hurry! Special offer ends in 5 minutes.</p>",
+        "button_label": "Checkout now",
+        "button_link": "/checkout",
+        "dismiss_label": "Back to Homepage"
+      }
+    },
     "overlay_exit_intent_popup": {
       "type": "overlay-exit-intent-popup",
       "disabled": true,
@@ -291,12 +394,16 @@
     "overlay_privacy_banner",
     "overlay_cart_reminder_popup",
     "overlay_cart_reminder_popup_mobile",
+    "overlay_cart_reminder_2_popup",
+    "overlay_cart_reminder_2_popup_mobile",
     "overlay_welcome_popup",
     "overlay_welcome_popup_mobile",
     "overlay_welcome_step2",
     "overlay_welcome_step2_mobile",
     "overlay_success_opt_in",
     "overlay_success_opt_in_mobile",
+    "overlay_success_opt_in_2",
+    "overlay_success_opt_in_2_mobile",
     "overlay_exit_intent_popup",
     "overlay_klaviyo_teaser"
   ]

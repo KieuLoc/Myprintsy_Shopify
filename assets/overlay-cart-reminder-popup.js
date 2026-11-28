@@ -72,6 +72,20 @@ if (!customElements.get('cart-reminder-popup')) {
         this.bootstrapKlaviyoEmbed();
       }
 
+      // Temporary preview: Cart reminder 2 always opens (data-force-show). Remove when done.
+      if (this.dataset.forceShow === 'true' && this.matchesDeviceTarget()) {
+        try {
+          sessionStorage.setItem('welcome-popup-session-shown', '1');
+        } catch (error) {
+          /* ignore */
+        }
+        window.setTimeout(() => {
+          if (!this.matchesDeviceTarget()) return;
+          this.open(true);
+        }, 400);
+        return;
+      }
+
       if (this.dataset.enabled !== 'true') return;
 
       this.initTriggers();
@@ -1200,18 +1214,25 @@ if (!customElements.get('cart-reminder-popup')) {
     }
 
     countdownStorageKey() {
+      const minutes = Number(this.dataset.countdownMinutes);
+      if (Number.isFinite(minutes) && minutes > 0) {
+        return `cart-reminder-expires-at-m${minutes}`;
+      }
       return 'cart-reminder-expires-at';
     }
 
-    getCountdownHours() {
+    getCountdownDurationMs() {
+      const minutes = Number(this.dataset.countdownMinutes);
+      if (Number.isFinite(minutes) && minutes > 0) return minutes * 60 * 1000;
+
       const hours = Number(this.dataset.countdownHours ?? 1);
-      if (!Number.isFinite(hours) || hours <= 0) return 1;
-      return hours;
+      if (!Number.isFinite(hours) || hours <= 0) return 60 * 60 * 1000;
+      return hours * 60 * 60 * 1000;
     }
 
     getOrCreateExpiryAt() {
       const key = this.countdownStorageKey();
-      const durationMs = this.getCountdownHours() * 60 * 60 * 1000;
+      const durationMs = this.getCountdownDurationMs();
 
       if (window.Shopify?.designMode) {
         return Date.now() + durationMs;
@@ -2400,7 +2421,8 @@ if (!customElements.get('cart-reminder-popup')) {
     async openSuccessOptIn() {
       await this.refreshCartCount();
       const SuccessOptIn = window.SuccessOptInPopup || customElements.get('success-opt-in-popup');
-      SuccessOptIn?.open?.({ promoCode: this.getCartReminderPromoCode() });
+      const variant = this.modal?.classList.contains('cart-reminder-popup--v2') ? '2' : '1';
+      SuccessOptIn?.open?.({ promoCode: this.getCartReminderPromoCode(), variant });
     }
   }
 
@@ -2412,6 +2434,7 @@ if (!customElements.get('cart-reminder-popup')) {
     const cases = [
       [3600000, '01:00:00'],
       [3661000, '01:01:01'],
+      [5 * 60 * 1000, '00:05:00'],
       [0, '00:00:00'],
       [-1000, '00:00:00'],
     ];

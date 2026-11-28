@@ -35,9 +35,19 @@ if (!customElements.get('success-opt-in-popup')) {
     static open(options = {}) {
       const isMobile = window.matchMedia('(max-width: 749px)').matches;
       const target = isMobile ? 'mobile' : 'desktop';
+      const variant = String(options.variant || '1');
       const instances = [...SuccessOptInPopup.instances];
+      const byVariant = (v) =>
+        instances.find(
+          (popup) => popup.dataset.deviceTarget === target && (popup.dataset.variant || '1') === v
+        );
+      // v2 preferred for reminder 2; fall back to v1 while Success opt-in 2 is disabled
       const instance =
-        instances.find((popup) => popup.dataset.deviceTarget === target) || instances[0];
+        byVariant(variant) ||
+        (variant === '2' ? byVariant('1') : null) ||
+        (variant === '1'
+          ? instances.find((popup) => popup.dataset.deviceTarget === target) || instances[0]
+          : null);
 
       if (!instance) return false;
 
